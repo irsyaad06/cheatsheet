@@ -72,6 +72,7 @@
         <button class="hub-filter-btn" data-filter="developer">Developer &amp; IT</button>
         <button class="hub-filter-btn" data-filter="productivity">Produktivitas &amp; AI</button>
         <button class="hub-filter-btn" data-filter="marketing">Marketing &amp; Desain</button>
+        <button class="hub-filter-btn hub-filter-fav" data-filter="FAVORITE"><i data-lucide="star" style="width:14px;height:14px;fill:currentColor;"></i> Favorit Saya (<span id="hubFavCount">0</span>)</button>
       </div>
     </section>
 
@@ -79,7 +80,7 @@
     <section class="hub-grid" id="hubCardsGrid">
 
       <!-- 1. EXCEL CHEATSHEET -->
-      <a href="excel.html" class="hub-card theme-excel" data-category="data productivity">
+      <a href="excel.html" class="hub-card theme-excel" data-category="data productivity" data-id="excel">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon">X</div>
@@ -90,6 +91,9 @@
               </div>
               <h2 class="hub-card-title">Microsoft Excel</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Panduan terlengkap rumus &amp; fungsi Excel: VLOOKUP, XLOOKUP, INDEX+MATCH, SUMIFS, logika IF bertingkat, Pivot Table, Data Tools, dan tips regional koma vs titik koma.
@@ -110,7 +114,7 @@
       </a>
 
       <!-- 2. SQL CHEATSHEET -->
-      <a href="sql.html" class="hub-card theme-sql" data-category="data developer">
+      <a href="sql.html" class="hub-card theme-sql" data-category="data developer" data-id="sql">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#0284c7;"><i data-lucide="database"></i></div>
@@ -121,6 +125,9 @@
               </div>
               <h2 class="hub-card-title">SQL &amp; Database</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Sintaks query database relasional: SELECT, WHERE, GROUP BY, HAVING, diagram relasi INNER/LEFT JOIN, CTE (WITH), Window Functions, dan manipulasi DDL/DML.
@@ -141,7 +148,7 @@
       </a>
 
       <!-- 3. JAVASCRIPT ES6+ -->
-      <a href="javascript.html" class="hub-card theme-js" data-category="developer">
+      <a href="javascript.html" class="hub-card theme-js" data-category="developer" data-id="javascript">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#f7df1e; color:#000;"><strong>JS</strong></div>
@@ -152,6 +159,9 @@
               </div>
               <h2 class="hub-card-title">JavaScript ES6+</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Metode array modern (map, filter, reduce), destrukturisasi object, spread operator, pemrograman async/await, Promise.all, manipulasi DOM, hingga closure.
@@ -171,7 +181,7 @@
       </a>
 
       <!-- 4. GIT & GITHUB CHEATSHEET -->
-      <a href="git.html" class="hub-card theme-git" data-category="developer">
+      <a href="git.html" class="hub-card theme-git" data-category="developer" data-id="git">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#ea580c;"><i data-lucide="git-branch"></i></div>
@@ -182,6 +192,9 @@
               </div>
               <h2 class="hub-card-title">Git &amp; GitHub</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Alur version control harian, branching, staging, komparasi Merge vs Rebase, penyelamat darurat (stash, reset, revert), resolve conflicts, dan Conventional Commits.
@@ -201,7 +214,7 @@
       </a>
 
       <!-- 5. DOCKER & CONTAINER -->
-      <a href="docker.html" class="hub-card theme-docker" data-category="developer">
+      <a href="docker.html" class="hub-card theme-docker" data-category="developer" data-id="docker">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#0ea5e9;"><i data-lucide="box"></i></div>
@@ -212,6 +225,9 @@
               </div>
               <h2 class="hub-card-title">Docker &amp; Container</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Perintah container CLI (run, exec, logs), penyusunan Dockerfile multi-stage build, orkestrasi docker-compose.yml multi-service, dan persistent volumes.
@@ -231,7 +247,7 @@
       </a>
 
       <!-- 6. HTTP & REST API -->
-      <a href="http-api.html" class="hub-card theme-http" data-category="developer">
+      <a href="http-api.html" class="hub-card theme-http" data-category="developer" data-id="http-api">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#e11d48;"><i data-lucide="globe"></i></div>
@@ -242,6 +258,9 @@
               </div>
               <h2 class="hub-card-title">HTTP &amp; REST API</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Matriks status codes lengkap (perbedaan 401 vs 403, 502 Bad Gateway), perbandingan PUT vs PATCH, header autentikasi JWT Bearer, dan CORS policy.
@@ -261,7 +280,7 @@
       </a>
 
       <!-- 7. HTML5 & MODERN CSS -->
-      <a href="html-css.html" class="hub-card theme-htmlcss" data-category="developer marketing">
+      <a href="html-css.html" class="hub-card theme-htmlcss" data-category="developer marketing" data-id="html-css">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#f97316;"><i data-lucide="layout"></i></div>
@@ -272,6 +291,9 @@
               </div>
               <h2 class="hub-card-title">HTML5 &amp; Modern CSS</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Tag semantik ramah SEO, rahasia centering Flexbox, layout 2D responsif otomatis CSS Grid tanpa media query, box-sizing: border-box, dan tipografi clamp().
@@ -291,7 +313,7 @@
       </a>
 
       <!-- 8. PROMPT ENGINEERING & AI -->
-      <a href="prompting.html" class="hub-card theme-prompting" data-category="productivity">
+      <a href="prompting.html" class="hub-card theme-prompting" data-category="productivity" data-id="prompting">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#d946ef;"><i data-lucide="sparkles"></i></div>
@@ -302,6 +324,9 @@
               </div>
               <h2 class="hub-card-title">Prompt Engineering</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Formulasi prompt kerja profesional RTCE (Role, Task, Context, Expectation), teknik Few-Shot, penalaran Chain-of-Thought, format JSON ketat, dan pencegah halusinasi AI.
@@ -321,7 +346,7 @@
       </a>
 
       <!-- 9. DIGITAL MARKETING & SEO -->
-      <a href="digital-marketing.html" class="hub-card theme-marketing" data-category="data marketing">
+      <a href="digital-marketing.html" class="hub-card theme-marketing" data-category="data marketing" data-id="digital-marketing">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#16a34a;"><i data-lucide="trending-up"></i></div>
@@ -332,6 +357,9 @@
               </div>
               <h2 class="hub-card-title">Marketing &amp; SEO</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Kalkulasi efisiensi iklan (ROAS, CPA, CPC, CPM, CTR), analisis unit economics (CAC vs LTV rasio 3:1), checklist On-Page SEO teknis, dan Open Graph preview.
@@ -351,7 +379,7 @@
       </a>
 
       <!-- 10. LINUX & BASH CHEATSHEET -->
-      <a href="linux.html" class="hub-card theme-linux" data-category="developer">
+      <a href="linux.html" class="hub-card theme-linux" data-category="developer" data-id="linux">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#d97706;"><i data-lucide="terminal"></i></div>
@@ -362,6 +390,9 @@
               </div>
               <h2 class="hub-card-title">Linux &amp; Bash Terminal</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Perintah baris terminal esensial: navigasi direktori, izin akses (chmod/chown), pencarian teks (grep, awk, sed), monitoring proses (top, ps, kill), dan cron jobs.
@@ -382,7 +413,7 @@
       </a>
 
       <!-- 11. PYTHON FOR DATA ANALYSIS -->
-      <a href="python.html" class="hub-card theme-python" data-category="data developer">
+      <a href="python.html" class="hub-card theme-python" data-category="data developer" data-id="python">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#2563eb;"><i data-lucide="code-2"></i></div>
@@ -393,6 +424,9 @@
               </div>
               <h2 class="hub-card-title">Python (Pandas &amp; NumPy)</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Manipulasi DataFrame, pembersihan missing values, query filtering, groupby, aggregating, pivot table, merging, lambda function, dan analisis data modern.
@@ -413,7 +447,7 @@
       </a>
 
       <!-- 12. GOOGLE SHEETS & APPS SCRIPT -->
-      <a href="googlesheets.html" class="hub-card theme-googlesheets" data-category="data productivity">
+      <a href="googlesheets.html" class="hub-card theme-googlesheets" data-category="data productivity" data-id="googlesheets">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#059669;"><i data-lucide="file-spreadsheet"></i></div>
@@ -424,6 +458,9 @@
               </div>
               <h2 class="hub-card-title">Google Sheets &amp; Script</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Rumus eksklusif Google Sheets: =QUERY() bergaya SQL di spreadsheet, =IMPORTRANGE(), =ARRAYFORMULA(), =FILTER(), =SPARKLINE(), serta automasi Google Apps Script.
@@ -443,7 +480,7 @@
       </a>
 
       <!-- 13. REGEX CHEATSHEET -->
-      <a href="regex.html" class="hub-card theme-regex" data-category="developer">
+      <a href="regex.html" class="hub-card theme-regex" data-category="developer" data-id="regex">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#9333ea;"><i data-lucide="regex"></i></div>
@@ -454,6 +491,9 @@
               </div>
               <h2 class="hub-card-title">Regex (Regular Expression)</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Panduan memecahkan regex: metakarakter, quantifiers, lookahead/lookbehind assertions, flags, plus resep pola validasi siap pakai untuk format Indonesia.
@@ -473,7 +513,7 @@
       </a>
 
       <!-- 14. POWER BI & DAX -->
-      <a href="powerbi.html" class="hub-card theme-powerbi" data-category="data">
+      <a href="powerbi.html" class="hub-card theme-powerbi" data-category="data" data-id="powerbi">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#ca8a04;"><i data-lucide="pie-chart"></i></div>
@@ -484,6 +524,9 @@
               </div>
               <h2 class="hub-card-title">Power BI &amp; DAX</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Ekspresi kalkulasi DAX: CALCULATE, Time Intelligence (YTD, MTD, YoY), iterators SUMX, RELATED, pemodelan Star Schema, dan sintaks M Code di Power Query.
@@ -504,7 +547,7 @@
       </a>
 
       <!-- 15. AKUNTANSI & LAPORAN KEUANGAN -->
-      <a href="accounting.html" class="hub-card theme-accounting" data-category="data">
+      <a href="accounting.html" class="hub-card theme-accounting" data-category="data" data-id="accounting">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#0d9488;"><i data-lucide="dollar-sign"></i></div>
@@ -515,6 +558,9 @@
               </div>
               <h2 class="hub-card-title">Akuntansi &amp; Finansial</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Aturan posisi Debit/Kredit, persamaan akuntansi dasar, jurnal umum, buku besar, neraca saldo, laporan laba rugi, arus kas, dan rasio finansial wajib tes.
@@ -535,7 +581,7 @@
       </a>
 
       <!-- 16. MARKDOWN & GFM -->
-      <a href="markdown.html" class="hub-card theme-markdown" data-category="productivity">
+      <a href="markdown.html" class="hub-card theme-markdown" data-category="productivity" data-id="markdown">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#4f46e5;"><i data-lucide="file-text"></i></div>
@@ -546,6 +592,9 @@
               </div>
               <h2 class="hub-card-title">Markdown &amp; GFM</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Sintaks dokumentasi modern: format teks, tabel rapi, checklist task, GitHub alerts ([!NOTE], [!WARNING]), diagram Mermaid, dan persamaan matematika KaTeX.
@@ -565,7 +614,7 @@
       </a>
 
       <!-- 17. TYPESCRIPT -->
-      <a href="typescript.html" class="hub-card theme-typescript" data-category="developer">
+      <a href="typescript.html" class="hub-card theme-typescript" data-category="developer" data-id="typescript">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#3178c6; color:#fff; font-weight:700;">TS</div>
@@ -576,6 +625,9 @@
               </div>
               <h2 class="hub-card-title">TypeScript</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Sistem pengetikan statis, Generic constraints, Utility Types (Partial, Omit, Pick), Custom Type Guards ('is'), Discriminated Unions, dan opsi compiler tsconfig.json.
@@ -595,7 +647,7 @@
       </a>
 
       <!-- 18. KUBERNETES -->
-      <a href="kubernetes.html" class="hub-card theme-kubernetes" data-category="developer">
+      <a href="kubernetes.html" class="hub-card theme-kubernetes" data-category="developer" data-id="kubernetes">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#326ce5;"><i data-lucide="boxes"></i></div>
@@ -606,6 +658,9 @@
               </div>
               <h2 class="hub-card-title">Kubernetes (K8s)</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Orkestrasi container: arsitektur Pod &amp; Deployment, Service ClusterIP/NodePort/LoadBalancer, kubectl command, resource limits, dan troubleshooting CrashLoopBackOff.
@@ -625,7 +680,7 @@
       </a>
 
       <!-- 19. FIGMA & UI/UX -->
-      <a href="figma.html" class="hub-card theme-figma" data-category="marketing">
+      <a href="figma.html" class="hub-card theme-figma" data-category="marketing" data-id="figma">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#a259ff;"><i data-lucide="figma"></i></div>
@@ -636,6 +691,9 @@
               </div>
               <h2 class="hub-card-title">Figma &amp; UI/UX</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Panduan desain produk: Auto Layout (Hug/Fill), Component sets &amp; properties, sistem 8pt grid, 10 prinsip heuristik Jakob Nielsen, dan shortcut Figma Win/Mac.
@@ -655,7 +713,7 @@
       </a>
 
       <!-- 20. WEB SECURITY & OWASP -->
-      <a href="security.html" class="hub-card theme-security" data-category="developer">
+      <a href="security.html" class="hub-card theme-security" data-category="developer" data-id="security">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#dc2626;"><i data-lucide="shield-alert"></i></div>
@@ -666,6 +724,9 @@
               </div>
               <h2 class="hub-card-title">Web Security (OWASP)</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Keamanan aplikasi: pencegahan SQL Injection (Prepared Statements), mitigasi XSS &amp; CSRF, HttpOnly Cookies, Security Headers (CSP, HSTS), dan port scanning Nmap.
@@ -685,7 +746,7 @@
       </a>
 
       <!-- 21. POSTMAN & API TESTING -->
-      <a href="postman.html" class="hub-card theme-postman" data-category="developer">
+      <a href="postman.html" class="hub-card theme-postman" data-category="developer" data-id="postman">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#ff6c37;"><i data-lucide="send"></i></div>
@@ -696,6 +757,9 @@
               </div>
               <h2 class="hub-card-title">Postman &amp; API Testing</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Otomatisasi pengujian API: pm.test() assertions, hierarki variabel (Environment vs Collection), chaining token dinamis, JSON Schema validation, dan Newman CLI CI/CD.
@@ -715,7 +779,7 @@
       </a>
 
       <!-- 22. NETWORKING & SUBNETTING -->
-      <a href="networking.html" class="hub-card theme-networking" data-category="developer">
+      <a href="networking.html" class="hub-card theme-networking" data-category="developer" data-id="networking">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#0284c7;"><i data-lucide="network"></i></div>
@@ -726,6 +790,9 @@
               </div>
               <h2 class="hub-card-title">Networking &amp; Subnetting</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Jaringan komputer: Model OSI 7 Layer, kalkulator subnetting CIDR (/24 s/d /30), TCP 3-Way Handshake vs UDP, alur resolusi DNS, dan diagnostik ping &amp; traceroute.
@@ -745,7 +812,7 @@
       </a>
 
       <!-- 23. HR & PAYROLL -->
-      <a href="hr-payroll.html" class="hub-card theme-hr" data-category="data productivity">
+      <a href="hr-payroll.html" class="hub-card theme-hr" data-category="data productivity" data-id="hr-payroll">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#db2777;"><i data-lucide="users"></i></div>
@@ -756,6 +823,9 @@
               </div>
               <h2 class="hub-card-title">HR, Payroll &amp; Hukum Kerja</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Manajemen SDM &amp; penggajian Indonesia: Rumus PPh 21 skema TER (PP 58/2023), tarif iuran BPJS TK &amp; Kes, rumus upah lembur 1/173 (PP 35/2021), pesangon &amp; turnover rate.
@@ -775,7 +845,7 @@
       </a>
 
       <!-- 24. SUPPLY CHAIN & INVENTORY -->
-      <a href="supply-chain.html" class="hub-card theme-supplychain" data-category="data">
+      <a href="supply-chain.html" class="hub-card theme-supplychain" data-category="data" data-id="supply-chain">
         <div>
           <div class="hub-card-header">
             <div class="hub-card-icon" style="background:#0891b2;"><i data-lucide="truck"></i></div>
@@ -786,6 +856,9 @@
               </div>
               <h2 class="hub-card-title">Supply Chain &amp; Inventory</h2>
             </div>
+            <button class="hub-fav-btn" aria-label="Favoritkan" title="Simpan ke Materi Favorit (Bintang / Love)">
+              <i data-lucide="star"></i>
+            </button>
           </div>
           <p class="hub-card-desc">
             Logistik &amp; persediaan: Rumus EOQ optimal, Safety Stock &amp; Reorder Point (ROP), valuasi FIFO vs Average, klasifikasi ABC Pareto, dan Incoterms 2020 (FOB, CIF, DDP).
@@ -803,7 +876,13 @@
           <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
         </div>
       </a>
-
+      <!-- Empty State for Favorites or Search -->
+      <div class="hub-empty-state" id="hubEmptyState" style="display: none;">
+        <div class="hub-empty-icon"><i data-lucide="star"></i></div>
+        <h3>Belum Ada Materi Bertanda Bintang / Love</h3>
+        <p>Klik ikon bintang atau love di sudut kanan atas kartu mana pun untuk menyimpannya ke daftar materi favorit Anda.</p>
+        <button class="hub-empty-btn" id="btnResetFilterAll"><i data-lucide="layout-grid" style="width:16px;height:16px;"></i> Tampilkan Semua Materi</button>
+      </div>
     </section>
   </main>
 

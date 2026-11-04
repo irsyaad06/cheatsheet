@@ -1,6 +1,6 @@
 /* ==========================================================================
    CHEATSHEET ENGINE - REUSABLE LIGHTWEIGHT JAVASCRIPT
-   Used across SQL, Git, Linux, Python, Google Sheets, Regex, PowerBI, Accounting, Markdown
+   Shared Engine for Theme, Sidebar, Copy Toast, Search, Favorites & Quiz
    ========================================================================== */
 
 function setupCheatsheetPage({ catalog = [], questions = [] }) {
@@ -12,6 +12,7 @@ function setupCheatsheetPage({ catalog = [], questions = [] }) {
     initSharedTheme();
     initSharedSidebar();
     initSharedCopyButtons();
+    initFormulaFavorites();
 
     if (catalog && catalog.length > 0) {
       initPageLiveSearch(catalog);
@@ -75,10 +76,10 @@ function initSharedTheme() {
 /* 2. Sidebar & Scroll Spy */
 function initSharedSidebar() {
   const mobileToggle = document.getElementById('mobileMenuToggle');
-  const sidebar = document.getElementById('appSidebar');
+  const sidebar = document.getElementById('appSidebar') || document.getElementById('sidebar');
   const backdrop = document.getElementById('sidebarBackdrop');
-  const navLinks = document.querySelectorAll('.sidebar-link');
-  const sections = document.querySelectorAll('.content-section');
+  const navLinks = document.querySelectorAll('.sidebar-link, .sidebar-nav .nav-item');
+  const sections = document.querySelectorAll('.content-section, .category-section');
 
   const toggleMobileSidebar = (open) => {
     if (sidebar) sidebar.classList.toggle('open', open);
@@ -122,7 +123,7 @@ function initSharedSidebar() {
   sections.forEach((sec) => observer.observe(sec));
 }
 
-/* 3. Copy to Clipboard */
+/* 3. Copy to Clipboard & Toast */
 function showToast(message = 'Tersalin ke clipboard!') {
   let toast = document.getElementById('copyToast');
   if (!toast) {
@@ -143,84 +144,202 @@ function showToast(message = 'Tersalin ke clipboard!') {
 
 function initSharedCopyButtons() {
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-copy');
+    const btn = e.target.closest('.btn-copy, .copy-btn');
     if (!btn) return;
 
-    const textToCopy = btn.getAttribute('data-copy');
-    if (!textToCopy) return;
+    let textToCopy = btn.getAttribute('data-copy') || btn.getAttribute('data-clipboard');
+    if (!textToCopy) {
+      const codeBlock = btn.closest('.formula-syntax, .syntax-block, .example-block, .code-wrapper')?.querySelector('code');
+      if (codeBlock) {
+        textToCopy = codeBlock.textContent.trim();
+      }
+    }
 
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      const originalHTML = btn.innerHTML;
-      btn.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;"></i> <span>Disalin!</span>';
-      btn.classList.add('copied');
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-
-      showToast(`Tersalin: ${textToCopy.slice(0, 35)}${textToCopy.length > 35 ? '...' : ''}`);
-
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.classList.remove('copied');
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast('Rumus / Kode tersalin ke clipboard!');
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;color:#22c55e;"></i> <span>Disalin!</span>';
         if (typeof lucide !== 'undefined') lucide.createIcons();
-      }, 1800);
-    }).catch(err => console.error('Copy failed:', err));
+        setTimeout(() => {
+          btn.innerHTML = origHtml;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }, 1800);
+      }).catch(() => {
+        showToast('Gagal menyalin. Silakan salin manual.');
+      });
+    }
   });
+
+  const printBtn = document.getElementById('printBtn');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
 }
 
-/* 4. Live Search within Page */
-function initPageLiveSearch(catalog) {
-  const searchInput = document.getElementById('globalSearchInput');
-  const resultsOverlay = document.getElementById('searchResultsOverlay');
-  if (!searchInput || !resultsOverlay) return;
+/* 4. Formula Favorites (Love / Bintang) System */
+function initFormulaFavorites() {
+  const cards = document.querySelectorAll('.formula-card');
+  if (cards.length === 0) return;
 
-  const performSearch = (query) => {
-    const q = query.trim().toLowerCase();
-    if (!q) {
-      resultsOverlay.classList.remove('active');
-      resultsOverlay.innerHTML = '';
-      return;
+  const pagePath = window.location.pathname.split('/').pop().replace('.html', '') || 'general';
+  const storageKey = `fav_formulas_${pagePath}`;
+  let favorites = [];
+  try {
+    favorites = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  } catch (e) {
+    favorites = [];
+  }
+
+  let favFilterActive = false;
+  const headerRight = document.querySelector('.header-right');
+  let toggleBtn = document.getElementById('favFormulaFilterBtn');
+
+  if (headerRight && !toggleBtn) {
+    toggleBtn = document.createElement('button');
+    toggleBtn.id = 'favFormulaFilterBtn';
+    toggleBtn.className = 'btn-icon';
+    toggleBtn.style.position = 'relative';
+    toggleBtn.setAttribute('title', 'Tampilkan Hanya Rumus Favorit (Bintang)');
+    toggleBtn.setAttribute('aria-label', 'Filter Rumus Favorit');
+    toggleBtn.innerHTML = `
+      <i data-lucide="star" class="nav-icon"></i>
+      <span class="fav-badge-count" id="pageFavBadge">${favorites.length}</span>
+    `;
+    headerRight.insertBefore(toggleBtn, headerRight.firstChild);
+  }
+
+  const updateBadge = () => {
+    const badge = document.getElementById('pageFavBadge');
+    if (badge) badge.textContent = favorites.length;
+    if (toggleBtn) {
+      if (favFilterActive) {
+        toggleBtn.classList.add('active');
+        toggleBtn.style.color = '#f59e0b';
+      } else {
+        toggleBtn.classList.remove('active');
+        toggleBtn.style.color = '';
+      }
     }
-
-    const matches = catalog.filter((item) => {
-      return (
-        item.name.toLowerCase().includes(q) ||
-        item.desc.toLowerCase().includes(q) ||
-        (item.cat && item.cat.toLowerCase().includes(q)) ||
-        (item.syntax && item.syntax.toLowerCase().includes(q))
-      );
-    });
-
-    if (matches.length === 0) {
-      resultsOverlay.innerHTML = `
-        <div class="search-no-results">
-          <i data-lucide="search-x" style="width:24px;height:24px;margin-bottom:6px;opacity:0.6;"></i>
-          <p>Tidak ditemukan dengan kata kunci "<strong>${escapeHtml(query)}</strong>"</p>
-        </div>
-      `;
-    } else {
-      resultsOverlay.innerHTML = matches.map((item) => `
-        <a href="#${item.section}" class="search-result-item">
-          <div class="search-result-main">
-            <span class="search-result-name">${escapeHtml(item.name)}</span>
-            <span class="search-result-cat">${escapeHtml(item.cat || '')}</span>
-          </div>
-          <div class="search-result-desc">${escapeHtml(item.desc)}</div>
-        </a>
-      `).join('');
-    }
-
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    resultsOverlay.classList.add('active');
   };
 
-  searchInput.addEventListener('input', (e) => performSearch(e.target.value));
-  searchInput.addEventListener('focus', () => {
-    if (searchInput.value.trim()) performSearch(searchInput.value);
+  cards.forEach((card, index) => {
+    const header = card.querySelector('.card-header') || card.querySelector('.formula-card-header');
+    const nameEl = card.querySelector('.formula-name') || card.querySelector('h3');
+    const formulaId = nameEl ? nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') : `item-${index}`;
+
+    card.setAttribute('data-formula-id', formulaId);
+
+    if (header && !header.querySelector('.card-fav-btn')) {
+      const favBtn = document.createElement('button');
+      favBtn.className = 'card-fav-btn';
+      favBtn.setAttribute('type', 'button');
+      favBtn.setAttribute('title', 'Tandai Favorit (Bintang / Love)');
+      favBtn.setAttribute('aria-label', 'Favoritkan Rumus Ini');
+      favBtn.innerHTML = `<i data-lucide="star" style="width:15px;height:15px;"></i>`;
+
+      if (favorites.includes(formulaId)) {
+        favBtn.classList.add('is-favorited');
+        card.classList.add('is-favorited');
+      }
+
+      favBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isFav = favorites.includes(formulaId);
+        if (isFav) {
+          favorites = favorites.filter(id => id !== formulaId);
+          favBtn.classList.remove('is-favorited');
+          card.classList.remove('is-favorited');
+          showToast('Rumus dihapus dari Favorit');
+        } else {
+          favorites.push(formulaId);
+          favBtn.classList.add('is-favorited');
+          card.classList.add('is-favorited');
+          showToast('Rumus ditambahkan ke Favorit ⭐');
+        }
+
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(favorites));
+        } catch (err) {}
+
+        updateBadge();
+
+        if (favFilterActive) {
+          applyFavFilter();
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      });
+
+      header.appendChild(favBtn);
+    }
   });
 
-  document.addEventListener('click', (e) => {
-    if (!searchInput.contains(e.target) && !resultsOverlay.contains(e.target)) {
-      resultsOverlay.classList.remove('active');
-    }
+  const applyFavFilter = () => {
+    cards.forEach(card => {
+      const formulaId = card.getAttribute('data-formula-id');
+      const isFav = favorites.includes(formulaId);
+      if (favFilterActive) {
+        card.style.display = isFav ? 'flex' : 'none';
+      } else {
+        card.style.display = '';
+      }
+    });
+
+    // Check categories
+    document.querySelectorAll('.category-section, .content-section').forEach(sec => {
+      if (favFilterActive) {
+        const hasVisible = Array.from(sec.querySelectorAll('.formula-card')).some(c => c.style.display !== 'none');
+        sec.style.display = hasVisible ? '' : 'none';
+      } else {
+        sec.style.display = '';
+      }
+    });
+  };
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      favFilterActive = !favFilterActive;
+      applyFavFilter();
+      updateBadge();
+      showToast(favFilterActive ? 'Menampilkan rumus bertanda bintang ⭐' : 'Menampilkan semua rumus');
+    });
+  }
+
+  updateBadge();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+/* 5. Live Search for Sub-pages */
+function initPageLiveSearch(catalog) {
+  const searchInput = document.getElementById('cheatsheetSearch') || document.getElementById('searchRumus');
+  if (!searchInput) return;
+
+  const cards = document.querySelectorAll('.formula-card');
+  const sections = document.querySelectorAll('.category-section, .content-section');
+
+  searchInput.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase().trim();
+
+    cards.forEach((card) => {
+      const text = card.textContent.toLowerCase();
+      if (!q || text.includes(q)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    sections.forEach((sec) => {
+      if (sec.id === 'practice-questions' || sec.id === 'quiz-section' || sec.id === 'quick-reference') return;
+      const visible = sec.querySelectorAll('.formula-card[style*="display: flex"], .formula-card:not([style*="display: none"])');
+      const hasVisible = Array.from(sec.querySelectorAll('.formula-card')).some(c => c.style.display !== 'none');
+      sec.style.display = !q || hasVisible ? '' : 'none';
+    });
   });
 
   document.addEventListener('keydown', (e) => {
@@ -228,16 +347,6 @@ function initPageLiveSearch(catalog) {
       e.preventDefault();
       searchInput.focus();
       searchInput.select();
-    }
-    if (e.key === 'Escape' && resultsOverlay.classList.contains('active')) {
-      resultsOverlay.classList.remove('active');
-    }
-  });
-
-  resultsOverlay.addEventListener('click', (e) => {
-    if (e.target.closest('.search-result-item')) {
-      resultsOverlay.classList.remove('active');
-      searchInput.value = '';
     }
   });
 }
@@ -252,7 +361,7 @@ function escapeHtml(text) {
     .replace(/'/g, '&#039;');
 }
 
-/* 5. Quick Reference Table */
+/* 6. Quick Reference Table */
 function initPageQuickRef(catalog) {
   const tableBody = document.getElementById('quickRefTableBody');
   const searchInput = document.getElementById('quickRefSearchInput');
@@ -310,7 +419,7 @@ function initPageQuickRef(catalog) {
   }
 }
 
-/* 6. Quiz Engine */
+/* 7. Quiz Engine (List Format) */
 function initPageQuiz(rawQuestions) {
   const quizListEl = document.getElementById('quizQuestionsList');
   const quizScoreEl = document.getElementById('quizCurrentScore');
@@ -456,3 +565,138 @@ function initPageQuiz(rawQuestions) {
   renderQuestions();
 }
 
+/* 8. Stepper Quiz Engine (for TypeScript, K8s, Figma, Security, Postman, etc.) */
+function initStepperQuiz(quizData) {
+  const cardEl = document.getElementById('quizCard');
+  const questionEl = document.getElementById('quizQuestion');
+  const optionsEl = document.getElementById('quizOptions');
+  const feedbackEl = document.getElementById('quizFeedback');
+  const nextBtn = document.getElementById('quizNextBtn');
+  const progressEl = document.getElementById('quizProgress');
+  const scoreEl = document.getElementById('quizScore');
+  const resultEl = document.getElementById('quizResult');
+  const finalScoreEl = document.getElementById('quizFinalScore');
+  const summaryTextEl = document.getElementById('quizSummaryText');
+  const restartBtn = document.getElementById('quizRestartBtn');
+
+  if (!cardEl || !questionEl || !optionsEl || !quizData || quizData.length === 0) return;
+
+  let currentIdx = 0;
+  let score = 0;
+  let isAnswered = false;
+
+  const renderCurrentQuestion = () => {
+    isAnswered = false;
+    const current = quizData[currentIdx];
+
+    if (progressEl) progressEl.textContent = `Pertanyaan ${currentIdx + 1} dari ${quizData.length}`;
+    if (scoreEl) scoreEl.textContent = `Skor: ${score}`;
+    if (questionEl) questionEl.innerHTML = current.question;
+
+    if (feedbackEl) {
+      feedbackEl.style.display = 'none';
+      feedbackEl.innerHTML = '';
+      feedbackEl.className = 'quiz-feedback';
+    }
+
+    if (nextBtn) nextBtn.style.display = 'none';
+
+    if (optionsEl) {
+      optionsEl.innerHTML = current.options.map((opt, idx) => `
+        <button class="quiz-option" data-idx="${idx}">${opt}</button>
+      `).join('');
+
+      optionsEl.querySelectorAll('.quiz-option').forEach((btn) => {
+        btn.addEventListener('click', () => handleOptionClick(parseInt(btn.getAttribute('data-idx'))));
+      });
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  };
+
+  const handleOptionClick = (selectedIdx) => {
+    if (isAnswered) return;
+    isAnswered = true;
+
+    const current = quizData[currentIdx];
+    const isCorrect = selectedIdx === current.answer;
+    const allOptions = optionsEl.querySelectorAll('.quiz-option');
+
+    allOptions.forEach((btn, idx) => {
+      btn.disabled = true;
+      if (idx === current.answer) {
+        btn.classList.add('correct');
+      } else if (idx === selectedIdx) {
+        btn.classList.add('incorrect');
+      }
+    });
+
+    if (isCorrect) score++;
+    if (scoreEl) scoreEl.textContent = `Skor: ${score}`;
+
+    if (feedbackEl) {
+      feedbackEl.style.display = 'block';
+      feedbackEl.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+      feedbackEl.innerHTML = `
+        <div style="font-weight:700; margin-bottom:0.35rem;">${isCorrect ? '✅ Jawaban Benar!' : '❌ Jawaban Kurang Tepat'}</div>
+        <div>${current.explanation}</div>
+      `;
+    }
+
+    if (nextBtn) {
+      nextBtn.style.display = 'inline-flex';
+      nextBtn.innerHTML = currentIdx === quizData.length - 1 ? 'Lihat Hasil Akhir 🎉' : 'Lanjut <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  };
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentIdx < quizData.length - 1) {
+        currentIdx++;
+        renderCurrentQuestion();
+      } else {
+        // Show result
+        if (cardEl) cardEl.style.display = 'none';
+        if (resultEl) {
+          resultEl.style.display = 'block';
+          if (finalScoreEl) finalScoreEl.textContent = `Skor Akhir Anda: ${score} / ${quizData.length}`;
+          const pct = Math.round((score / quizData.length) * 100);
+          let summary = pct >= 80 ? 'Luar biasa! Pemahaman Anda sangat matang untuk tes teknis.' : (pct >= 60 ? 'Bagus! Sedikit lagi review materi agar skor Anda sempurna.' : 'Perlu memperdalam cheatsheet kembali sebelum menghadapi tes teknis.');
+          if (summaryTextEl) summaryTextEl.textContent = `${summary} (Akurasi: ${pct}%)`;
+        }
+      }
+    });
+  }
+
+  if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+      currentIdx = 0;
+      score = 0;
+      if (resultEl) resultEl.style.display = 'none';
+      if (cardEl) cardEl.style.display = 'block';
+      renderCurrentQuestion();
+    });
+  }
+
+  renderCurrentQuestion();
+}
+
+/* 9. Global CheatsheetEngine Object */
+window.CheatsheetEngine = {
+  init: function(opts = {}) {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    initSharedTheme();
+    initSharedSidebar();
+    initSharedCopyButtons();
+    initFormulaFavorites();
+    initPageLiveSearch();
+
+    if (opts.quizData && opts.quizData.length > 0) {
+      initStepperQuiz(opts.quizData);
+    }
+  }
+};

@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLiveSearch();
   initQuickReferenceTable();
   initQuiz();
+  initFormulaFavorites('excel');
 });
 
 /* ==========================================================================
@@ -915,4 +916,141 @@ function initQuiz() {
   updateQuizStats();
   renderQuestions();
 }
+
+/* ==========================================================================
+   8. Formula Favorites (Love / Bintang) System
+   ========================================================================== */
+function initFormulaFavorites(pagePath = 'excel') {
+  const cards = document.querySelectorAll('.formula-card');
+  if (cards.length === 0) return;
+
+  const storageKey = `fav_formulas_${pagePath}`;
+  let favorites = [];
+  try {
+    favorites = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  } catch (e) {
+    favorites = [];
+  }
+
+  let favFilterActive = false;
+  const headerRight = document.querySelector('.header-right');
+  let toggleBtn = document.getElementById('favFormulaFilterBtn');
+
+  if (headerRight && !toggleBtn) {
+    toggleBtn = document.createElement('button');
+    toggleBtn.id = 'favFormulaFilterBtn';
+    toggleBtn.className = 'btn-icon';
+    toggleBtn.style.position = 'relative';
+    toggleBtn.setAttribute('title', 'Tampilkan Hanya Rumus Favorit (Bintang)');
+    toggleBtn.setAttribute('aria-label', 'Filter Rumus Favorit');
+    toggleBtn.innerHTML = `
+      <i data-lucide="star" class="nav-icon"></i>
+      <span class="fav-badge-count" id="pageFavBadge">${favorites.length}</span>
+    `;
+    headerRight.insertBefore(toggleBtn, headerRight.firstChild);
+  }
+
+  const updateBadge = () => {
+    const badge = document.getElementById('pageFavBadge');
+    if (badge) badge.textContent = favorites.length;
+    if (toggleBtn) {
+      if (favFilterActive) {
+        toggleBtn.classList.add('active');
+        toggleBtn.style.color = '#f59e0b';
+      } else {
+        toggleBtn.classList.remove('active');
+        toggleBtn.style.color = '';
+      }
+    }
+  };
+
+  cards.forEach((card, index) => {
+    const header = card.querySelector('.card-header') || card.querySelector('.formula-card-header');
+    const nameEl = card.querySelector('.formula-name') || card.querySelector('h3');
+    const formulaId = nameEl ? nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') : `item-${index}`;
+
+    card.setAttribute('data-formula-id', formulaId);
+
+    if (header && !header.querySelector('.card-fav-btn')) {
+      const favBtn = document.createElement('button');
+      favBtn.className = 'card-fav-btn';
+      favBtn.setAttribute('type', 'button');
+      favBtn.setAttribute('title', 'Tandai Favorit (Bintang / Love)');
+      favBtn.setAttribute('aria-label', 'Favoritkan Rumus Ini');
+      favBtn.innerHTML = `<i data-lucide="star" style="width:15px;height:15px;"></i>`;
+
+      if (favorites.includes(formulaId)) {
+        favBtn.classList.add('is-favorited');
+        card.classList.add('is-favorited');
+      }
+
+      favBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isFav = favorites.includes(formulaId);
+        if (isFav) {
+          favorites = favorites.filter(id => id !== formulaId);
+          favBtn.classList.remove('is-favorited');
+          card.classList.remove('is-favorited');
+          showToast('Rumus dihapus dari Favorit');
+        } else {
+          favorites.push(formulaId);
+          favBtn.classList.add('is-favorited');
+          card.classList.add('is-favorited');
+          showToast('Rumus ditambahkan ke Favorit ⭐');
+        }
+
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(favorites));
+        } catch (err) {}
+
+        updateBadge();
+
+        if (favFilterActive) {
+          applyFavFilter();
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      });
+
+      header.appendChild(favBtn);
+    }
+  });
+
+  const applyFavFilter = () => {
+    cards.forEach(card => {
+      const formulaId = card.getAttribute('data-formula-id');
+      const isFav = favorites.includes(formulaId);
+      if (favFilterActive) {
+        card.style.display = isFav ? 'flex' : 'none';
+      } else {
+        card.style.display = '';
+      }
+    });
+
+    document.querySelectorAll('.category-section, .content-section').forEach(sec => {
+      if (sec.id === 'practice-questions' || sec.id === 'quick-reference') return;
+      if (favFilterActive) {
+        const hasVisible = Array.from(sec.querySelectorAll('.formula-card')).some(c => c.style.display !== 'none');
+        sec.style.display = hasVisible ? '' : 'none';
+      } else {
+        sec.style.display = '';
+      }
+    });
+  };
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      favFilterActive = !favFilterActive;
+      applyFavFilter();
+      updateBadge();
+      showToast(favFilterActive ? 'Menampilkan rumus bertanda bintang ⭐' : 'Menampilkan semua rumus');
+    });
+  }
+
+  updateBadge();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
 

@@ -2155,3 +2155,196 @@ code, kbd, samp, pre {
 .theme-networking { --card-accent: #0284c7; }
 .theme-hr { --card-accent: #db2777; }
 .theme-supplychain { --card-accent: #0891b2; }
+
+/* ==========================================================================
+   FAVORITES (LOVE / BINTANG) SYSTEM
+   ========================================================================== */
+
+/* Hub Card Favorite Button */
+.hub-fav-btn {
+  background: var(--bg-surface-muted, rgba(0, 0, 0, 0.04));
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  color: var(--text-subtle, #94a3b8);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  margin-left: auto;
+  position: relative;
+  z-index: 2;
+  padding: 0;
+}
+
+.hub-fav-btn i,
+.hub-fav-btn svg {
+  width: 18px;
+  height: 18px;
+  transition: all 0.25s ease;
+}
+
+.hub-fav-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.4);
+  transform: scale(1.12);
+}
+
+.hub-fav-btn.is-favorited {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border-color: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
+.hub-fav-btn.is-favorited i,
+.hub-fav-btn.is-favorited svg {
+  fill: #f59e0b;
+  stroke: #d97706;
+  animation: starPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes starPop {
+  0% { transform: scale(0.6); }
+  50% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+/* Hub Filter Fav Button */
+.hub-filter-fav {
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  color: #d97706 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+[data-theme="dark"] .hub-filter-fav {
+  color: #fbbf24 !important;
+}
+
+.hub-filter-fav.active {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  border-color: #f59e0b !important;
+}
+
+/* Empty State */
+.hub-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background: var(--bg-surface);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  margin: 1.5rem 0;
+}
+
+.hub-empty-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.25rem;
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hub-empty-icon i,
+.hub-empty-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.hub-empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hub-empty-state p {
+  color: var(--text-subtle);
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+  font-size: 0.95rem;
+}
+
+.hub-empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--excel-primary, #0284c7);
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hub-empty-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Formula Card Favorites (Inside Cheatsheet sub-pages) */
+.card-fav-btn {
+  background: transparent;
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  color: var(--text-subtle, #94a3b8);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm, 6px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.card-fav-btn:hover {
+  color: #f59e0b;
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  transform: scale(1.08);
+}
+
+.card-fav-btn.is-favorited {
+  color: #f59e0b;
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.card-fav-btn.is-favorited i,
+.card-fav-btn.is-favorited svg {
+  fill: #f59e0b;
+  stroke: #d97706;
+}
+
+.fav-badge-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
