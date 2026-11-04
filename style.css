@@ -2147,3 +2147,11 @@ code, kbd, samp, pre {
 .theme-htmlcss { --card-accent: #f97316; }
 .theme-prompting { --card-accent: #d946ef; }
 .theme-marketing { --card-accent: #16a34a; }
+.theme-typescript { --card-accent: #3178c6; }
+.theme-kubernetes { --card-accent: #326ce5; }
+.theme-figma { --card-accent: #a259ff; }
+.theme-security { --card-accent: #dc2626; }
+.theme-postman { --card-accent: #ff6c37; }
+.theme-networking { --card-accent: #0284c7; }
+.theme-hr { --card-accent: #db2777; }
+.theme-supplychain { --card-accent: #0891b2; }

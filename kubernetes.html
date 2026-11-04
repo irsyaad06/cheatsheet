@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kubernetes (K8s) Cheatsheet - Arsitektur, Objek Pods & Deployments, Perintah kubectl, YAML Manifest & Troubleshooting Error Produksi.">
+  <title>Kubernetes (K8s) Cheatsheet - Complete kubectl & Cloud Native Reference</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-kubernetes">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#326ce5; color:#fff;"><i data-lucide="boxes"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">Kubernetes (K8s) Cheatsheet</h1>
+            <p class="logo-subtitle">Arsitektur K8s, Manifest YAML, kubectl & Debugging</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari perintah kubectl, objek, status crash (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#core-architecture" class="nav-item"><i data-lucide="server"></i> Arsitektur & Komponen K8s</a>
+        <a href="#core-objects" class="nav-item"><i data-lucide="box"></i> Objek Inti (Pod, Deploy, Svc)</a>
+        <a href="#kubectl-commands" class="nav-item"><i data-lucide="terminal"></i> Perintah kubectl Esensial</a>
+        <a href="#probes-resources" class="nav-item"><i data-lucide="activity"></i> Health Probes & Resource Limits</a>
+        <a href="#storage-config" class="nav-item"><i data-lucide="database"></i> ConfigMap, Secret & PVC</a>
+        <a href="#scaling-rollout" class="nav-item"><i data-lucide="trending-up"></i> Scaling & Rollout Updates</a>
+        <a href="#troubleshooting" class="nav-item"><i data-lucide="alert-triangle"></i> Troubleshooting Crash & Errors</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: Core Architecture -->
+      <section id="core-architecture" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="server"></i> Arsitektur & Komponen Kubernetes</h2>
+          <p class="section-desc">Memahami peran Control Plane (Master) dan Worker Node dalam orkestrasi container.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Control Plane vs Worker Node</span>
+              <span class="category-tag">Architecture</span>
+            </div>
+            <p class="formula-desc">Pembagian peran komponen sistem dalam cluster Kubernetes.</p>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">kube-apiserver:</span> Titik masuk (entry point) seluruh komunikasi dan perintah REST/kubectl.</div>
+              <div class="param-row"><span class="param-name">etcd:</span> Distributed key-value store konsisten penyimpan seluruh state dan konfigurasi cluster.</div>
+              <div class="param-row"><span class="param-name">kube-scheduler:</span> Memilih worker node yang optimal untuk menempatkan Pod baru.</div>
+              <div class="param-row"><span class="param-name">kube-controller-manager:</span> Memastikan keadaan riil cluster sesuai dengan *desired state* (ReplicaSet, Node lifecycle).</div>
+              <div class="param-row"><span class="param-name">kubelet (Worker):</span> Agen lokal di setiap worker node yang memastikan container berjalan sesuai PodSpec.</div>
+              <div class="param-row"><span class="param-name">kube-proxy (Worker):</span> Mengatur network rules (iptables/IPVS) untuk routing service.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Core Objects -->
+      <section id="core-objects" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="box"></i> Objek Inti: Pod, Deployment & Service</h2>
+          <p class="section-desc">Blok pembangun utama aplikasi terdistribusi di Kubernetes.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: Deployment YAML -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Deployment Manifest (YAML)</span>
+              <span class="category-tag">Manifest</span>
+            </div>
+            <p class="formula-desc">Mengatur replikasi Pod, rolling update deklaratif, dan auto-healing.</p>
+            <div class="formula-syntax">
+              <code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-backend
+  labels: { app: api }
+spec:
+  replicas: 3
+  selector:
+    matchLabels: { app: api }
+  template:
+    metadata:
+      labels: { app: api }
+    spec:
+      containers:
+      - name: web
+        image: nginx:alpine
+        ports: [{ containerPort: 80 }]</code>
+              <button class="copy-btn" data-clipboard="apiVersion: apps/v1&#10;kind: Deployment&#10;metadata:&#10;  name: api-backend&#10;spec:&#10;  replicas: 3&#10;  selector:&#10;    matchLabels: { app: api }&#10;  template:&#10;    metadata:&#10;      labels: { app: api }&#10;    spec:&#10;      containers:&#10;      - name: web&#10;        image: nginx:alpine">Copy</button>
+            </div>
+          </div>
+
+          <!-- Card: Service Types -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Service Types (ClusterIP vs NodePort vs LoadBalancer)</span>
+              <span class="category-tag">Networking</span>
+            </div>
+            <p class="formula-desc">Mekanisme mengekspos sekumpulan Pod dengan IP statis dan load balancing internal/eksternal.</p>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">ClusterIP (Default):</span> Hanya bisa diakses dari DALAM cluster. Cocok untuk database atau internal microservice.</div>
+              <div class="param-row"><span class="param-name">NodePort:</span> Membuka port spesifik (range 30000-32767) pada setiap worker node IP publik.</div>
+              <div class="param-row"><span class="param-name">LoadBalancer:</span> Mengintegrasikan Load Balancer resmi cloud provider (AWS ELB, GCP Cloud LB) dengan IP publik stabil.</div>
+              <div class="param-row"><span class="param-name">Ingress:</span> Layer 7 (HTTP/HTTPS) reverse proxy routing berbasis domain (misal: <code>api.example.com</code> vs <code>app.example.com</code>).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: kubectl Commands -->
+      <section id="kubectl-commands" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="terminal"></i> Perintah kubectl Esensial</h2>
+          <p class="section-desc">Koleksi perintah CLI yang wajib dihafal untuk inspeksi, modifikasi, dan operasional cluster.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: Inspect & View -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Inspeksi Status Cluster & Objek</span>
+              <span class="category-tag">Inspection</span>
+            </div>
+            <div class="formula-syntax">
+              <code># Lihat daftar Pod di seluruh namespace
+kubectl get pods -A -o wide
+
+# Deskripsi detail status & event penyebab Pod error
+kubectl describe pod <pod-name> -n <namespace>
+
+# Pantau perubahan status Pod secara live
+kubectl get pods -w</code>
+              <button class="copy-btn" data-clipboard="kubectl get pods -A -o wide&#10;kubectl describe pod <pod-name>&#10;kubectl get pods -w">Copy</button>
+            </div>
+          </div>
+
+          <!-- Card: Logs & Exec -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Debugging: Logs & Masuk ke Container</span>
+              <span class="category-tag">Debugging</span>
+            </div>
+            <div class="formula-syntax">
+              <code># Streaming logs container secara realtime
+kubectl logs -f <pod-name> --tail=100
+
+# Lihat log dari container yang crash sebelumnya (wajib hafal!)
+kubectl logs <pod-name> --previous
+
+# Masuk ke terminal interaktif di dalam Pod
+kubectl exec -it <pod-name> -- /bin/sh
+
+# Forward port Pod ke localhost tanpa ekspos service
+kubectl port-forward pod/<pod-name> 8080:80</code>
+              <button class="copy-btn" data-clipboard="kubectl logs -f <pod-name>&#10;kubectl logs <pod-name> --previous&#10;kubectl exec -it <pod-name> -- /bin/sh&#10;kubectl port-forward pod/<pod-name> 8080:80">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Probes & Resources -->
+      <section id="probes-resources" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="activity"></i> Health Probes & Resource Limits</h2>
+          <p class="section-desc">Menjamin ketahanan aplikasi dan mencegah Pod rakus memonopoli resource worker node.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Liveness vs Readiness Probe & Limits</span>
+              <span class="category-tag">Resilience</span>
+            </div>
+            <div class="formula-syntax">
+              <code>resources:
+  requests: { memory: "256Mi", cpu: "250m" } # Alokasi minimum yang dijamin
+  limits:   { memory: "512Mi", cpu: "500m" } # Batas maksimal (melebihi ini -> OOMKilled)
+
+livenessProbe:
+  httpGet: { path: /healthz, port: 8080 }
+  initialDelaySeconds: 15
+  periodSeconds: 10 # Gagal -> Pod di-RESTART oleh kubelet
+
+readinessProbe:
+  httpGet: { path: /ready, port: 8080 }
+  periodSeconds: 5  # Gagal -> Pod DILEPAS dari traffic Service (tidak di-restart)</code>
+              <button class="copy-btn" data-clipboard="resources:&#10;  requests: { memory: '256Mi', cpu: '250m' }&#10;  limits: { memory: '512Mi', cpu: '500m' }&#10;livenessProbe:&#10;  httpGet: { path: /healthz, port: 8080 }">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Troubleshooting Crash & Errors -->
+      <section id="troubleshooting" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="alert-triangle"></i> Troubleshooting Kasus Error Populer</h2>
+          <p class="section-desc">Penyebab dan solusi status error yang paling sering ditanyakan saat live debugging.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">CrashLoopBackOff & OOMKilled</span>
+              <span class="category-tag">Error Handling</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">CrashLoopBackOff:</span> Container dijalankan lalu crash berulang kali. Solusi: Cek dengan <code>kubectl logs &lt;pod&gt; --previous</code> atau <code>kubectl describe pod &lt;pod&gt;</code> untuk melihat exit code aplikasi / salah variabel env.</div>
+              <div class="param-row"><span class="param-name">OOMKilled (Exit Code 137):</span> Container melebihi memory `limits` yang ditetapkan pada YAML. Solusi: Tingkatkan memory limits atau benahi memory leak aplikasi.</div>
+              <div class="param-row"><span class="param-name">ImagePullBackOff / ErrImagePull:</span> Nama image salah, tag tidak ditemukan di registry, atau credential secret private registry belum dikonfigurasi (`imagePullSecrets`).</div>
+              <div class="param-row"><span class="param-name">Pending:</span> Pod belum bisa dijadwalkan ke node mana pun karena node kehabisan CPU/RAM (Insufficient cpu/memory) atau node selector/taints tidak cocok.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference Perintah kubectl</h2>
+          <p class="section-desc">Tabel ringkasan sintaks kubectl untuk referensi cepat.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Perintah</th>
+                <th>Sintaks</th>
+                <th>Kegunaan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Apply Manifest</strong></td>
+                <td><code>kubectl apply -f manifest.yaml</code></td>
+                <td>Deploy / update konfigurasi deklaratif</td>
+              </tr>
+              <tr>
+                <td><strong>Describe Object</strong></td>
+                <td><code>kubectl describe &lt;kind&gt; &lt;name&gt;</code></td>
+                <td>Inspeksi riwayat Events dan error detail</td>
+              </tr>
+              <tr>
+                <td><strong>Previous Logs</strong></td>
+                <td><code>kubectl logs &lt;pod&gt; -p</code></td>
+                <td>Lihat log container sebelum mati/restart</td>
+              </tr>
+              <tr>
+                <td><strong>Scale Replicas</strong></td>
+                <td><code>kubectl scale deploy api --replicas=5</code></td>
+                <td>Tambah / kurangi jumlah Pod secara manual</td>
+              </tr>
+              <tr>
+                <td><strong>Rollback Deploy</strong></td>
+                <td><code>kubectl rollout undo deploy/api</code></td>
+                <td>Kembalikan deployment ke versi sebelumnya</td>
+              </tr>
+              <tr>
+                <td><strong>Drain Node</strong></td>
+                <td><code>kubectl drain &lt;node&gt; --ignore-daemonsets</code></td>
+                <td>Kosongkan node sebelum maintenance/upgrade</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes Teknis Kubernetes</h2>
+          <p class="section-desc">12 soal simulasi tes wawancara DevOps / Cloud Engineer.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const kubernetesQuizData = [
+      {
+        question: "Komponen Control Plane manakah yang bertugas sebagai distributed key-value store untuk menyimpan seluruh status dan konfigurasi cluster Kubernetes?",
+        options: [
+          "kube-scheduler",
+          "etcd",
+          "kube-proxy",
+          "kubelet"
+        ],
+        answer: 1,
+        explanation: "etcd adalah database key-value store konsisten dengan konsensus Raft yang menyimpan semua konfigurasi dan state cluster Kubernetes."
+      },
+      {
+        question: "Apa perbedaan perilaku antara Liveness Probe yang gagal dengan Readiness Probe yang gagal?",
+        options: [
+          "Liveness probe yang gagal me-restart container, sedangkan Readiness probe yang gagal mencopot Pod dari routing Service",
+          "Readiness probe yang gagal me-restart worker node, sedangkan Liveness probe hanya mencatat log",
+          "Keduanya memiliki aksi identik yaitu langsung menghapus Pod dari cluster",
+          "Liveness probe hanya berjalan sekali saat container pertama kali start"
+        ],
+        answer: 0,
+        explanation: "Jika livenessProbe gagal, kubelet akan membunuh dan merestart container. Jika readinessProbe gagal, Pod dianggap belum siap melayani traffic dan sementara dilepas dari endpoint Service."
+      },
+      {
+        question: "Tipe Service Kubernetes manakah yang merupakan default dan hanya dapat diakses dari dalam cluster?",
+        options: [
+          "NodePort",
+          "ClusterIP",
+          "LoadBalancer",
+          "ExternalName"
+        ],
+        answer: 1,
+        explanation: "ClusterIP adalah tipe service bawaan (default) yang memberikan alamat IP virtual yang hanya bisa dirouting secara internal di dalam cluster."
+      },
+      {
+        question: "Jika sebuah Pod berstatus OOMKilled dengan Exit Code 137, apa penyebab utamanya?",
+        options: [
+          "Pod gagal melakukan handshake SSH",
+          "Aplikasi menggunakan memori melebihi batas resources.limits.memory yang ditentukan pada manifest",
+          "Port container bentrok dengan aplikasi lain di worker node",
+          "Sertifikat TLS telah kadaluarsa"
+        ],
+        answer: 1,
+        explanation: "Exit code 137 (128 + 9 / SIGKILL) terjadi saat Linux kernel OOM-killer menghentikan container karena penggunaan memorinya melampaui limit yang diizinkan."
+      },
+      {
+        question: "Perintah kubectl apa yang digunakan untuk melihat log dari container yang baru saja mengalami crash sebelum di-restart?",
+        options: [
+          "kubectl logs <pod> --recent",
+          "kubectl logs <pod> --previous",
+          "kubectl logs <pod> --before-crash",
+          "kubectl logs <pod> --history"
+        ],
+        answer: 1,
+        explanation: "Flag '--previous' (atau '-p') memungkinkan kita membaca stdout/stderr dari instance container sebelumnya yang telah crash."
+      },
+      {
+        question: "Komponen Kubernetes yang bertugas mengeksekusi container dan memastikan container berjalan sesuai PodSpec pada Worker Node adalah:",
+        options: [
+          "kube-controller-manager",
+          "kubelet",
+          "kube-scheduler",
+          "CoreDNS"
+        ],
+        answer: 1,
+        explanation: "Kubelet adalah agen utama yang berjalan di setiap worker node dan berkomunikasi dengan Container Runtime (CRI) seperti containerd."
+      },
+      {
+        question: "Bagaimana cara membatalkan pembaruan (rollback) deployment yang bermasalah ke versi sebelumnya?",
+        options: [
+          "kubectl revert deploy/<name>",
+          "kubectl rollout undo deploy/<name>",
+          "kubectl reset deploy/<name>",
+          "kubectl deployment back <name>"
+        ],
+        answer: 1,
+        explanation: "'kubectl rollout undo deploy/<name>' mengembalikan objek Deployment ke revisi ReplicaSet sebelumnya."
+      },
+      {
+        question: "Apa arti status Pod 'CrashLoopBackOff'?",
+        options: [
+          "Pod sedang menunggu antrean unduh image dari Docker Hub",
+          "Container di dalam Pod start, mengalami crash berulang kali, dan Kubernetes menunggu jeda waktu (backoff delay) sebelum mencoba merestartnya lagi",
+          "Jaringan node worker terputus dari internet",
+          "Hard drive worker node telah penuh"
+        ],
+        answer: 1,
+        explanation: "CrashLoopBackOff mengindikasikan container selalu mengalami fatal error/exit saat dijalankan, sehingga kubelet menerapkan penundaan eksponensial sebelum mencoba menyalakannya kembali."
+      },
+      {
+        question: "Bagaimana cara meneruskan port (port-forward) dari Pod database MySQL (port 3306) ke port 3306 di laptop lokal untuk pengujian?",
+        options: [
+          "kubectl forward pod/mysql-pod 3306:3306",
+          "kubectl port-forward pod/mysql-pod 3306:3306",
+          "kubectl proxy pod/mysql-pod --port=3306",
+          "kubectl tunnel pod/mysql-pod 3306"
+        ],
+        answer: 1,
+        explanation: "'kubectl port-forward pod/<nama-pod> 3306:3306' membuka tunnel TCP langsung antara localhost developer dengan Pod di dalam cluster."
+      },
+      {
+        question: "Apa perbedaan antara 'requests' dan 'limits' pada konfigurasi resource container?",
+        options: [
+          "'requests' adalah batas maksimal sedangkan 'limits' adalah alokasi awal",
+          "'requests' adalah alokasi sumber daya minimum yang dijamin scheduler, sedangkan 'limits' adalah batas pemakaian maksimal yang tidak boleh dilewati container",
+          "Keduanya hanya berlaku untuk hard disk dan bukan CPU/Memory",
+          "'limits' hanya dipakai saat auto-scaling HPA"
+        ],
+        answer: 1,
+        explanation: "'requests' dipakai kube-scheduler untuk mencari worker node yang memiliki sisa kapasitas cukup, sedangkan 'limits' adalah pembatas ketat di tingkat kernel cgroups."
+      },
+      {
+        question: "Objek K8s manakah yang digunakan untuk menyimpan data sensitif seperti password database dan token API secara terpisah dari kode sumber?",
+        options: [
+          "ConfigMap",
+          "Secret",
+          "StatefulSet",
+          "ServiceAccount"
+        ],
+        answer: 1,
+        explanation: "Kubernetes Secret dirancang khusus untuk menyimpan kredensial, token, dan kunci rahasia dalam format base64 dan dapat diinjeksi via volume mount atau environment variable."
+      },
+      {
+        question: "Perintah apa yang digunakan untuk mengosongkan node worker dari seluruh Pod secara aman sebelum server dimatikan untuk maintenance hardware?",
+        options: [
+          "kubectl delete node <node-name>",
+          "kubectl drain <node-name> --ignore-daemonsets",
+          "kubectl cordon <node-name> --purge",
+          "kubectl stop node <node-name>"
+        ],
+        answer: 1,
+        explanation: "'kubectl drain <node-name> --ignore-daemonsets' menandai node sebagai unschedulable dan secara bertahap mengusir (evict) seluruh Pod yang ada ke worker node lain."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: kubernetesQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Postman & API Testing Cheatsheet - Assertions pm.test(), Variabel Lingkungan, JSON Schema Validation, Newman CLI & Otomatisasi API untuk QA & Backend Dev.">
+  <title>Postman & API Testing Cheatsheet - Complete Automated Test & Newman Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-postman">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#ff6c37; color:#fff;"><i data-lucide="send"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">Postman & API Testing</h1>
+            <p class="logo-subtitle">Otomatisasi pm.test(), Variabel & Newman CLI</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari pm.expect, assertion, newman, variabel (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#variables-scopes" class="nav-item"><i data-lucide="database"></i> Variabel & Hierarki Scope</a>
+        <a href="#test-assertions" class="nav-item"><i data-lucide="check-square"></i> pm.test & Assertions Esensial</a>
+        <a href="#dynamic-chaining" class="nav-item"><i data-lucide="link"></i> Request Chaining (Ekstrak Token)</a>
+        <a href="#schema-validation" class="nav-item"><i data-lucide="file-json"></i> JSON Schema Validation</a>
+        <a href="#newman-cli" class="nav-item"><i data-lucide="terminal"></i> Newman CLI & CI/CD Reports</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: Variables & Scopes -->
+      <section id="variables-scopes" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="database"></i> Hierarki Variabel Postman</h2>
+          <p class="section-desc">Memahami prioritas scope variabel: Local &gt; Data &gt; Environment &gt; Collection &gt; Global.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Sintaks Akses Variabel di URL & Script</span>
+              <span class="category-tag">Configuration</span>
+            </div>
+            <p class="formula-desc">Gunakan double curly braces <code>{{variable_name}}</code> pada antarmuka GUI, dan objek <code>pm.*</code> pada script JavaScript.</p>
+            <div class="formula-syntax">
+              <code>// Di URL atau Header:
+https://api.example.com/v1/users/{{userId}}
+
+// Di Pre-request / Tests Script:
+pm.environment.set("token", "jwt_abc123");
+const currentToken = pm.environment.get("token");
+pm.collectionVariables.set("baseUrl", "https://api.staging.com");</code>
+              <button class="copy-btn" data-clipboard='pm.environment.set("token", "jwt_abc123");&#10;const token = pm.environment.get("token");'>Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Assertions -->
+      <section id="test-assertions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="check-square"></i> Assertions & pm.test() Esensial</h2>
+          <p class="section-desc">Snippet pengujian otomatis standar industri menggunakan pustaka Chai Assertion bawaan Postman.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: Status & Body -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Uji Status HTTP & Properti JSON Response</span>
+              <span class="category-tag">Assertions</span>
+            </div>
+            <div class="formula-syntax">
+              <code>// 1. Validasi Status Code
+pm.test("Status code adalah 200 OK", function () {
+  pm.response.to.have.status(200);
+});
+
+// 2. Validasi Response Time (Waktu respons di bawah 500ms)
+pm.test("Response time di bawah 500ms", function () {
+  pm.expect(pm.response.responseTime).to.be.below(500);
+});
+
+// 3. Validasi Konten JSON Body
+pm.test("Respons mengembalikan status success dan user id", function () {
+  const json = pm.response.json();
+  pm.expect(json.success).to.be.true;
+  pm.expect(json.data.user).to.have.property("email");
+  pm.expect(json.data.user.role).to.eql("admin");
+});</code>
+              <button class="copy-btn" data-clipboard='pm.test("Status 200 OK", function () {&#10;  pm.response.to.have.status(200);&#10;});&#10;pm.test("Response time < 500ms", function () {&#10;  pm.expect(pm.response.responseTime).to.be.below(500);&#10;});'>Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Dynamic Request Chaining -->
+      <section id="dynamic-chaining" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="link"></i> Request Chaining (Ekstrak Token Login)</h2>
+          <p class="section-desc">Menyimpan token JWT dari respons endpoint login untuk otomatis dipakai oleh endpoint berikutnya.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Auto-inject Bearer Token Antar Request</span>
+              <span class="category-tag">Automation</span>
+            </div>
+            <div class="formula-syntax">
+              <code>// Tulis ini di tab 'Tests' pada request POST /auth/login:
+if (pm.response.code === 200) {
+  const response = pm.response.json();
+  // Simpan token ke environment
+  pm.environment.set("accessToken", response.data.token);
+  console.log("Token tersimpan otomatis!");
+}
+
+// Kemudian di request berikutnya, buka tab 'Authorization', 
+// pilih 'Bearer Token' dan masukkan: {{accessToken}}</code>
+              <button class="copy-btn" data-clipboard='const response = pm.response.json();&#10;pm.environment.set("accessToken", response.data.token);'>Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: JSON Schema Validation -->
+      <section id="schema-validation" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="file-json"></i> Validasi Kontrak JSON Schema</h2>
+          <p class="section-desc">Mencegah bug integrasi dengan memverifikasi tipe data struktur respons backend.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Validasi Schema dengan TinyValidator (tv4)</span>
+              <span class="category-tag">Contract Testing</span>
+            </div>
+            <div class="formula-syntax">
+              <code>const schema = {
+  type: "object",
+  required: ["id", "username", "isActive"],
+  properties: {
+    id: { type: "number" },
+    username: { type: "string" },
+    isActive: { type: "boolean" }
+  }
+};
+
+pm.test("Struktur JSON sesuai dengan kontrak schema", function () {
+  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;
+});</code>
+              <button class="copy-btn" data-clipboard="const schema = { type: 'object', required: ['id', 'username'] };&#10;pm.test('Schema valid', () => pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true);">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Newman CLI -->
+      <section id="newman-cli" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="terminal"></i> Newman CLI untuk CI/CD Pipeline</h2>
+          <p class="section-desc">Menjalankan pengujian Postman secara headless di GitHub Actions, GitLab CI, atau terminal server.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Perintah Eksekusi Newman</span>
+              <span class="category-tag">CLI</span>
+            </div>
+            <div class="formula-syntax">
+              <code># 1. Install Newman & HTML Reporter
+npm install -g newman newman-reporter-htmlextra
+
+# 2. Jalankan Collection dengan Environment tertentu
+newman run ecommerce-tests.json -e staging-env.json
+
+# 3. Buat laporan pengujian interaktif HTML cantik
+newman run tests.json -e env.json -r cli,htmlextra --reporter-htmlextra-export ./report.html</code>
+              <button class="copy-btn" data-clipboard="newman run tests.json -e env.json -r cli,htmlextra --reporter-htmlextra-export ./report.html">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference Objek pm.*</h2>
+          <p class="section-desc">Ringkasan cepat metode objek pm yang paling sering dipakai.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Metode</th>
+                <th>Contoh Sintaks</th>
+                <th>Kegunaan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>pm.response.json()</code></td>
+                <td><code>const body = pm.response.json();</code></td>
+                <td>Parse payload respons menjadi objek JS</td>
+              </tr>
+              <tr>
+                <td><code>pm.environment.set()</code></td>
+                <td><code>pm.environment.set("k", "v");</code></td>
+                <td>Simpan variabel ke level Environment aktif</td>
+              </tr>
+              <tr>
+                <td><code>pm.response.to.be.success</code></td>
+                <td><code>pm.response.to.be.success;</code></td>
+                <td>Verifikasi status code 2xx (200-299)</td>
+              </tr>
+              <tr>
+                <td><code>pm.variables.get()</code></td>
+                <td><code>pm.variables.get("baseUrl");</code></td>
+                <td>Mencari variabel di scope terdekat secara hierarkis</td>
+              </tr>
+              <tr>
+                <td><code>postman.setNextRequest()</code></td>
+                <td><code>postman.setNextRequest("Delete User");</code></td>
+                <td>Mengontrol alur loncatan eksekusi collection runner</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes QA & API Testing</h2>
+          <p class="section-desc">12 soal simulasi tes wawancara QA Automation & Backend Integration.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const postmanQuizData = [
+      {
+        question: "Urutan prioritas scope variabel di Postman dari yang paling spesifik (sempit) ke yang paling luas adalah:",
+        options: [
+          "Global > Collection > Environment > Data > Local",
+          "Local > Data > Environment > Collection > Global",
+          "Environment > Global > Collection > Local",
+          "Collection > Global > Environment > Local"
+        ],
+        answer: 1,
+        explanation: "Scope lokal (Local) memiliki prioritas tertinggi yang dapat menimpa nilai dari Data, Environment, Collection, hingga Global (paling luas)."
+      },
+      {
+        question: "Tab manakah di Postman yang script-nya dieksekusi SETELAH server merespons request API?",
+        options: [
+          "Pre-request Script",
+          "Tests",
+          "Params",
+          "Headers"
+        ],
+        answer: 1,
+        explanation: "Tab 'Tests' dieksekusi tepat setelah respons dari server diterima. Sebaliknya, 'Pre-request Script' dieksekusi sebelum request dikirim."
+      },
+      {
+        question: "Sintaks Chai Assertion bawaan Postman yang benar untuk menguji apakah status kode HTTP adalah 201 Created adalah:",
+        options: [
+          "pm.response.status === 201",
+          "pm.response.to.have.status(201);",
+          "assert.isStatus(201)",
+          "verify.status(201)"
+        ],
+        answer: 1,
+        explanation: "'pm.response.to.have.status(201);' adalah sintaks BDD Assertion resmi Chai di lingkungan Postman sandbox."
+      },
+      {
+        question: "Bagaimana cara mengambil token JWT dari respons JSON { 'token': 'xyz' } dan menyimpannya ke Environment variable di tab Tests?",
+        options: [
+          "localStorage.setItem('token', response.token);",
+          "pm.environment.set('token', pm.response.json().token);",
+          "pm.setEnv('token', json.token);",
+          "saveVariable('token', token);"
+        ],
+        answer: 1,
+        explanation: "'pm.environment.set('nama_var', nilai)' adalah metode resmi untuk memperbarui atau membuat variabel pada environment aktif."
+      },
+      {
+        question: "Alat CLI resmi yang digunakan untuk mengeksekusi kumpulan pengujian Postman (Collection) di terminal atau CI/CD pipeline adalah:",
+        options: [
+          "Postman-Runner",
+          "Newman",
+          "Postman-CLI-Legacy",
+          "Curl-Test"
+        ],
+        answer: 1,
+        explanation: "Newman adalah command-line collection runner resmi untuk Postman yang dapat dijalankan secara headless di sistem CI/CD (seperti GitHub Actions atau Jenkins)."
+      },
+      {
+        question: "Bagaimana cara menghentikan eksekusi collection runner atau melompati request tertentu secara dinamis?",
+        options: [
+          "break;",
+          "postman.setNextRequest(null); (untuk berhenti) atau postman.setNextRequest('Nama Request');",
+          "pm.stopExecution();",
+          "return false;"
+        ],
+        answer: 1,
+        explanation: "'postman.setNextRequest(null)' menghentikan alur collection runner, sedangkan mengisinya dengan nama request melompat ke request tersebut."
+      },
+      {
+        question: "Sintaks untuk memvalidasi bahwa waktu respons API (latency) tidak melebihi 200 milidetik adalah:",
+        options: [
+          "pm.expect(pm.response.responseTime).to.be.below(200);",
+          "pm.expect(pm.response.time).to.equal(200);",
+          "assert(pm.responseTime < 200)",
+          "pm.response.to.have.timeUnder(200);"
+        ],
+        answer: 0,
+        explanation: "'pm.expect(pm.response.responseTime).to.be.below(200);' memastikan responseTime lebih kecil dari ambang batas 200ms."
+      },
+      {
+        question: "Bagaimana cara merujuk variabel environment bernama 'api_key' di dalam Headers atau Request Body Postman tanpa kode JavaScript?",
+        options: [
+          "${api_key}",
+          "{{api_key}}",
+          "$env.api_key",
+          "#api_key"
+        ],
+        answer: 1,
+        explanation: "Format double curly braces '{{api_key}}' digunakan pada antarmuka GUI Postman (URL, Header, Body form/raw) untuk menyisipkan nilai variabel."
+      },
+      {
+        question: "Apa fungsi fitur 'Mock Server' di Postman?",
+        options: [
+          "Menyerang server API target dengan load testing jutaan traffic",
+          "Mensimulasikan respons backend palsu sesuai skema contoh sebelum API backend selesai di-coding oleh tim backend",
+          "Mengenkripsi koneksi WiFi",
+          "Menghapus database produksi secara otomatis"
+        ],
+        answer: 1,
+        explanation: "Mock Server memungkinkan tim frontend dan QA mulai bekerja lebih awal menggunakan endpoint tiruan (mock) yang mengembalikan contoh payload yang telah disepakati."
+      },
+      {
+        question: "Pustaka validator JSON Schema bawaan yang sering digunakan di Postman untuk validasi tipe data kontrak respons adalah:",
+        options: [
+          "tv4 (TinyValidator) atau Ajv",
+          "JQuery Validate",
+          "Formik",
+          "Zod Browser"
+        ],
+        answer: 0,
+        explanation: "Postman menyediakan modul bawaan 'tv4' dan 'ajv' di sandboxed environment-nya untuk memvalidasi JSON schema secara otomatis."
+      },
+      {
+        question: "Jika sebuah endpoint menghasilkan status HTTP 404, assertion manakah yang akan menghasilkan status PASS?",
+        options: [
+          "pm.response.to.be.success;",
+          "pm.response.to.have.status(404);",
+          "pm.response.to.be.serverError;",
+          "pm.expect(pm.response.code).to.eql(200);"
+        ],
+        answer: 1,
+        explanation: "'pm.response.to.have.status(404);' memverifikasi bahwa kode status respons memang bernilai 404 (Not Found)."
+      },
+      {
+        question: "File apakah yang diekspor dari Postman agar rekan tim lain dapat mengimpor seluruh daftar endpoint dan folder pengujian API Anda?",
+        options: [
+          "Postman Collection (.json)",
+          ".env file",
+          ".sql file",
+          ".pdf dokumentasi"
+        ],
+        answer: 0,
+        explanation: "Koleksi request di Postman diekspor dalam format file JSON standar 'Postman Collection v2.1' yang portabel dan dapat diimpor langsung."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: postmanQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

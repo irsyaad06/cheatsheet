@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Web Security & OWASP Top 10 Cheatsheet - SQL Injection, XSS, CSRF, JWT Security, Kriptografi, Security Headers & Port Scanning untuk Tes Kerja Developer.">
+  <title>Web Security & OWASP Top 10 Cheatsheet - Complete Application Security Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-security">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#dc2626; color:#fff;"><i data-lucide="shield-alert"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">Web Security Cheatsheet</h1>
+            <p class="logo-subtitle">OWASP Top 10, SQLi, XSS, JWT & Security Headers</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari OWASP, SQLi, XSS, JWT, CSP (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#owasp-top10" class="nav-item"><i data-lucide="shield"></i> OWASP Top 10 Overview</a>
+        <a href="#web-attacks" class="nav-item"><i data-lucide="crosshair"></i> SQLi, XSS & CSRF Mitigasi</a>
+        <a href="#jwt-auth" class="nav-item"><i data-lucide="key"></i> JWT & Secure Session Cookies</a>
+        <a href="#security-headers" class="nav-item"><i data-lucide="file-check"></i> HTTP Security Headers (CSP)</a>
+        <a href="#crypto-hashing" class="nav-item"><i data-lucide="lock"></i> Kriptografi: Hashing vs Cipher</a>
+        <a href="#ports-scanning" class="nav-item"><i data-lucide="network"></i> Port Matrix & Nmap Basic</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: OWASP Top 10 -->
+      <section id="owasp-top10" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="shield"></i> OWASP Top 10 Overview</h2>
+          <p class="section-desc">Katalog risiko keamanan aplikasi web terpenting yang wajib dipahami oleh seluruh Software Engineer.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Top 5 Kerentanan Paling Kritis</span>
+              <span class="category-tag">Risk Assessment</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">A01: Broken Access Control:</span> Pengguna bisa mengakses data milik user lain hanya dengan mengganti ID pada URL (IDOR - Insecure Direct Object Reference). Solusi: Cek ownership dan izin otorisasi di server pada setiap request.</div>
+              <div class="param-row"><span class="param-name">A02: Cryptographic Failures:</span> Password disimpan dalam plain-text atau hash usang (MD5/SHA1), atau data sensitif dikirim via HTTP tanpa enkripsi TLS.</div>
+              <div class="param-row"><span class="param-name">A03: Injection:</span> Input pengguna disisipkan langsung ke interpreter SQL/NoSQL/OS tanpa sanitasi (SQL Injection, Command Injection).</div>
+              <div class="param-row"><span class="param-name">A04: Insecure Design:</span> Cacat arsitektur sejak awal desain sistem (misal: fitur lupa password yang tidak membatasi percobaan brute force).</div>
+              <div class="param-row"><span class="param-name">A05: Security Misconfiguration:</span> Port database terbuka untuk internet (0.0.0.0/0), pesan error database lengkap dibocorkan ke browser client, atau kredensial default admin/admin belum diubah.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Web Attacks -->
+      <section id="web-attacks" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="crosshair"></i> SQL Injection, XSS & CSRF</h2>
+          <p class="section-desc">Mekanisme serangan paling sering muncul dalam wawancara kerja developer.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: SQLi -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">SQL Injection (SQLi) & Parameterized Queries</span>
+              <span class="category-tag">Vulnerability</span>
+            </div>
+            <p class="formula-desc">Peretas menyuntikkan perintah SQL jahat ke kolom input pencarian atau form login.</p>
+            <div class="formula-syntax">
+              <code>// VULNERABLE KODE (JANGAN PERNAH GUNAKAN STRING CONCAT!):
+const query = `SELECT * FROM users WHERE email = '${req.body.email}'`;
+// Jika input: ' OR '1'='1' -- -> Peretas bisa login tanpa password!
+
+// SECURE KODE (Prepared Statements / Parameterized Query):
+const query = 'SELECT * FROM users WHERE email = $1';
+await db.query(query, [req.body.email]); // Parameter diperlakukan murni sebagai teks statis</code>
+              <button class="copy-btn" data-clipboard="const query = 'SELECT * FROM users WHERE email = $1';&#10;await db.query(query, [email]);">Copy</button>
+            </div>
+          </div>
+
+          <!-- Card: XSS -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Cross-Site Scripting (XSS)</span>
+              <span class="category-tag">Client-side</span>
+            </div>
+            <p class="formula-desc">Penyusupan skrip JavaScript jahat ke browser korban untuk mencuri cookie sesi atau membajak akun.</p>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Stored XSS:</span> Script jahat disimpan permanen di database (misal pada komentar blog) dan dieksekusi setiap kali user lain membuka halaman.</div>
+              <div class="param-row"><span class="param-name">Reflected XSS:</span> Script jahat disisipkan lewat parameter URL query (<code>?search=&lt;script&gt;...&lt;/script&gt;</code>) dan langsung dipantulkan di respons server.</div>
+              <div class="param-row"><span class="param-name">Mitigasi:</span> Gunakan HTML Entity Encoding (escape karakter &lt;, &gt;, &quot;, &apos;), terapkan header Content-Security-Policy (CSP), dan simpan token sesi pada <code>HttpOnly</code> cookies.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: JWT & Cookies -->
+      <section id="jwt-auth" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="key"></i> JWT Security & Safe Session Cookies</h2>
+          <p class="section-desc">Menyimpan dan memvalidasi identitas pengguna dengan aman di sisi client dan server.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Mengapa JANGAN Simpan Token Sensitif di LocalStorage?</span>
+              <span class="category-tag">Best Practice</span>
+            </div>
+            <p class="formula-desc">Kelemahan fatal LocalStorage dan alternatif cookie yang aman.</p>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Masalah LocalStorage:</span> Dapat dibaca oleh kode JavaScript apa pun di halaman. Jika website terkena sedikit celah XSS, peretas bisa langsung menjalankan <code>localStorage.getItem('token')</code> dan mencuri seluruh sesi!</div>
+              <div class="param-row"><span class="param-name">Solusi Rekomendasi:</span> Simpan Access/Refresh Token di <code>HttpOnly, Secure, SameSite=Lax</code> Cookie. Cookie ini mustahil dibaca oleh JavaScript client-side melalui serangan XSS.</div>
+            </div>
+            <div class="formula-syntax">
+              <code>Set-Cookie: session_id=xyz789; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=86400</code>
+              <button class="copy-btn" data-clipboard="Set-Cookie: session_id=xyz789; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=86400">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Security Headers -->
+      <section id="security-headers" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="file-check"></i> HTTP Security Headers Wajib</h2>
+          <p class="section-desc">Instruksi langsung ke browser untuk mengaktifkan perlindungan bawaan.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">4 Security Headers Paling Penting</span>
+              <span class="category-tag">Hardening</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Content-Security-Policy (CSP):</span> Membatasi domain mana saja yang boleh mengeksekusi script, image, dan koneksi API. Sangat ampuh mencegah serangan XSS.</div>
+              <div class="param-row"><span class="param-name">Strict-Transport-Security (HSTS):</span> Memaksa browser berkomunikasi HANYA melalui HTTPS aman, mencegah serangan SSL Stripping.</div>
+              <div class="param-row"><span class="param-name">X-Frame-Options: DENY:</span> Mencegah website Anda dibungkus ke dalam <code>&lt;iframe&gt;</code> oleh situs lain (mencegah Clickjacking).</div>
+              <div class="param-row"><span class="param-name">X-Content-Type-Options: nosniff:</span> Mencegah browser menebak (MIME-sniffing) tipe file selain dari header Content-Type yang dideklarasikan.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Crypto & Hashing -->
+      <section id="crypto-hashing" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="lock"></i> Kriptografi: Hashing vs Enkripsi</h2>
+          <p class="section-desc">Salah satu pertanyaan jebakan paling populer dalam wawancara kerja teknis.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Hashing vs Enkripsi (Perbedaan Kunci)</span>
+              <span class="category-tag">Theory</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Hashing (Satu Arah):</span> Mengubah data sembarang ukuran menjadi digest berukuran tetap. TIDAK BISA didekripsi kembali. Digunakan untuk verifikasi password (contoh: <code>bcrypt</code>, <code>Argon2id</code>).</div>
+              <div class="param-row"><span class="param-name">Enkripsi (Dua Arah):</span> Mengacak data plaintext menjadi ciphertext menggunakan kunci rahasia. BISA didekripsi kembali dengan kunci yang sesuai (contoh simetris: AES-256; asimetris: RSA).</div>
+              <div class="param-row"><span class="param-name">Salt:</span> String acak unik yang ditambahkan ke password sebelum di-hash untuk menggagalkan serangan Rainbow Table pratebak.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference Port & Perintah Nmap</h2>
+          <p class="section-desc">Daftar port standar industri dan perintah pemindaian keamanan dasar.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Port Standar</th>
+                <th>Protokol / Layanan</th>
+                <th>Keterangan Keamanan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>22</strong></td>
+                <td>SSH (Secure Shell)</td>
+                <td>Nonaktifkan password auth, gunakan SSH Key ed25519</td>
+              </tr>
+              <tr>
+                <td><strong>80 / 443</strong></td>
+                <td>HTTP / HTTPS</td>
+                <td>Wajib redirect port 80 ke 443 (TLS/SSL)</td>
+              </tr>
+              <tr>
+                <td><strong>3306 / 5432</strong></td>
+                <td>MySQL / PostgreSQL</td>
+                <td>JANGAN PERNAH dibuka ke publik (0.0.0.0/0)! Batasi ke VPC private</td>
+              </tr>
+              <tr>
+                <td><strong>6379</strong></td>
+                <td>Redis Cache</td>
+                <td>Banyak dieksploitasi jika tidak diproteksi password dan bind ke 127.0.0.1</td>
+              </tr>
+              <tr>
+                <td><code>nmap -sV -sC &lt;target&gt;</code></td>
+                <td>Nmap Version &amp; Script Scan</td>
+                <td>Mendeteksi banner versi aplikasi dan celah CVE yang diketahui</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes Keamanan Aplikasi Web</h2>
+          <p class="section-desc">12 soal simulasi pemahaman keamanan web standar tech recruitment.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const securityQuizData = [
+      {
+        question: "Langkah pertahanan paling efektif dan standar industri untuk mencegah serangan SQL Injection adalah:",
+        options: [
+          "Menghilangkan spasi pada input pengguna menggunakan fungsi replace()",
+          "Menggunakan Parameterized Queries (Prepared Statements) atau ORM yang aman",
+          "Mengenkripsi database menggunakan algoritma Base64",
+          "Memblokir seluruh alamat IP dari luar negeri"
+        ],
+        answer: 1,
+        explanation: "Parameterized queries (prepared statements) memperlakukan input pengguna murni sebagai data literal terpisah dari instruksi SQL, sehingga perintah SQL tidak dapat dimanipulasi peretas."
+      },
+      {
+        question: "Apa risiko utama menyimpan Access Token autentikasi di dalam LocalStorage browser pengguna?",
+        options: [
+          "LocalStorage otomatis terhapus saat pengguna menutup tab browser",
+          "LocalStorage rentan dicuri oleh serangan Cross-Site Scripting (XSS) karena dapat diakses secara bebas oleh kode JavaScript apa pun",
+          "LocalStorage hanya bisa menampung teks maksimal 10 karakter",
+          "LocalStorage mengirim token secara otomatis di setiap HTTP header"
+        ],
+        answer: 1,
+        explanation: "Setiap skrip berbahaya yang berhasil disuntikkan via XSS dapat membaca isi window.localStorage. Token sensitif sebaiknya disimpan dalam cookie dengan atribut HttpOnly."
+      },
+      {
+        question: "Atribut Cookie manakah yang mencegah kode JavaScript client-side (seperti document.cookie) membaca nilai cookie tersebut?",
+        options: [
+          "Secure",
+          "HttpOnly",
+          "SameSite",
+          "Domain"
+        ],
+        answer: 1,
+        explanation: "Atribut 'HttpOnly' memberitahu browser bahwa cookie tersebut hanya boleh dikirim ke server via HTTP request dan dilarang diakses oleh API JavaScript sisi browser."
+      },
+      {
+        question: "Apa perbedaan paling mendasar antara Hashing dan Enkripsi?",
+        options: [
+          "Enkripsi adalah proses satu arah sedangkan Hashing dua arah",
+          "Hashing adalah proses matematis satu arah (tidak bisa dikembalikan ke teks semula), sedangkan Enkripsi adalah dua arah yang dapat didekripsi menggunakan kunci rahasia",
+          "Hashing hanya dipakai untuk gambar sedangkan Enkripsi untuk teks",
+          "Keduanya memiliki prinsip kerja yang persis sama"
+        ],
+        answer: 1,
+        explanation: "Hash bersifat deterministik satu arah tanpa kunci pembalik (cocok untuk password), sedangkan enkripsi dirancang untuk dapat di-decrypt kembali oleh pemegang kunci yang sah."
+      },
+      {
+        question: "Algoritma manakah yang PALING direkomendasikan saat ini untuk melakukan hashing password pengguna di database backend?",
+        options: [
+          "MD5",
+          "SHA-256 murni tanpa salt",
+          "Argon2id atau bcrypt",
+          "Base64"
+        ],
+        answer: 2,
+        explanation: "Argon2id dan bcrypt dirancang sengaja lambat (compute/memory-hard) dengan salt otomatis sehingga tahan terhadap serangan brute-force GPU dan Rainbow Tables."
+      },
+      {
+        question: "Header keamanan HTTP apa yang digunakan untuk mencegah situs web Anda dibungkus ke dalam <iframe> di situs web lain (Clickjacking)?",
+        options: [
+          "X-Frame-Options: DENY",
+          "X-XSS-Protection: 1",
+          "Access-Control-Allow-Origin: *",
+          "Cache-Control: no-cache"
+        ],
+        answer: 0,
+        explanation: "'X-Frame-Options: DENY' (atau arahan frame-ancestors 'none' pada CSP) melarang browser merender halaman Anda di dalam iframe, frame, embed, atau object milik domain lain."
+      },
+      {
+        question: "Apa fungsi dari header 'Strict-Transport-Security' (HSTS)?",
+        options: [
+          "Memaksa browser untuk selalu berkomunikasi dengan domain tersebut hanya melalui protokol HTTPS yang aman",
+          "Membatasi pengunggahan file gambar berukuran besar",
+          "Mencegah bot crawler Google mengindeks halaman",
+          "Mengizinkan request API lintas domain (CORS)"
+        ],
+        answer: 0,
+        explanation: "HSTS menginstruksikan browser agar secara otomatis mengubah seluruh request HTTP menjadi HTTPS sebelum request dikirimkan ke jaringan, mencegah serangan Man-in-the-Middle SSL-stripping."
+      },
+      {
+        question: "Kerentanan IDOR (Insecure Direct Object Reference) termasuk dalam kategori OWASP Top 10 mana?",
+        options: [
+          "A01: Broken Access Control",
+          "A02: Cryptographic Failures",
+          "A03: Injection",
+          "A09: Security Logging and Monitoring Failures"
+        ],
+        answer: 0,
+        explanation: "IDOR terjadi ketika aplikasi mempercayai ID yang dikirim pengguna tanpa memverifikasi hak akses/otorisasi kepemilikan data di sisi server, yang merupakan bentuk dari Broken Access Control."
+      },
+      {
+        question: "Apa tujuan utama penambahan 'Salt' acak pada password sebelum dilakukan proses hashing?",
+        options: [
+          "Mempercepat waktu komputasi hash di server",
+          "Menggagalkan penggunaan Rainbow Tables (tabel pra-komputasi hash) dan memastikan dua password yang sama menghasilkan hash unik yang berbeda",
+          "Membuat hash dapat didekripsi kembali oleh admin",
+          "Menghemat ruang penyimpanan di tabel database"
+        ],
+        answer: 1,
+        explanation: "Salt memastikan bahwa pengguna dengan password yang sama (misal 'password123') memiliki nilai hash akhir yang sama sekali berbeda di database."
+      },
+      {
+        question: "Perbedaan antara Stored XSS dan Reflected XSS adalah:",
+        options: [
+          "Stored XSS disimpan permanen di server/database, sedangkan Reflected XSS disisipkan melalui URL/input dan langsung dipantulkan di respon seketika",
+          "Reflected XSS hanya terjadi di jaringan lokal WiFi",
+          "Stored XSS tidak berbahaya sama sekali",
+          "Reflected XSS hanya menyerang browser Firefox"
+        ],
+        answer: 0,
+        explanation: "Stored XSS berbahaya karena payload tersimpan di database dan menyerang setiap pengguna yang melihat konten tersebut, sedangkan Reflected XSS membutuhkan korban mengklik link spesifik yang dibuat penyerang."
+      },
+      {
+        question: "Bagaimana atribut cookie 'SameSite=Strict' melindungi pengguna dari serangan Cross-Site Request Forgery (CSRF)?",
+        options: [
+          "Cookie tidak akan pernah dikirimkan pada request yang berasal dari situs domain luar pihak ketiga",
+          "Cookie akan dienkripsi dengan algoritma kuantum",
+          "Cookie hanya berlaku selama 5 detik",
+          "Cookie otomatis menolak metode GET"
+        ],
+        answer: 0,
+        explanation: "SameSite=Strict memastikan browser tidak akan menyertakan cookie tersebut jika pengguna datang dari link atau form di situs domain yang berbeda, mematikan serangan CSRF."
+      },
+      {
+        question: "Port berapakah yang secara standar digunakan oleh database PostgreSQL?",
+        options: [
+          "3306",
+          "5432",
+          "6379",
+          "27017"
+        ],
+        answer: 1,
+        explanation: "PostgreSQL menggunakan port standar 5432 (sedangkan MySQL memakai 3306, Redis memakai 6379, dan MongoDB memakai 27017)."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: securityQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

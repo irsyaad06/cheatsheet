@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TypeScript Cheatsheet - Panduan Lengkap Tipe Data, Generics, Utility Types, Type Narrowing & Konfigurasi tsconfig untuk Tes Kerja & Referensi Cepat.">
+  <title>TypeScript Cheatsheet - Complete Type System & Generics Reference</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-typescript">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#3178c6; color:#fff; font-weight:700;">TS</div>
+          <div class="logo-text">
+            <h1 class="logo-title">TypeScript Cheatsheet</h1>
+            <p class="logo-subtitle">Type System, Generics, Utility Types & tsconfig</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari tipe, generics, utility (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#primitive-types" class="nav-item"><i data-lucide="type"></i> Primitive & Basic Types</a>
+        <a href="#interface-vs-type" class="nav-item"><i data-lucide="layers"></i> Interface vs Type</a>
+        <a href="#generics" class="nav-item"><i data-lucide="code-2"></i> Generics & Constraints</a>
+        <a href="#utility-types" class="nav-item"><i data-lucide="wrench"></i> Utility Types Esensial</a>
+        <a href="#type-narrowing" class="nav-item"><i data-lucide="filter"></i> Type Narrowing & Guards</a>
+        <a href="#advanced-operators" class="nav-item"><i data-lucide="cpu"></i> keyof, typeof & as const</a>
+        <a href="#tsconfig" class="nav-item"><i data-lucide="settings"></i> tsconfig.json Best Practices</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: Primitive & Basic Types -->
+      <section id="primitive-types" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="type"></i> Primitive & Basic Types</h2>
+          <p class="section-desc">Pondasi sistem pengetikan statis TypeScript untuk mendeteksi bug sebelum kode dijalankan di runtime.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: unknown vs any vs never -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">unknown vs any vs never</span>
+              <span class="category-tag">Safety</span>
+            </div>
+            <p class="formula-desc">Perbedaan mendasar tingkat keamanan tipe data penampung di TypeScript.</p>
+            <div class="formula-syntax">
+              <code>let valAny: any = "halo"; valAny.toUpperCase(); // Bebas tapi tidak aman!
+let valUnknown: unknown = "halo"; // Aman, wajib pengecekan tipe sebelum diakses
+if (typeof valUnknown === "string") valUnknown.toUpperCase();
+
+function throwError(msg: string): never { throw new Error(msg); } // Tidak pernah return</code>
+              <button class="copy-btn" data-clipboard="let valUnknown: unknown = 'halo';&#10;if (typeof valUnknown === 'string') {&#10;  console.log(valUnknown.toUpperCase());&#10;}">Copy</button>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">any:</span> Mematikan type checker sama sekali (hindari sebisa mungkin di codebase produksi).</div>
+              <div class="param-row"><span class="param-name">unknown:</span> Type-safe counterpart dari any. Wajib diverifikasi dengan narrowing sebelum dipanggil metodenya.</div>
+              <div class="param-row"><span class="param-name">never:</span> Merepresentasikan nilai yang mustahil ada (fungsi throw error tiada henti, infinite loop, atau exhaustive switch case).</div>
+            </div>
+          </div>
+
+          <!-- Card: Tuple & Union -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Union (|) & Tuple [T, U]</span>
+              <span class="category-tag">Structures</span>
+            </div>
+            <p class="formula-desc">Menggabungkan opsi tipe atau mendefinisikan array dengan panjang dan tipe urutan tetap.</p>
+            <div class="formula-syntax">
+              <code>// Union: Nilai bisa salah satu dari tipe
+type Status = "pending" | "success" | "error";
+type ID = string | number;
+
+// Tuple: Array dengan jumlah dan posisi tipe pasti
+type LatLng = [number, number];
+const coordinates: LatLng = [-6.2088, 106.8456]; // Valid Jakarta coords</code>
+              <button class="copy-btn" data-clipboard="type Status = 'pending' | 'success' | 'error';&#10;type LatLng = [number, number];&#10;const coords: LatLng = [-6.2088, 106.8456];">Copy</button>
+            </div>
+            <div class="card-tips">
+              <strong>Tips:</strong> Gunakan `readonly [number, number]` jika ingin mencegah mutasi array tuple menggunakan metode `.push()`.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Interface vs Type -->
+      <section id="interface-vs-type" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="layers"></i> Interface vs Type Alias</h2>
+          <p class="section-desc">Pertanyaan wawancara paling populer: kapan harus menggunakan <code>interface</code> dan kapan <code>type</code>.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Declaration Merging & Extends</span>
+              <span class="category-tag">Comparison</span>
+            </div>
+            <p class="formula-desc">Aturan praktis: gunakan `interface` untuk blueprint objek/OOP yang dapat diekstensi, dan `type` untuk union, primitives, tuple, atau transformasi.</p>
+            <div class="formula-syntax">
+              <code>// 1. Interface mendukung Declaration Merging (cocok untuk pustaka / plugin)
+interface User { id: string; name: string; }
+interface User { role: "admin" | "member"; } // Otomatis digabung!
+
+// 2. Extends pada Interface vs Intersection (&) pada Type
+interface AdminUser extends User { permissions: string[]; }
+type Employee = { id: number; name: string; } & { salary: number; };</code>
+              <button class="copy-btn" data-clipboard="interface User { id: string; name: string; }&#10;interface User { role: 'admin' | 'member'; } // Declaration merging">Copy</button>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Interface:</span> Hanya untuk mendeskripsikan bentuk Object atau Class. Mendukung declaration merging.</div>
+              <div class="param-row"><span class="param-name">Type:</span> Jauh lebih fleksibel; bisa merepresentasikan union (`A | B`), tuple, fungsi sederhana, dan primitive aliases.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Generics -->
+      <section id="generics" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="code-2"></i> Generics & Type Constraints</h2>
+          <p class="section-desc">Menciptakan komponen reusable yang bekerja dengan berbagai tipe data tanpa kehilangan type safety.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: Generic Function & Constraints -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Generic Function with &lt;T extends Constraint&gt;</span>
+              <span class="category-tag">Reusability</span>
+            </div>
+            <p class="formula-desc">Membatasi parameter tipe generik agar harus memiliki properti tertentu menggunakan klausa `extends`.</p>
+            <div class="formula-syntax">
+              <code>interface HasId { id: string | number; }
+
+function findById<T extends HasId>(items: T[], targetId: string | number): T | undefined {
+  return items.find(item => item.id === targetId);
+}
+
+// Wrapper ApiResponse Generik
+interface ApiResponse<TData> {
+  data: TData;
+  statusCode: number;
+  success: boolean;
+}</code>
+              <button class="copy-btn" data-clipboard="interface HasId { id: string | number; }&#10;function findById<T extends HasId>(items: T[], targetId: string | number): T | undefined {&#10;  return items.find(item => item.id === targetId);&#10;}">Copy</button>
+            </div>
+            <div class="card-tips">
+              <strong>Tips:</strong> Jangan buat fungsi generik jika tipe `T` hanya digunakan di satu tempat saja dalam argumen fungsi tanpa di-return.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Utility Types -->
+      <section id="utility-types" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="wrench"></i> Utility Types Esensial</h2>
+          <p class="section-desc">Utility bawaan TypeScript untuk mentransformasi tipe data yang ada menjadi bentuk baru dengan efisien.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: Partial, Required, Readonly -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Partial, Required & Readonly</span>
+              <span class="category-tag">Modifiers</span>
+            </div>
+            <p class="formula-desc">Mengubah seluruh properti objek menjadi opsional, wajib, atau read-only.</p>
+            <div class="formula-syntax">
+              <code>interface Product { id: number; name: string; price?: number; }
+
+type UpdateProductInput = Partial<Product>;   // Semua properti jadi opsional (?)
+type FullProduct = Required<Product>;         // Semua properti wajib ada
+type ImmutableProduct = Readonly<Product>;   // Properti tidak bisa di-reassign (x.price = 100 Error!)</code>
+              <button class="copy-btn" data-clipboard="type UpdateProductInput = Partial<Product>;&#10;type FullProduct = Required<Product>;&#10;type ImmutableProduct = Readonly<Product>;">Copy</button>
+            </div>
+          </div>
+
+          <!-- Card: Pick, Omit, Record -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Pick&lt;T, K&gt;, Omit&lt;T, K&gt; & Record&lt;K, T&gt;</span>
+              <span class="category-tag">Selection</span>
+            </div>
+            <p class="formula-desc">Memilih subset properti, membuang properti yang tidak diinginkan, atau mendefinisikan dictionary map.</p>
+            <div class="formula-syntax">
+              <code>interface User { id: number; name: string; email: string; passwordHash: string; }
+
+// Ambil hanya name dan email untuk respons public
+type PublicProfile = Pick<User, "name" | "email">;
+
+// Buang passwordHash dari User
+type SafeUser = Omit<User, "passwordHash">;
+
+// Key-Value Dictionary dengan key string tertentu
+type RolePermissions = Record<"admin" | "editor" | "viewer", string[]>;</code>
+              <button class="copy-btn" data-clipboard="type PublicProfile = Pick<User, 'name' | 'email'>;&#10;type SafeUser = Omit<User, 'passwordHash'>;&#10;type RolePermissions = Record<'admin' | 'editor' | 'viewer', string[]>;">Copy</button>
+            </div>
+          </div>
+
+          <!-- Card: Exclude, Extract, ReturnType -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">ReturnType&lt;T&gt; & Exclude&lt;T, U&gt;</span>
+              <span class="category-tag">Inference</span>
+            </div>
+            <p class="formula-desc">Mengekstrak tipe kembalian fungsi atau memfilter anggota union type.</p>
+            <div class="formula-syntax">
+              <code>type EventType = "click" | "hover" | "scroll" | "keydown";
+type MouseEvents = Exclude<EventType, "scroll" | "keydown">; // "click" | "hover"
+
+function createSession() {
+  return { token: "abc-123", expiresAt: new Date(), userId: 42 };
+}
+type Session = ReturnType<typeof createSession>; // { token: string; expiresAt: Date; userId: number; }</code>
+              <button class="copy-btn" data-clipboard="type MouseEvents = Exclude<EventType, 'scroll' | 'keydown'>;&#10;type Session = ReturnType<typeof createSession>;">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Type Narrowing & Guards -->
+      <section id="type-narrowing" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="filter"></i> Type Narrowing & Custom Type Guards</h2>
+          <p class="section-desc">Cara aman menyempitkan tipe union ke tipe spesifik di dalam blok logika kode.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card: Discriminated Unions & is Predicate -->
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Discriminated Unions & 'value is Type'</span>
+              <span class="category-tag">Pattern</span>
+            </div>
+            <p class="formula-desc">Pola standar industri untuk menangani berbagai bentuk state dan mendefinisikan type predicate kustom.</p>
+            <div class="formula-syntax">
+              <code>// Discriminated Union (memiliki properti pembeda literal yang sama: status)
+type ApiState = 
+  | { status: "loading" }
+  | { status: "success"; data: string[] }
+  | { status: "error"; error: Error };
+
+function render(state: ApiState) {
+  if (state.status === "success") {
+    console.log(state.data.length); // TS tahu state memiliki field data!
+  }
+}
+
+// Custom Type Guard menggunakan predikat `is`
+function isString(val: unknown): val is string {
+  return typeof val === "string";
+}</code>
+              <button class="copy-btn" data-clipboard="type ApiState = &#10;  | { status: 'loading' }&#10;  | { status: 'success'; data: string[] }&#10;  | { status: 'error'; error: Error };&#10;&#10;function isString(val: unknown): val is string {&#10;  return typeof val === 'string';&#10;}">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Advanced Operators -->
+      <section id="advanced-operators" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="cpu"></i> keyof, typeof & as const</h2>
+          <p class="section-desc">Operator level lanjut untuk menghasilkan tipe otomatis dari struktur data JavaScript.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">as const & keyof typeof</span>
+              <span class="category-tag">Optimization</span>
+            </div>
+            <p class="formula-desc">Membuat nilai read-only literal object dan mengonversinya menjadi tipe union otomatis tanpa redundant Enum.</p>
+            <div class="formula-syntax">
+              <code>const HTTP_STATUS = {
+  OK: 200,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500,
+} as const; // Semua properti berstatus readonly literal
+
+type HttpStatus = typeof HTTP_STATUS[keyof typeof HTTP_STATUS]; // 200 | 404 | 500
+type StatusKey = keyof typeof HTTP_STATUS; // "OK" | "NOT_FOUND" | "SERVER_ERROR"</code>
+              <button class="copy-btn" data-clipboard="const HTTP_STATUS = { OK: 200, NOT_FOUND: 404 } as const;&#10;type HttpStatus = typeof HTTP_STATUS[keyof typeof HTTP_STATUS];">Copy</button>
+            </div>
+            <div class="card-tips">
+              <strong>Tips Wawancara:</strong> Pola `as const` objek jauh lebih disukai daripada `enum` TypeScript tradisional karena menghasilkan ukuran bundle JS yang jauh lebih ramping dan tree-shakeable.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: tsconfig.json -->
+      <section id="tsconfig" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="settings"></i> tsconfig.json Best Practices</h2>
+          <p class="section-desc">Konfigurasi compiler standar industri untuk proyek enterprise yang aman dan modern.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Enterprise tsconfig.json Setup</span>
+              <span class="category-tag">Configuration</span>
+            </div>
+            <p class="formula-desc">Opsi compiler esensial yang wajib diaktifkan pada proyek produksi.</p>
+            <div class="formula-syntax">
+              <code>{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,                         /* Aktifkan semua pemeriksaan tipe ketat */
+    "noImplicitAny": true,                  /* Tolak variabel tanpa tipe eksplisit */
+    "strictNullChecks": true,              /* Jangan izinkan null/undefined sembarangan */
+    "noUncheckedIndexedAccess": true,      /* Objek array indexing mengembalikan T | undefined */
+    "skipLibCheck": true,                   /* Percepat waktu compile dengan lewati type checking di node_modules */
+    "forceConsistentCasingInFileNames": true
+  }
+}</code>
+              <button class="copy-btn" data-clipboard='{ "compilerOptions": { "strict": true, "noImplicitAny": true, "strictNullChecks": true, "noUncheckedIndexedAccess": true, "skipLibCheck": true } }'>Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference TypeScript</h2>
+          <p class="section-desc">Ringkasan cepat sintaks TypeScript yang sering ditanyakan dalam live coding.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Fitur</th>
+                <th>Sintaks</th>
+                <th>Kegunaan</th>
+                <th>Kapan Digunakan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>unknown</strong></td>
+                <td><code>let x: unknown</code></td>
+                <td>Tipe data apa saja tapi aman</td>
+                <td>Data dari API luar / JSON.parse sebelum divalidasi</td>
+              </tr>
+              <tr>
+                <td><strong>Partial&lt;T&gt;</strong></td>
+                <td><code>Partial&lt;User&gt;</code></td>
+                <td>Ubah seluruh field menjadi opsional</td>
+                <td>Payload endpoint PATCH / form edit parsial</td>
+              </tr>
+              <tr>
+                <td><strong>Omit&lt;T, K&gt;</strong></td>
+                <td><code>Omit&lt;User, "password"&gt;</code></td>
+                <td>Hapus properti tertentu dari objek</td>
+                <td>Sanitasi data respons sebelum dikirim ke client</td>
+              </tr>
+              <tr>
+                <td><strong>Pick&lt;T, K&gt;</strong></td>
+                <td><code>Pick&lt;User, "id" | "name"&gt;</code></td>
+                <td>Ambil subset properti saja</td>
+                <td>Komponen dropdown / kartu ringkas</td>
+              </tr>
+              <tr>
+                <td><strong>Record&lt;K, T&gt;</strong></td>
+                <td><code>Record&lt;string, number&gt;</code></td>
+                <td>Objek dictionary Key & Value</td>
+                <td>Map kamus terstruktur dan caching</td>
+              </tr>
+              <tr>
+                <td><strong>as const</strong></td>
+                <td><code>[1, 2] as const</code></td>
+                <td>Freeze nilai menjadi readonly literal</td>
+                <td>Menggantikan Enum tanpa bloat JS bundle</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 9: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes Teknis TypeScript</h2>
+          <p class="section-desc">Uji pemahaman Anda dengan 12 soal pilihan ganda standar wawancara kerja developer.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const typescriptQuizData = [
+      {
+        question: "Apa perbedaan paling mendasar antara tipe 'any' dan 'unknown' di TypeScript?",
+        options: [
+          "'unknown' mengizinkan pemanggilan metode apapun secara bebas, sedangkan 'any' melarangnya",
+          "'any' menonaktifkan type checking sama sekali, sedangkan 'unknown' mengharuskan pengecekan tipe (narrowing) sebelum nilainya digunakan",
+          "'unknown' hanya bisa menerima tipe string dan number",
+          "Keduanya identik dan hanya perbedaan alias nama saja"
+        ],
+        answer: 1,
+        explanation: "'any' menonaktifkan type safety, sedangkan 'unknown' adalah versi type-safe dari any yang mewajibkan developer melakukan type check (misal dengan typeof atau instanceof) sebelum propertinya dapat diakses."
+      },
+      {
+        question: "Utility type manakah yang digunakan untuk membuat semua properti dari suatu Interface menjadi opsional (?)?",
+        options: [
+          "Required<T>",
+          "Partial<T>",
+          "Omit<T>",
+          "Readonly<T>"
+        ],
+        answer: 1,
+        explanation: "Partial<T> mengubah seluruh properti pada tipe T menjadi opsional (diberi tanda ?), sangat berguna untuk fungsi pembaruan sebagian (misalnya HTTP PATCH)."
+      },
+      {
+        question: "Bagaimana cara mendefinisikan Custom Type Guard di TypeScript agar compiler mengenali tipe variabel?",
+        options: [
+          "function isUser(x: any): boolean",
+          "function isUser(x: any): x is User",
+          "function isUser(x: any): User",
+          "function isUser(x: any): asserts User"
+        ],
+        answer: 1,
+        explanation: "Sintaks 'x is User' disebut Type Predicate. Jika fungsi mengembalikan true, TypeScript akan memperlakukan variabel x sebagai tipe User di dalam blok kondisional tersebut."
+      },
+      {
+        question: "Apa fungsi dari keyword 'as const' pada deklarasi array atau objek JavaScript?",
+        options: [
+          "Mengonversi variabel menjadi tipe primitif boolean",
+          "Mengunci tipe nilai menjadi tipe literal yang bersifat readonly (tidak bisa dimutasi)",
+          "Membuat variabel otomatis tersimpan di LocalStorage",
+          "Membuat fungsi menjadi asynchronous"
+        ],
+        answer: 1,
+        explanation: "'as const' memberitahu TypeScript untuk menyimpulkan tipe secara literal dan menetapkan status readonly secara rekursif ke seluruh properti objek atau elemen array."
+      },
+      {
+        question: "Manakah utility type yang digunakan untuk mengambil tipe kembalian (return value) dari sebuah fungsi?",
+        options: [
+          "Parameters<T>",
+          "ReturnType<T>",
+          "InstanceType<T>",
+          "ConstructorParameters<T>"
+        ],
+        answer: 1,
+        explanation: "ReturnType<typeof fn> mengekstrak tipe yang dikembalikan oleh fungsi 'fn'."
+      },
+      {
+        question: "Apa kegunaan dari tipe 'never' dalam switch-case TypeScript?",
+        options: [
+          "Untuk menangani nilai null dan undefined",
+          "Untuk melakukan Exhaustive Checking (memastikan seluruh kemungkinan nilai union telah ditangani)",
+          "Untuk menghentikan eksekusi thread JavaScript di browser",
+          "Untuk mengimpor modul secara dinamis"
+        ],
+        answer: 1,
+        explanation: "Dengan menetapkan 'const _exhaustiveCheck: never = value;' pada blok default switch, TypeScript akan memunculkan compile error jika ada varian union yang terlewat belum ditangani."
+      },
+      {
+        question: "Apa perbedaan utama antara 'interface' dan 'type' terkait deklarasi ulang nama yang sama?",
+        options: [
+          "'type' otomatis melakukan declaration merging, 'interface' menghasilkan syntax error",
+          "'interface' mendukung declaration merging (penggabungan definisi), sedangkan 'type' akan menimbulkan error duplicate identifier",
+          "Keduanya tidak boleh dideklarasikan ulang dengan nama yang sama",
+          "'interface' hanya bisa digunakan di file .d.ts"
+        ],
+        answer: 1,
+        explanation: "Dua interface dengan nama yang sama di scope yang sama akan otomatis digabung (Declaration Merging). Pada type alias, mendefinisikan ulang nama yang sama akan memicu compile error."
+      },
+      {
+        question: "Jika Anda memiliki interface User { id: number; name: string; email: string; password: string; }, cara terbaik membuat tipe tanpa properti 'password' adalah:",
+        options: [
+          "Pick<User, 'password'>",
+          "Omit<User, 'password'>",
+          "Exclude<User, 'password'>",
+          "Delete<User, 'password'>"
+        ],
+        answer: 1,
+        explanation: "Omit<User, 'password'> membuat tipe baru dari User dengan menghilangkan properti 'password'."
+      },
+      {
+        question: "Apa output tipe dari operasi: type Keys = keyof { id: number; title: string };?",
+        options: [
+          "string | number",
+          "'id' | 'title'",
+          "[number, string]",
+          "Array<'id' | 'title'>"
+        ],
+        answer: 1,
+        explanation: "Operator 'keyof' menghasilkan union tipe literal dari nama-nama kunci properti objek, yaitu 'id' | 'title'."
+      },
+      {
+        question: "Opsi tsconfig.json manakah yang mencegah variabel memiliki tipe 'any' implisit ketika tipenya tidak ditentukan?",
+        options: [
+          "noUnusedLocals",
+          "noImplicitAny",
+          "strictNullChecks",
+          "allowJs"
+        ],
+        answer: 1,
+        explanation: "'noImplicitAny: true' mewajibkan developer untuk secara eksplisit memberikan tipe data ketika TypeScript tidak dapat menyimpulkannya secara otomatis."
+      },
+      {
+        question: "Bagaimana cara membatasi Generik T agar hanya menerima tipe yang memiliki properti 'length: number'?",
+        options: [
+          "function count<T: { length: number }>(arg: T)",
+          "function count<T extends { length: number }>(arg: T)",
+          "function count<T implements { length: number }>(arg: T)",
+          "function count<T in { length: number }>(arg: T)"
+        ],
+        answer: 1,
+        explanation: "Klausa 'T extends { length: number }' adalah Generic Constraint yang membatasi parameter T hanya pada tipe yang memenuhi kontrak tersebut (seperti string, Array, dll)."
+      },
+      {
+        question: "Apa kegunaan dari operator Nullish Coalescing (??) dibandingkan OR (||)?",
+        options: [
+          "?? hanya mengembalikan nilai fallback jika operand kiri adalah null atau undefined (angka 0 dan string kosong '' tetap valid)",
+          "?? mengonversi operand kiri menjadi boolean secara paksa",
+          "|| lebih ketat dalam memeriksa nilai undefined daripada ??",
+          "?? hanya bisa digunakan untuk array dan objek"
+        ],
+        answer: 0,
+        explanation: "Operator ?? hanya menganggap null atau undefined sebagai nilai kosong, sehingga angka 0 atau string '' tidak akan sengaja tertimpa nilai default seperti pada operator ||."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: typescriptQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

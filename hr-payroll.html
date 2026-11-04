@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HR, Payroll & Ketenagakerjaan Cheatsheet - Rumus PPh 21 TER PP 58/2023, BPJS Kesehatan & Ketenagakerjaan, Upah Lembur PP 35/2021, Pesangon & Metrik KPI HR.">
+  <title>HR & Payroll Cheatsheet - Complete PPh 21 TER, BPJS & UU Ketenagakerjaan Reference</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-hr">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#db2777; color:#fff;"><i data-lucide="users"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">HR & Payroll Cheatsheet</h1>
+            <p class="logo-subtitle">PPh 21 TER, BPJS, Upah Lembur & Hukum Tenaga Kerja</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari PPh 21, BPJS, lembur 1/173, pesangon, turnover (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#pph21-ter" class="nav-item"><i data-lucide="receipt"></i> PPh 21 Skema TER Terbaru</a>
+        <a href="#bpjs-tk-kes" class="nav-item"><i data-lucide="shield-check"></i> BPJS TK & BPJS Kesehatan</a>
+        <a href="#lembur-pp35" class="nav-item"><i data-lucide="clock"></i> Rumus Lembur PP 35/2021</a>
+        <a href="#pesangon-upmk" class="nav-item"><i data-lucide="briefcase"></i> Pesangon & UPMK Karyawan</a>
+        <a href="#hr-kpis" class="nav-item"><i data-lucide="trending-up"></i> Metrik & Formula KPI HR</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: PPh 21 TER -->
+      <section id="pph21-ter" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="receipt"></i> PPh 21 Skema TER (Tarif Efektif Rata-Rata)</h2>
+          <p class="section-desc">Aturan resmi pemerintah (PP 58/2023 & PMK 168/2023) yang menyederhanakan pemotongan pajak bulanan Jan-Nov.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Mekanisme TER Bulanan & Masa Pajak Terakhir</span>
+              <span class="category-tag">Regulasi Pajak</span>
+            </div>
+            <p class="formula-desc">Bulan Januari hingga November menggunakan rumus cepat TER dikali penghasilan bruto sebulan.</p>
+            <div class="formula-syntax">
+              <code>// Rumus Pajak Bulanan (Januari - November):
+PPh 21 Per Bulan = Penghasilan Bruto Sebulan × Tarif Efektif Bulanan (TER)
+
+// Kategori TER berdasarkan Status PTKP:
+TER Kategori A: TK/0 (PTKP 54 jt), TK/1 (PTKP 58.5 jt), K/0 (PTKP 58.5 jt)
+TER Kategori B: TK/2, TK/3, K/1, K/2
+TER Kategori C: K/3 (PTKP 72 jt)
+
+// Bulan Desember (Perhitungan Rekonsiliasi Tahunan):
+PPh 21 Desember = PPh 21 Setahun (Tarif Pasal 17) - Total PPh 21 TER (Jan s.d. Nov)</code>
+              <button class="copy-btn" data-clipboard="PPh 21 Bulan Jan-Nov = Penghasilan Bruto × Tarif TER;&#10;PPh 21 Desember = PPh 21 Setahun (Pasal 17) - Total PPh TER Terpotong;">Copy</button>
+            </div>
+            <div class="card-tips">
+              <strong>Tips Penting:</strong> Skema TER TIDAK menambah beban pajak tahunan karyawan, melainkan hanya meratakan potongan per bulan agar tidak rumit menghitung biaya jabatan berulang-ulang tiap bulan.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: BPJS TK & Kesehatan -->
+      <section id="bpjs-tk-kes" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="shield-check"></i> BPJS Ketenagakerjaan & BPJS Kesehatan</h2>
+          <p class="section-desc">Komposisi persentase iuran wajib pemberi kerja (perusahaan) dan pekerja (karyawan).</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Matriks Persentase Iuran BPJS Indonesia</span>
+              <span class="category-tag">Payroll Breakdown</span>
+            </div>
+            <div class="table-responsive">
+              <table class="quick-ref-table">
+                <thead>
+                  <tr>
+                    <th>Program BPJS</th>
+                    <th>Ditanggung Perusahaan</th>
+                    <th>Dipotong Karyawan</th>
+                    <th>Keterangan Plafon / Catatan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>BPJS Kesehatan</strong></td>
+                    <td><strong>4.0%</strong></td>
+                    <td><strong>1.0%</strong></td>
+                    <td>Plafon upah maksimal Rp 12.000.000/bulan</td>
+                  </tr>
+                  <tr>
+                    <td><strong>JHT (Hari Tua)</strong></td>
+                    <td><strong>3.7%</strong></td>
+                    <td><strong>2.0%</strong></td>
+                    <td>Dari total upah (tanpa plafon maksimal)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>JP (Pensiun)</strong></td>
+                    <td><strong>2.0%</strong></td>
+                    <td><strong>1.0%</strong></td>
+                    <td>Ada plafon upah berkala (sekitar Rp 10 jt-an)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>JKK (Kecelakaan Kerja)</strong></td>
+                    <td><strong>0.24% - 1.74%</strong></td>
+                    <td><strong>0%</strong></td>
+                    <td>Tergantung tingkat risiko industri tempat kerja</td>
+                  </tr>
+                  <tr>
+                    <td><strong>JKM (Kematian)</strong></td>
+                    <td><strong>0.30%</strong></td>
+                    <td><strong>0%</strong></td>
+                    <td>100% ditanggung oleh pemberi kerja</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Lembur PP 35/2021 -->
+      <section id="lembur-pp35" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="clock"></i> Rumus Perhitungan Upah Lembur (PP 35/2021)</h2>
+          <p class="section-desc">Standar perhitungan upah kerja lembur sesuai peraturan turunan UU Cipta Kerja.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Dasar Upah Lembur Per Jam: 1/173 × Upah Sebulan</span>
+              <span class="category-tag">Overtime Formula</span>
+            </div>
+            <div class="formula-syntax">
+              <code>Upah Sejam Lembur = (1 / 173) × (Gaji Pokok + Tunjangan Tetap)
+
+// KETENTUAN PENGALI (HARI KERJA BIASA):
+- Jam Pertama Lembur: 1.5 × Upah Sejam
+- Jam Kedua & Seterusnya: 2.0 × Upah Sejam
+
+// CONTOH KASUS:
+Karyawan bergaji Rp 5.190.000 (Upah sejam = 5.190.000 / 173 = Rp 30.000).
+Jika lembur 3 jam pada hari kerja:
+- Jam 1: 1.5 × 30.000 = Rp 45.000
+- Jam 2: 2.0 × 30.000 = Rp 60.000
+- Jam 3: 2.0 × 30.000 = Rp 60.000
+Total Upah Lembur = 45.000 + 60.000 + 60.000 = Rp 165.000</code>
+              <button class="copy-btn" data-clipboard="Upah Sejam = (1 / 173) * UpahBulanan;&#10;Jam1 = 1.5 * UpahSejam;&#10;Jam2dst = 2.0 * UpahSejam;">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Pesangon & UPMK -->
+      <section id="pesangon-upmk" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="briefcase"></i> Pesangon & Uang Penghargaan Masa Kerja (UPMK)</h2>
+          <p class="section-desc">Hak kompensasi pemutusan hubungan kerja (PHK) berdasarkan masa kerja.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Tabel Hak UPMK Sesuai Masa Kerja (PP 35/2021)</span>
+              <span class="category-tag">Termination Rights</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">3 th &le; Kerja &lt; 6 th:</span> 2 bulan upah.</div>
+              <div class="param-row"><span class="param-name">6 th &le; Kerja &lt; 9 th:</span> 3 bulan upah.</div>
+              <div class="param-row"><span class="param-name">9 th &le; Kerja &lt; 12 th:</span> 4 bulan upah.</div>
+              <div class="param-row"><span class="param-name">12 th &le; Kerja &lt; 15 th:</span> 5 bulan upah.</div>
+              <div class="param-row"><span class="param-name">24 tahun atau lebih:</span> 10 bulan upah (Maksimum UPMK).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: HR KPIs -->
+      <section id="hr-kpis" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="trending-up"></i> Metrik Kunci & KPI Human Resources</h2>
+          <p class="section-desc">Formula analitik HR untuk mengukur efisiensi perekrutan dan retensi karyawan.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Rumus Turnover Rate & Time to Fill</span>
+              <span class="category-tag">HR Analytics</span>
+            </div>
+            <div class="formula-syntax">
+              <code>// Employee Turnover Rate:
+Turnover (%) = (Jumlah Karyawan Resign / Rata-rata Jumlah Karyawan Periode) × 100%
+
+// Absenteeism Rate:
+Tingkat Absensi (%) = (Total Hari Mangkir / Total Hari Kerja yang Seharusnya) × 100%
+
+// Cost per Hire (Biaya per Perekrutan):
+CPH = (Total Biaya Rekrutmen Internal + Biaya Eksternal) / Total Karyawan Diterima</code>
+              <button class="copy-btn" data-clipboard="TurnoverRate = (ResignedEmployees / AvgEmployees) * 100;&#10;Absenteeism = (AbsentDays / TotalWorkDays) * 100;">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference Payroll Indonesia</h2>
+          <p class="section-desc">Daftar konstanta dan angka kunci penggajian Indonesia.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Komponen</th>
+                <th>Nilai Acuan</th>
+                <th>Dasar Hukum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Pembagi Upah Lembur</strong></td>
+                <td><code>1 / 173</code> dari upah sebulan</td>
+                <td>PP No. 35 Tahun 2021</td>
+              </tr>
+              <tr>
+                <td><strong>Gaji Pokok Minimum</strong></td>
+                <td>Minimal <strong>75%</strong> dari total Gaji Pokok + Tunjangan Tetap</td>
+                <td>UU Ketenagakerjaan No. 13/2003</td>
+              </tr>
+              <tr>
+                <td><strong>PTKP Wajib Pajak Pribadi</strong></td>
+                <td><strong>Rp 54.000.000</strong> per tahun (TK/0)</td>
+                <td>UU HPP No. 7 Tahun 2021</td>
+              </tr>
+              <tr>
+                <td><strong>Biaya Jabatan Maksimum</strong></td>
+                <td>5% dari bruto (Maksimal <strong>Rp 500.000/bulan</strong> atau Rp 6.000.000/th)</td>
+                <td>PMK 168/2023</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes HR & Payroll</h2>
+          <p class="section-desc">12 soal simulasi pemahaman payroll, perpajakan PPh 21, dan hukum perburuhan.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const hrQuizData = [
+      {
+        question: "Berdasarkan PP No. 35 Tahun 2021, berapakah angka pembagi standar untuk menghitung upah lembur per jam dari total upah bulanan karyawan?",
+        options: [
+          "1 / 160",
+          "1 / 173",
+          "1 / 180",
+          "1 / 200"
+        ],
+        answer: 1,
+        explanation: "Angka 1/173 berasal dari rata-rata jam kerja normal dalam satu bulan (52 minggu / 12 bulan × 40 jam per minggu = 173.33 jam)."
+      },
+      {
+        question: "Jika seorang karyawan melakukan kerja lembur selama 2 jam pada hari kerja biasa, berapakah total pengali upah lembur yang diterimanya?",
+        options: [
+          "2.0x upah per jam",
+          "3.0x upah per jam",
+          "3.5x upah per jam (1.5x jam pertama + 2.0x jam kedua)",
+          "4.0x upah per jam"
+        ],
+        answer: 2,
+        explanation: "Ketentuan hari kerja biasa: Jam pertama dikalikan 1.5x dan jam kedua dikalikan 2x, sehingga total pengali adalah 1.5 + 2.0 = 3.5 kali upah sejam."
+      },
+      {
+        question: "Berapa persentase iuran BPJS Kesehatan yang dipotong langsung dari gaji bulanan karyawan?",
+        options: [
+          "1.0%",
+          "2.0%",
+          "4.0%",
+          "5.0%"
+        ],
+        answer: 0,
+        explanation: "Total iuran BPJS Kesehatan adalah 5%, di mana 4% dibayarkan oleh pemberi kerja (perusahaan) dan 1% dipotong dari penghasilan pekerja (karyawan)."
+      },
+      {
+        question: "Kategori TER manakah pada skema PPh 21 terbaru (PP 58/2023) yang diperuntukkan bagi Wajib Pajak berstatus Belum Menikah tanpa tanggungan (TK/0)?",
+        options: [
+          "TER Kategori A",
+          "TER Kategori B",
+          "TER Kategori C",
+          "TER Khusus Final"
+        ],
+        answer: 0,
+        explanation: "TER Kategori A mencakup karyawan dengan status PTKP TK/0 (PTKP Rp 54 juta), TK/1 (PTKP Rp 58.5 juta), dan K/0 (PTKP Rp 58.5 juta)."
+      },
+      {
+        question: "Berapa persentase iuran BPJS Ketenagakerjaan untuk program Jaminan Hari Tua (JHT) yang ditanggung oleh perusahaan dan karyawan?",
+        options: [
+          "Perusahaan 3.7% dan Karyawan 2.0%",
+          "Perusahaan 2.0% dan Karyawan 3.7%",
+          "Perusahaan 1.0% dan Karyawan 2.0%",
+          "Masing-masing 2.5%"
+        ],
+        answer: 0,
+        explanation: "Total iuran JHT adalah 5.7% dari upah, dengan pembagian 3.7% dibayarkan perusahaan dan 2.0% dipotong dari gaji karyawan."
+      },
+      {
+        question: "Menurut UU Ketenagakerjaan No. 13/2003, jika upah karyawan terdiri dari gaji pokok dan tunjangan tetap, berapa porsi minimal gaji pokok?",
+        options: [
+          "50% dari total upah",
+          "60% dari total upah",
+          "75% dari total upah",
+          "85% dari total upah"
+        ],
+        answer: 2,
+        explanation: "Pasal 94 UU No. 13/2003 mengatur bahwa besarnya gaji pokok sedikit-dikitnya adalah 75% dari jumlah upah pokok dan tunjangan tetap."
+      },
+      {
+        question: "Berapakah batas nominal maksimal pengurang Biaya Jabatan per bulan dalam perhitungan PPh 21 terbaru (PMK 168/2023)?",
+        options: [
+          "Rp 200.000",
+          "Rp 500.000",
+          "Rp 1.000.000",
+          "Rp 1.500.000"
+        ],
+        answer: 1,
+        explanation: "Biaya jabatan dihitung 5% dari penghasilan bruto dengan batasan tertinggi Rp 500.000 sebulan atau Rp 6.000.000 setahun."
+      },
+      {
+        question: "Rumus perhitungan Employee Turnover Rate tahunan adalah:",
+        options: [
+          "(Jumlah Karyawan Baru / Jumlah Karyawan Lama) × 100%",
+          "(Jumlah Karyawan yang Berhenti / Rata-rata Total Karyawan Periode) × 100%",
+          "(Total Gaji Dibayar / Jumlah Karyawan) × 100%",
+          "(Total Hari Lembur / Total Hari Kerja) × 100%"
+        ],
+        answer: 1,
+        explanation: "Turnover dihitung dari rasio jumlah karyawan yang keluar (resign/PHK) dibagi rata-rata total karyawan pada periode tersebut dikali 100%."
+      },
+      {
+        question: "Dua program BPJS Ketenagakerjaan manakah yang iurannya 100% DITANGGUNG oleh perusahaan tanpa memotong gaji karyawan sama sekali?",
+        options: [
+          "Jaminan Hari Tua (JHT) dan Jaminan Pensiun (JP)",
+          "Jaminan Kecelakaan Kerja (JKK) dan Jaminan Kematian (JKM)",
+          "BPJS Kesehatan dan JHT",
+          "Jaminan Kehilangan Pekerjaan (JKP) dan JP"
+        ],
+        answer: 1,
+        explanation: "Iuran JKK (0.24%-1.74%) dan JKM (0.30%) sepenuhnya wajib dibayarkan oleh pemberi kerja sebagai bagian dari perlindungan risiko kerja karyawan."
+      },
+      {
+        question: "Kapan rekonsiliasi selisih kurang atau lebih bayar PPh 21 skema TER dilakukan oleh bagian payroll perusahaan?",
+        options: [
+          "Setiap akhir kuartal (Maret, Juni, September)",
+          "Pada masa pajak terakhir (Bulan Desember)",
+          "Setiap tanggal 1 awal bulan berikutnya",
+          "Tidak perlu direkonsiliasi karena tarif TER sudah final"
+        ],
+        answer: 1,
+        explanation: "Pada bulan Desember, payroll menghitung ulang seluruh pajak setahun menggunakan tarif progresif Pasal 17 UU PPh, kemudian dikurangi dengan total PPh TER yang sudah dipotong dari Januari s.d. November."
+      },
+      {
+        question: "Jika masa kerja seorang karyawan yang terkena PHK efisien adalah 7 tahun, berapa bulan upah hak Uang Penghargaan Masa Kerja (UPMK) yang diperolehnya?",
+        options: [
+          "2 bulan upah",
+          "3 bulan upah",
+          "4 bulan upah",
+          "5 bulan upah"
+        ],
+        answer: 1,
+        explanation: "Berdasarkan PP 35/2021, masa kerja 6 tahun atau lebih tetapi kurang dari 9 tahun berhak mendapatkan 3 bulan upah untuk komponen UPMK."
+      },
+      {
+        question: "Metrik HR 'Time to Fill' mengukur:",
+        options: [
+          "Berapa jam karyawan lembur dalam seminggu",
+          "Jumlah hari yang dibutuhkan sejak lowongan pekerjaan dibuka hingga penawaran kerja (job offer) diterima oleh kandidat",
+          "Waktu yang dibutuhkan karyawan mengisi formulir klaim BPJS",
+          "Waktu istirahat makan siang karyawan di kantor"
+        ],
+        answer: 1,
+        explanation: "'Time to Fill' mengukur efisiensi proses rekrutmen dari tanggal permintaan posisi kerja diajukan hingga posisi tersebut terisi oleh kandidat terpilih."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: hrQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

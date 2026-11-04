@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Computer Networking & Subnetting Cheatsheet - OSI Layer, Subnetting CIDR, TCP vs UDP 3-Way Handshake, DNS Records & Diagnostic CLI untuk Tes Kerja IT Network Engineer.">
+  <title>Networking & Subnetting Cheatsheet - Complete OSI, CIDR & Network Tools Reference</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-networking">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#0284c7; color:#fff;"><i data-lucide="network"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">Networking & Subnetting</h1>
+            <p class="logo-subtitle">OSI 7 Layer, CIDR, TCP/UDP & Diagnostik CLI</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari CIDR, subnet, OSI, DNS, ping, traceroute (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#osi-model" class="nav-item"><i data-lucide="layers"></i> Model OSI 7 Layer vs TCP/IP</a>
+        <a href="#subnetting-cidr" class="nav-item"><i data-lucide="calculator"></i> Subnetting & Notasi CIDR</a>
+        <a href="#private-ip" class="nav-item"><i data-lucide="shield"></i> Rentang IP Privat (RFC 1918)</a>
+        <a href="#tcp-udp" class="nav-item"><i data-lucide="radio"></i> TCP vs UDP & Handshake</a>
+        <a href="#dns-records" class="nav-item"><i data-lucide="globe"></i> DNS Resolution & Tipe Record</a>
+        <a href="#diagnostic-cli" class="nav-item"><i data-lucide="terminal"></i> Diagnostic Tools (ping, traceroute)</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: OSI Model -->
+      <section id="osi-model" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="layers"></i> Model OSI 7 Layer vs Model TCP/IP</h2>
+          <p class="section-desc">Kerangka teoritis konseptual transmisi data melalui jaringan komputer.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">7 Lapisan Model OSI (Urutan dari Atas ke Bawah)</span>
+              <span class="category-tag">Fundamentals</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">7. Application:</span> Interaksi antarmuka pengguna (HTTP, HTTPS, FTP, DNS, SMTP).</div>
+              <div class="param-row"><span class="param-name">6. Presentation:</span> Translasi format data, kompresi, dan enkripsi (TLS, SSL, JPEG, ASCII).</div>
+              <div class="param-row"><span class="param-name">5. Session:</span> Manajemen inisiasi, pemeliharaan, dan terminasi sesi koneksi antar aplikasi.</div>
+              <div class="param-row"><span class="param-name">4. Transport:</span> Pengiriman data end-to-end dengan segmentasi dan flow control (TCP, UDP). Unit: <strong>Segment</strong>.</div>
+              <div class="param-row"><span class="param-name">3. Network:</span> Pengalamatan logis (IP Address) dan perutean (Routing) antar jaringan. Unit: <strong>Packet</strong> (Router).</div>
+              <div class="param-row"><span class="param-name">2. Data Link:</span> Pengalamatan fisik (MAC Address) dan deteksi error di jaringan lokal. Unit: <strong>Frame</strong> (Switch).</div>
+              <div class="param-row"><span class="param-name">1. Physical:</span> Transmisi sinyal biner mentah melalui media fisik (kabel fiber, tembaga UTP, radio WiFi). Unit: <strong>Bits</strong>.</div>
+            </div>
+            <div class="card-tips">
+              <strong>Jembatan Keledai Populer:</strong> <em>"<strong>A</strong>ll <strong>P</strong>eople <strong>S</strong>eem <strong>T</strong>o <strong>N</strong>eed <strong>D</strong>ata <strong>P</strong>rocessing"</em> (7 &rarr; 1).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Subnetting & CIDR -->
+      <section id="subnetting-cidr" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="calculator"></i> Subnetting & Notasi CIDR</h2>
+          <p class="section-desc">Rumus menghitung jumlah host yang dapat digunakan dan menentukan Network & Broadcast IP.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Rumus Jumlah Usable Host: 2^(32 - Prefix) - 2</span>
+              <span class="category-tag">Calculation</span>
+            </div>
+            <p class="formula-desc">Mengapa dikurangi 2? Karena 1 alamat dicadangkan untuk Network ID (alamat pertama) dan 1 untuk Broadcast (alamat terakhir).</p>
+            <div class="table-responsive">
+              <table class="quick-ref-table">
+                <thead>
+                  <tr>
+                    <th>Prefix CIDR</th>
+                    <th>Subnet Mask</th>
+                    <th>Total IP</th>
+                    <th>Usable Hosts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>/24</code></td>
+                    <td>255.255.255.0</td>
+                    <td>256</td>
+                    <td><strong>254</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>/25</code></td>
+                    <td>255.255.255.128</td>
+                    <td>128</td>
+                    <td><strong>126</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>/26</code></td>
+                    <td>255.255.255.192</td>
+                    <td>64</td>
+                    <td><strong>62</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>/27</code></td>
+                    <td>255.255.255.224</td>
+                    <td>32</td>
+                    <td><strong>30</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>/28</code></td>
+                    <td>255.255.255.240</td>
+                    <td>16</td>
+                    <td><strong>14</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>/30</code></td>
+                    <td>255.255.255.252</td>
+                    <td>4</td>
+                    <td><strong>2</strong> (Point-to-Point Link)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Private IP Ranges -->
+      <section id="private-ip" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="shield"></i> Rentang IP Privat (RFC 1918)</h2>
+          <p class="section-desc">Alamat IP lokal yang tidak dirutekan ke internet publik dan membutuhkan NAT untuk keluar.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">3 Kelas IP Privat Standar Dunia</span>
+              <span class="category-tag">Standards</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Kelas A:</span> <code>10.0.0.0</code> s/d <code>10.255.255.255</code> (Prefix: <code>10.0.0.0/8</code> - 16 juta host untuk enterprise besar).</div>
+              <div class="param-row"><span class="param-name">Kelas B:</span> <code>172.16.0.0</code> s/d <code>172.31.255.255</code> (Prefix: <code>172.16.0.0/12</code> - 1 juta host).</div>
+              <div class="param-row"><span class="param-name">Kelas C:</span> <code>192.168.0.0</code> s/d <code>192.168.255.255</code> (Prefix: <code>192.168.0.0/16</code> - jaringan rumah & kantor kecil).</div>
+              <div class="param-row"><span class="param-name">Loopback (Localhost):</span> <code>127.0.0.1</code> s/d <code>127.255.255.255</code> (Traffic tidak keluar kartu NIC).</div>
+              <div class="param-row"><span class="param-name">APIPA (Link-Local):</span> <code>169.254.0.0/16</code> (Otomatis dipakai jika perangkat gagal mendapatkan IP dari server DHCP).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: TCP vs UDP -->
+      <section id="tcp-udp" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="radio"></i> TCP vs UDP & 3-Way Handshake</h2>
+          <p class="section-desc">Perbandingan dua protokol transport layer yang menggerakkan internet.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">TCP 3-Way Handshake & Karakteristik</span>
+              <span class="category-tag">Protocols</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Tahap 1:</span> Client mengirim paket flag <strong>SYN</strong> (Synchronize).</div>
+              <div class="param-row"><span class="param-name">Tahap 2:</span> Server membalas paket <strong>SYN-ACK</strong> (Synchronize & Acknowledge).</div>
+              <div class="param-row"><span class="param-name">Tahap 3:</span> Client membalas paket <strong>ACK</strong> (Acknowledge) &rarr; Koneksi resmi terjalin (Established).</div>
+              <div class="param-row"><span class="param-name">TCP:</span> Reliable, connection-oriented, ada penomoran paket (sequencing), retransmisi jika paket hilang (cocok untuk Web, Email, File transfer).</div>
+              <div class="param-row"><span class="param-name">UDP:</span> Fast, connectionless, tidak ada retransmisi atau overhead handshake (cocok untuk Video Streaming, Voice VoIP, Online Gaming, DNS queries).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Diagnostic Tools -->
+      <section id="diagnostic-cli" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="terminal"></i> Network Diagnostic CLI Tools</h2>
+          <p class="section-desc">Perintah terminal esensial untuk memeriksa konektivitas dan routing.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Perintah Troubleshooting Jaringan</span>
+              <span class="category-tag">CLI</span>
+            </div>
+            <div class="formula-syntax">
+              <code># Uji konektivitas dan latency menggunakan paket ICMP
+ping -c 4 8.8.8.8
+
+# Lacak jalur router yang dilewati paket (hop-by-hop)
+traceroute google.com   # (Linux / Mac)
+tracert google.com      # (Windows)
+
+# Cek port yang sedang listening di server Linux
+ss -tulpn              # Modern Linux (menggantikan netstat)
+
+# Query DNS resolver detail
+dig google.com +short
+nslookup -type=MX github.com</code>
+              <button class="copy-btn" data-clipboard="ping -c 4 8.8.8.8&#10;traceroute google.com&#10;ss -tulpn&#10;dig google.com +short">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference DNS Records</h2>
+          <p class="section-desc">Tabel ringkasan tipe record DNS domain internet.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Tipe Record</th>
+                <th>Target Nilai</th>
+                <th>Kegunaan Utama</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>A</strong></td>
+                <td>IPv4 (misal: 142.250.190.46)</td>
+                <td>Memetakan domain ke alamat IP 32-bit</td>
+              </tr>
+              <tr>
+                <td><strong>AAAA</strong></td>
+                <td>IPv6 (misal: 2404:6800:4003:c00::64)</td>
+                <td>Memetakan domain ke alamat IP 128-bit</td>
+              </tr>
+              <tr>
+                <td><strong>CNAME</strong></td>
+                <td>Domain lain (misal: www &rarr; app.com)</td>
+                <td>Alias nama domain ke domain kanonikal lain</td>
+              </tr>
+              <tr>
+                <td><strong>MX</strong></td>
+                <td>Mail Server Hostname + Priority</td>
+                <td>Mengarahkan email masuk ke provider mail (Google/Outlook)</td>
+              </tr>
+              <tr>
+                <td><strong>TXT</strong></td>
+                <td>String teks bebas</td>
+                <td>Verifikasi kepemilikan domain, SPF, DKIM &amp; DMARC</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes Jaringan Komputer</h2>
+          <p class="section-desc">12 soal simulasi pemahaman jaringan dan subnetting.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const networkingQuizData = [
+      {
+        question: "Berapa jumlah host yang dapat digunakan (usable host IPs) pada subnet berprefix /27?",
+        options: [
+          "32",
+          "30",
+          "62",
+          "14"
+        ],
+        answer: 1,
+        explanation: "Prefix /27 memiliki sisa 5 bit host (32 - 27 = 5). Total IP = 2^5 = 32. Usable hosts = 32 - 2 (dikurangi Network ID dan Broadcast) = 30."
+      },
+      {
+        question: "Router beroperasi pada lapisan (layer) ke berapa dalam model referensi 7 Layer OSI?",
+        options: [
+          "Layer 1 (Physical)",
+          "Layer 2 (Data Link)",
+          "Layer 3 (Network)",
+          "Layer 4 (Transport)"
+        ],
+        answer: 2,
+        explanation: "Router bekerja di Layer 3 (Network Layer) karena mengambil keputusan pengiriman data berdasarkan Logical IP Address."
+      },
+      {
+        question: "Urutan paket yang tepat pada proses pembentukan koneksi TCP (Three-Way Handshake) adalah:",
+        options: [
+          "ACK -> SYN -> SYN-ACK",
+          "SYN -> SYN-ACK -> ACK",
+          "SYN -> ACK -> FIN",
+          "CONNECT -> ACCEPT -> READY"
+        ],
+        answer: 1,
+        explanation: "Client mengirimkan paket SYN, Server menjawab dengan paket balasan gabungan SYN-ACK, dan Client membalas dengan ACK sebelum pertukaran data resmi dimulai."
+      },
+      {
+        question: "Alamat IP 192.168.1.100 termasuk dalam kategori:",
+        options: [
+          "IP Publik yang dapat diakses langsung dari seluruh internet",
+          "IP Privat Kelas C (RFC 1918)",
+          "IP Multicast Kelas D",
+          "Loopback IP"
+        ],
+        answer: 1,
+        explanation: "192.168.0.0/16 adalah rentang IP Privat Kelas C yang digunakan secara eksklusif untuk jaringan lokal (LAN) rumah dan kantor."
+      },
+      {
+        question: "Perintah CLI apa yang digunakan untuk menampilkan rute lompatan router (hop) yang dilewati oleh paket dari komputer Anda ke server tujuan?",
+        options: [
+          "ping",
+          "traceroute (atau tracert di Windows)",
+          "nslookup",
+          "netstat"
+        ],
+        answer: 1,
+        explanation: "traceroute (atau tracert) memanfaatkan nilai TTL (Time To Live) paket IP yang dinaikkan secara bertahap untuk mencatat setiap gateway router yang dilewati."
+      },
+      {
+        question: "Jika komputer tiba-tiba mendapatkan alamat IP 169.254.12.34, apa yang sedang terjadi pada koneksi jaringan komputer tersebut?",
+        options: [
+          "Komputer terhubung langsung ke superkomputer satelit",
+          "Komputer gagal mendapatkan konfigurasi IP dari server DHCP (menggunakan fitur APIPA)",
+          "Kartu jaringan terbakar",
+          "Alamat DNS Google berhasil terpasang"
+        ],
+        answer: 1,
+        explanation: "Rentang 169.254.0.0/16 adalah APIPA (Automatic Private IP Addressing), yang otomatis dipasang OS ketika komputer diset DHCP namun server DHCP tidak merespons."
+      },
+      {
+        question: "Tipe record DNS manakah yang digunakan untuk memetakan nama domain ke alamat IPv6 (128-bit)?",
+        options: [
+          "A Record",
+          "AAAA Record",
+          "CNAME Record",
+          "TXT Record"
+        ],
+        answer: 1,
+        explanation: "Record 'A' memetakan domain ke IPv4 (32-bit), sedangkan 'AAAA' (Quad-A) memetakan domain ke alamat generasi baru IPv6 (128-bit)."
+      },
+      {
+        question: "Apa perbedaan paling mendasar antara protokol TCP dan UDP?",
+        options: [
+          "TCP bersifat connection-oriented dan menjamin paket tiba tanpa hilang, sedangkan UDP connectionless dan memprioritaskan kecepatan tanpa garansi paket tiba",
+          "UDP hanya bisa mentransmisikan teks sedangkan TCP hanya video",
+          "TCP berjalan di Layer 7 sedangkan UDP di Layer 2",
+          "TCP tidak memerlukan IP address"
+        ],
+        answer: 0,
+        explanation: "TCP menjamin keandalan transmisi dengan acknowledgment dan retransmisi, sedangkan UDP memprioritaskan latensi rendah tanpa overhead handshake sehingga ideal untuk live streaming & gaming."
+      },
+      {
+        question: "Subnet mask default untuk notasi jaringan CIDR /24 adalah:",
+        options: [
+          "255.0.0.0",
+          "255.255.0.0",
+          "255.255.255.0",
+          "255.255.255.255"
+        ],
+        answer: 2,
+        explanation: "Prefix /24 berarti 24 bit pertama bernilai 1 (11111111.11111111.11111111.00000000) yang setara dengan desimal 255.255.255.0."
+      },
+      {
+        question: "Perangkat switch jaringan standar (Layer 2) mengambil keputusan pengalihan data (forwarding) berdasarkan:",
+        options: [
+          "IP Address",
+          "MAC Address",
+          "Port Number",
+          "Nama Domain URL"
+        ],
+        answer: 1,
+        explanation: "Switch Layer 2 membaca tabel MAC Address (CAM table) untuk meneruskan frame data ke port kabel fisik yang tepat di dalam jaringan lokal (LAN)."
+      },
+      {
+        question: "Record DNS manakah yang wajib dikonfigurasi agar domain Anda dapat menerima surat elektronik (email) dari internet?",
+        options: [
+          "NS Record",
+          "MX Record",
+          "SOA Record",
+          "PTR Record"
+        ],
+        answer: 1,
+        explanation: "MX (Mail Exchange) record menentukan nama server email yang bertanggung jawab menerima pesan masuk atas nama domain tersebut beserta nilai prioritasnya."
+      },
+      {
+        question: "Protokol apa yang digunakan oleh perintah 'ping' untuk memeriksa apakah sebuah host tujuan sedang aktif dan merespons?",
+        options: [
+          "TCP",
+          "UDP",
+          "ICMP",
+          "SNMP"
+        ],
+        answer: 2,
+        explanation: "Perintah ping menggunakan paket pesan ICMP (Internet Control Message Protocol) tipe Echo Request (Type 8) dan Echo Reply (Type 0)."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: networkingQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

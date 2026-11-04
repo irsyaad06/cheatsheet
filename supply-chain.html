@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Supply Chain & Inventory Cheatsheet - Rumus EOQ, Safety Stock, Reorder Point (ROP), FIFO vs Average, Analisis ABC & Incoterms 2020 untuk Logistik & Purchasing.">
+  <title>Supply Chain & Inventory Cheatsheet - Complete EOQ, ROP & Logistics Reference</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-supplychain">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#0891b2; color:#fff;"><i data-lucide="truck"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">Supply Chain & Inventory</h1>
+            <p class="logo-subtitle">EOQ, Safety Stock, ROP, FIFO & Incoterms 2020</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari EOQ, ROP, safety stock, FIFO, Incoterms (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#eoq-formula" class="nav-item"><i data-lucide="calculator"></i> Rumus EOQ (Economic Order)</a>
+        <a href="#rop-safetystock" class="nav-item"><i data-lucide="shield"></i> Reorder Point & Safety Stock</a>
+        <a href="#inventory-metrics" class="nav-item"><i data-lucide="bar-chart"></i> Metrik Gudang (ITR & DSI)</a>
+        <a href="#abc-analysis" class="nav-item"><i data-lucide="pie-chart"></i> Klasifikasi ABC Pareto</a>
+        <a href="#valuation-methods" class="nav-item"><i data-lucide="layers"></i> Valuasi: FIFO vs Average</a>
+        <a href="#incoterms-2020" class="nav-item"><i data-lucide="ship"></i> Incoterms 2020 (FOB, CIF, DDP)</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: EOQ Formula -->
+      <section id="eoq-formula" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="calculator"></i> Rumus EOQ (Economic Order Quantity)</h2>
+          <p class="section-desc">Formula matematika untuk menentukan jumlah pesanan optimal yang meminimalkan total biaya persediaan.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Rumus Wilson EOQ: √[(2 × D × S) / H]</span>
+              <span class="category-tag">Optimization</span>
+            </div>
+            <div class="formula-syntax">
+              <code>EOQ = √ ( (2 × D × S) / H )
+
+Di mana:
+- D (Demand): Total permintaan barang dalam 1 tahun (unit)
+- S (Setup/Ordering Cost): Biaya pemesanan setiap kali order (ongkir, admin, PO)
+- H (Holding Cost): Biaya penyimpanan per unit per tahun (gudang, asuransi, depresiasi)
+
+CONTOH SOAL:
+Permintaan (D) = 10.000 unit/tahun
+Biaya pesan (S) = Rp 50.000 per order
+Biaya simpan (H) = Rp 1.000 per unit/tahun
+EOQ = √ ( (2 × 10.000 × 50.000) / 1.000 ) = √ 1.000.000 = 1.000 unit per order.</code>
+              <button class="copy-btn" data-clipboard="EOQ = Math.sqrt((2 * Demand * OrderCost) / HoldingCost);">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: ROP & Safety Stock -->
+      <section id="rop-safetystock" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="shield"></i> Reorder Point (ROP) & Safety Stock</h2>
+          <p class="section-desc">Menentukan batas level stok kapan pesanan pembelian baru (Purchase Order) wajib diterbitkan.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">ROP = (Lead Time Demand) + Safety Stock</span>
+              <span class="category-tag">Inventory Control</span>
+            </div>
+            <div class="formula-syntax">
+              <code>// 1. Reorder Point (ROP):
+ROP = (Rata-rata Penjualan Harian × Lead Time Pengiriman) + Safety Stock
+
+// 2. Safety Stock (Metode Sederhana Min-Max):
+Safety Stock = (Penjualan Harian Maksimal × Lead Time Maksimal) - 
+               (Penjualan Harian Rata-rata × Lead Time Rata-rata)
+
+CONTOH KASUS:
+Penjualan harian = 20 unit/hari. Waktu tunggu supplier (Lead time) = 5 hari.
+Safety Stock = 50 unit.
+ROP = (20 × 5) + 50 = 150 unit.
+-> Saat stok di gudang menyentuh 150 unit, bagian purchasing HARUS order kembali!</code>
+              <button class="copy-btn" data-clipboard="ROP = (DailyDemand * LeadTime) + SafetyStock;&#10;SafetyStock = (MaxDemand * MaxLeadTime) - (AvgDemand * AvgLeadTime);">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Inventory Metrics -->
+      <section id="inventory-metrics" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="bar-chart"></i> Metrik Efisiensi Gudang: ITR & DSI</h2>
+          <p class="section-desc">Indikator perputaran persediaan dan kecepatan modal kerja kembali menjadi uang tunai.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Inventory Turnover Ratio (ITR) & Days Sales of Inventory (DSI)</span>
+              <span class="category-tag">Efficiency</span>
+            </div>
+            <div class="formula-syntax">
+              <code>// Inventory Turnover Ratio (ITR):
+ITR = HPP (Beban Pokok Penjualan) / Rata-rata Nilai Persediaan
+
+// Days Sales of Inventory (DSI / DIO):
+DSI = (Rata-rata Persediaan / HPP) × 365  atau  365 / ITR
+
+// Interpretasi:
+- Semakin TINGGI ITR (dan semakin RENDAH DSI), semakin efisien barang berputar 
+  dan semakin sedikit modal mati yang mengendap di gudang.</code>
+              <button class="copy-btn" data-clipboard="ITR = COGS / AvgInventory;&#10;DSI = (AvgInventory / COGS) * 365;">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: ABC Analysis -->
+      <section id="abc-analysis" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="pie-chart"></i> Klasifikasi ABC Persediaan (Prinsip Pareto)</h2>
+          <p class="section-desc">Memfokuskan perhatian manajemen gudang pada barang yang menyumbang nilai uang terbesar.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Matriks Pembagian Kelas ABC</span>
+              <span class="category-tag">Stratification</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Kelas A (Prioritas Utama):</span> Menyumbang <strong>70% - 80%</strong> dari total nilai rupiah persediaan, tetapi hanya mewakili <strong>10% - 20%</strong> dari total jumlah SKU fisik (kontrol ketat, cycle count harian/mingguan).</div>
+              <div class="param-row"><span class="param-name">Kelas B (Prioritas Sedang):</span> Menyumbang sekitar <strong>15% - 20%</strong> dari total nilai uang dan <strong>30%</strong> dari total item barang.</div>
+              <div class="param-row"><span class="param-name">Kelas C (Prioritas Rendah):</span> Menyumbang hanya <strong>5%</strong> dari total nilai uang, namun mewakili <strong>50%</strong> dari total fisik barang (seperti mur, baut, lakban - kontrol periodik).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Valuasi FIFO vs Average -->
+      <section id="valuation-methods" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="layers"></i> Valuasi Stok: FIFO vs Weighted Average</h2>
+          <p class="section-desc">Metode penetapan harga pokok persediaan dan alasan dilarangnya metode LIFO.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">FIFO vs Average & Larangan LIFO</span>
+              <span class="category-tag">Valuation</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">FIFO (First-In, First-Out):</span> Barang yang pertama kali dibeli/masuk dianggap sebagai barang yang pertama kali dijual. Sisa stok di neraca mencerminkan harga pasar terbaru.</div>
+              <div class="param-row"><span class="param-name">Weighted Average:</span> Menghitung rata-rata tertimbang harga per unit: (Total Biaya Pembelian) / (Total Unit Tersedia).</div>
+              <div class="param-row"><span class="param-name">Mengapa LIFO DILARANG?</span> LIFO (Last-In, First-Out) dilarang oleh standar akuntansi internasional (IFRS), PSAK Indonesia, dan perpajakan Indonesia (UU PPh Pasal 10 ayat 6) karena dalam kondisi inflasi, LIFO memperkecil laba dan mengecilkan nilai aset persediaan secara tidak realistis untuk menghindari pajak.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Incoterms 2020 -->
+      <section id="incoterms-2020" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="ship"></i> Incoterms 2020 Populer (Perdagangan Internasional)</h2>
+          <p class="section-desc">Klausul pembagian tanggung jawab biaya logistik dan titik transfer risiko antara Penjual (Seller) dan Pembeli (Buyer).</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Istilah</th>
+                <th>Kepanjangan</th>
+                <th>Titik Transfer Risiko</th>
+                <th>Tanggung Jawab Biaya Penjual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>EXW</strong></td>
+                <td>Ex Works</td>
+                <td>Di pabrik/gudang penjual</td>
+                <td>Minimal (pembeli menanggung seluruh ongkir &amp; custom ekspor)</td>
+              </tr>
+              <tr>
+                <td><strong>FOB</strong></td>
+                <td>Free On Board</td>
+                <td>Saat barang melewati rel kapal pelabuhan asal</td>
+                <td>Tanggung biaya lokal asal &amp; custom ekspor (ongkir laut ditanggung pembeli)</td>
+              </tr>
+              <tr>
+                <td><strong>CIF</strong></td>
+                <td>Cost, Insurance and Freight</td>
+                <td>Di atas kapal pelabuhan asal (namun biaya s/d tujuan)</td>
+                <td>Membayar ongkir laut utama + asuransi s/d pelabuhan tujuan</td>
+              </tr>
+              <tr>
+                <td><strong>DDP</strong></td>
+                <td>Delivered Duty Paid</td>
+                <td>Di pintu gudang pembeli negara tujuan</td>
+                <td>Maksimal (penjual menanggung seluruh ongkir, bea cukai impor &amp; pajak)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes Supply Chain & Logistik</h2>
+          <p class="section-desc">12 soal simulasi pemahaman logistik, persediaan, dan perdagangan internasional.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const supplyChainQuizData = [
+      {
+        question: "Tujuan utama dari penerapan rumus Economic Order Quantity (EOQ) dalam manajemen persediaan adalah:",
+        options: [
+          "Membeli barang sebanyak-banyaknya untuk mendapatkan diskon supplier",
+          "Menentukan kuantitas pesanan yang meminimalkan total biaya gabungan antara biaya pemesanan (ordering cost) dan biaya penyimpanan (holding cost)",
+          "Menghilangkan kebutuhan akan gudang penyimpanan barang",
+          "Mempercepat waktu pengiriman kurir laut"
+        ],
+        answer: 1,
+        explanation: "EOQ menemukan titik keseimbangan paling ekonomis di mana biaya pesan tahunan sama dengan biaya simpan tahunan, sehingga total cost persediaan menjadi minimum."
+      },
+      {
+        question: "Jika penjualan harian rata-rata adalah 15 unit, lead time pengiriman supplier adalah 6 hari, dan safety stock ditetapkan 40 unit, berapakah Reorder Point (ROP)-nya?",
+        options: [
+          "90 unit",
+          "130 unit",
+          "150 unit",
+          "180 unit"
+        ],
+        answer: 1,
+        explanation: "ROP = (Penjualan Harian × Lead Time) + Safety Stock = (15 × 6) + 40 = 90 + 40 = 130 unit."
+      },
+      {
+        question: "Berdasarkan prinsip analisis Pareto ABC, kategori barang 'Kelas A' dicirikan oleh:",
+        options: [
+          "Menyumbang 70-80% nilai rupiah persediaan meskipun hanya mewakili 10-20% dari total jumlah jenis barang (SKU)",
+          "Barang yang paling murah dan jumlahnya paling banyak di gudang",
+          "Barang yang selalu rusak saat pengiriman",
+          "Barang yang tidak pernah dibeli oleh pelanggan"
+        ],
+        answer: 0,
+        explanation: "Kelas A adalah kelompok minoritas barang bernilai tinggi (high-value items) yang memerlukan pengawasan stok paling ketat."
+      },
+      {
+        question: "Mengapa metode penilaian persediaan LIFO (Last-In, First-Out) dilarang dalam standar akuntansi internasional (IFRS) dan perpajakan Indonesia?",
+        options: [
+          "Karena metode LIFO terlalu mudah dihitung di Excel",
+          "Karena dalam kondisi inflasi, LIFO menghasilkan laba semu yang lebih rendah untuk menghindari pajak dan menyajikan nilai aset persediaan yang usang di Neraca",
+          "Karena komputer tidak bisa memproses LIFO",
+          "Hanya diperbolehkan untuk perusahaan makanan cepat saji"
+        ],
+        answer: 1,
+        explanation: "LIFO membebankan biaya pembelian terbaru ke HPP saat harga naik, sehingga laba terlihat kecil dan persediaan di neraca tertinggal dengan nilai lama yang tidak realistis."
+      },
+      {
+        question: "Incoterms 2020 manakah yang memberikan tanggung jawab PALING MINIMAL kepada pihak Penjual (Seller) karena Pembeli menanggung biaya sejak di gudang asal?",
+        options: [
+          "DDP (Delivered Duty Paid)",
+          "FOB (Free On Board)",
+          "EXW (Ex Works)",
+          "CIF (Cost, Insurance, and Freight)"
+        ],
+        answer: 2,
+        explanation: "Pada EXW (Ex Works), penjual hanya menyediakan barang di pabrik/gudangnya sendiri. Pembeli menanggung seluruh ongkir, asuransi, serta proses kepabeanan ekspor & impor."
+      },
+      {
+        question: "Incoterms 2020 manakah yang menuntut Penjual menanggung SELURUH biaya transportasi, asuransi, bea masuk (duty), dan pajak impor hingga ke pintu gudang pembeli?",
+        options: [
+          "FOB",
+          "CIF",
+          "DDP (Delivered Duty Paid)",
+          "EXW"
+        ],
+        answer: 2,
+        explanation: "DDP (Delivered Duty Paid) menempatkan tanggung jawab maksimum pada penjual, termasuk pengurusan custom clearance dan pembayaran bea masuk di negara tujuan."
+      },
+      {
+        question: "Jika HPP sebuah perusahaan dalam setahun adalah Rp 1,2 Miliar dan rata-rata nilai persediaannya adalah Rp 200 Juta, berapakah nilai Inventory Turnover Ratio (ITR)?",
+        options: [
+          "3 kali per tahun",
+          "6 kali per tahun",
+          "8 kali per tahun",
+          "12 kali per tahun"
+        ],
+        answer: 1,
+        explanation: "ITR = HPP / Rata-rata Persediaan = Rp 1.200.000.000 / Rp 200.000.000 = 6 kali per tahun."
+      },
+      {
+        question: "Berdasarkan ITR sebesar 6 kali per tahun pada soal sebelumnya, berapakah Days Sales of Inventory (DSI / rata-rata hari barang mengendap di gudang)?",
+        options: [
+          "30 hari",
+          "60.8 hari (sekitar 61 hari)",
+          "90 hari",
+          "120 hari"
+        ],
+        answer: 1,
+        explanation: "DSI = 365 hari / ITR = 365 / 6 = 60.83 hari (barang rata-rata membutuhkan waktu sekitar 61 hari untuk terjual)."
+      },
+      {
+        question: "Apa fungsi utama dari 'Safety Stock' (Stok Pengaman) di gudang?",
+        options: [
+          "Untuk dipajang di etalase toko",
+          "Sebagai cadangan darurat untuk mengantisipasi lonjakan permintaan tak terduga (demand spike) atau keterlambatan pengiriman dari supplier",
+          "Membayar gaji staf logistik",
+          "Menggantikan barang yang kedaluwarsa"
+        ],
+        answer: 1,
+        explanation: "Safety stock bertindak sebagai bantalan (buffer) terhadap ketidakpastian permintaan pasar atau fluktuasi lead time supplier untuk mencegah 'stockout' (kehabisan barang)."
+      },
+      {
+        question: "Pada syarat perdagangan 'FOB (Free On Board)', kapan titik pengalihan risiko (risk transfer) berpindah dari penjual ke pembeli?",
+        options: [
+          "Saat barang masih di gudang penjual",
+          "Saat barang telah dimuat dan berada di atas kapal (on board) di pelabuhan muat asal",
+          "Saat kapal tiba di pelabuhan tujuan",
+          "Saat pembeli membayar invoice tagihan"
+        ],
+        answer: 1,
+        explanation: "Pada FOB maritim, risiko kerusakan atau kehilangan barang berpindah ke pembeli tepat setelah barang dimuat di atas kapal di pelabuhan pengapalan yang disepakati."
+      },
+      {
+        question: "Metode persediaan FIFO (First-In, First-Out) memiliki karakteristik:",
+        options: [
+          "Barang yang terakhir masuk dicatat keluar lebih dulu",
+          "Barang yang pertama kali masuk dianggap pertama kali terjual, sehingga sisa stok di neraca dinilai berdasarkan harga pembelian paling akhir",
+          "Menghitung harga rata-rata dari seluruh barang tanpa peduli tanggal masuk",
+          "Hanya berlaku untuk industri manufaktur berat"
+        ],
+        answer: 1,
+        explanation: "FIFO mengalirkan barang sesuai kronologi masuknya barang, sehingga nilai saldo akhir persediaan merefleksikan harga terkini yang paling mendekati nilai pasar."
+      },
+      {
+        question: "Fenomena di mana fluktuasi kecil pada permintaan konsumen akhir menyebabkan distorsi dan osilasi lonjakan pesanan yang semakin besar di tingkat distributor dan produsen hulu disebut:",
+        options: [
+          "Pareto Principle",
+          "Bullwhip Effect (Efek Cambuk)",
+          "Just-In-Time (JIT)",
+          "Cross-Docking"
+        ],
+        answer: 1,
+        explanation: "Bullwhip Effect adalah fenomena disrupsi rantai pasok di mana kurangnya visibilitas informasi menyebabkan over-estimasi kebutuhan stok yang semakin membengkak ke arah hulu."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: supplyChainQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>

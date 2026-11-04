@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Figma & UI/UX Design Cheatsheet - Auto Layout, Komponen & Variasi, 8pt Grid System, Jakob Nielsen UX Heuristics & Shortcut Lengkap Windows/Mac.">
+  <title>Figma & UI/UX Design Cheatsheet - Complete Auto Layout, Tokens & UX Heuristics</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-figma">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="nav-back-link" title="Kembali ke Cheatsheet Hub">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Hub</span>
+        </a>
+        <div class="logo">
+          <div class="logo-icon" style="background:#a259ff; color:#fff;"><i data-lucide="figma"></i></div>
+          <div class="logo-text">
+            <h1 class="logo-title">Figma & UI/UX Cheatsheet</h1>
+            <p class="logo-subtitle">Auto Layout, Design Tokens, UX Heuristics & Shortcuts</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="cheatsheetSearch" class="search-input" placeholder="Cari Auto Layout, token, shortcut, UX (Ctrl+K)...">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Dark Mode" title="Beralih Mode Gelap/Terang">
+          <i data-lucide="moon" class="nav-icon"></i>
+        </button>
+        <button id="printBtn" class="btn-icon" aria-label="Print Cheatsheet" title="Cetak atau Simpan PDF">
+          <i data-lucide="printer" class="nav-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar -->
+  <div class="main-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Daftar Isi</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#auto-layout" class="nav-item"><i data-lucide="layout"></i> Auto Layout Mastery</a>
+        <a href="#components-variants" class="nav-item"><i data-lucide="component"></i> Komponen & Varian</a>
+        <a href="#design-tokens" class="nav-item"><i data-lucide="grid"></i> Sistem 8pt Grid & Tokens</a>
+        <a href="#ux-heuristics" class="nav-item"><i data-lucide="check-circle-2"></i> 10 Prinsip Heuristik UX</a>
+        <a href="#usability-metrics" class="nav-item"><i data-lucide="bar-chart-2"></i> Metrik Usability & Testing</a>
+        <a href="#figma-shortcuts" class="nav-item"><i data-lucide="keyboard"></i> Shortcut Figma (Win vs Mac)</a>
+        <a href="#quick-reference" class="nav-item"><i data-lucide="table"></i> Quick Reference</a>
+        <a href="#practice-questions" class="nav-item"><i data-lucide="help-circle"></i> Latihan Soal Tes (12)</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="mainContent">
+
+      <!-- Section 1: Auto Layout Mastery -->
+      <section id="auto-layout" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="layout"></i> Auto Layout Mastery</h2>
+          <p class="section-desc">Fitur fundamental Figma yang mengadopsi konsep CSS Flexbox untuk membuat tata letak responsif dinamis.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Resizing Behaviors: Fixed, Hug & Fill</span>
+              <span class="category-tag">Layout</span>
+            </div>
+            <p class="formula-desc">Tiga mode dimensi lebar dan tinggi elemen di dalam frame Auto Layout.</p>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">Hug Contents:</span> Frame otomatis menyusut atau melebar mengikuti total ukuran konten anak di dalamnya (contoh: tombol pill yang menyesuaikan panjang teks).</div>
+              <div class="param-row"><span class="param-name">Fill Container:</span> Elemen meregang memenuhi sisa ruang yang tersedia di frame induknya (mirip <code>flex: 1</code> di CSS).</div>
+              <div class="param-row"><span class="param-name">Fixed Width / Height:</span> Ukuran dimensi statis dalam pixel terlepas dari konten di dalamnya.</div>
+              <div class="param-row"><span class="param-name">Wrap (Baru):</span> Elemen anak otomatis turun ke baris baru ketika lebar frame induk tidak lagi mencukupi (mirip <code>flex-wrap: wrap</code>).</div>
+            </div>
+            <div class="card-tips">
+              <strong>Shortcut Cepat:</strong> Tekan <code>Shift + A</code> untuk membungkus layer ke dalam frame Auto Layout, atau <code>Option + Shift + A</code> (Mac) / <code>Alt + Shift + A</code> (Win) untuk menghapusnya.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Komponen & Varian -->
+      <section id="components-variants" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="component"></i> Komponen, Variasi & Component Properties</h2>
+          <p class="section-desc">Arsitektur komponen modular untuk menjaga konsistensi UI di ratusan layar desain.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">4 Tipe Component Properties</span>
+              <span class="category-tag">Architecture</span>
+            </div>
+            <p class="formula-desc">Mekanisme efisien mengurangi jumlah varian kombinasi yang meledak (variant explosion).</p>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">1. Variant:</span> Untuk perubahan visual mayor (misal: Size = Small | Medium | Large, Hierarchy = Primary | Secondary | Ghost).</div>
+              <div class="param-row"><span class="param-name">2. Boolean Property:</span> Toggle on/off untuk elemen opsional (misal: <code>hasIconLeft = true/false</code> atau <code>showBadge</code>).</div>
+              <div class="param-row"><span class="param-name">3. Text Property:</span> Memungkinkan perubahan teks langsung dari panel kanan tanpa harus mengklik dua kali layer teks di canvas.</div>
+              <div class="param-row"><span class="param-name">4. Instance Swap:</span> Memungkinkan mengganti ikon atau sub-komponen dengan cepat dari katalog ikon yang kompatibel.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Design Tokens & 8pt Grid -->
+      <section id="design-tokens" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="grid"></i> Sistem 8pt Grid & Design Tokens</h2>
+          <p class="section-desc">Standar industri untuk ritme visual, jarak, dan skalabilitas antar platform.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">Aturan 8-Point Grid System</span>
+              <span class="category-tag">Spacing</span>
+            </div>
+            <p class="formula-desc">Seluruh margin, padding, tinggi tombol, dan jarak antar elemen menggunakan kelipatan 8px (atau sub-grid 4px untuk elemen mikro).</p>
+            <div class="formula-syntax">
+              <code>Nilai Spacing Standar:
+4px  (xxs)  -> Jarak micro, border-radius kecil, badge padding
+8px  (xs)   -> Gap antar icon dan label teks
+16px (sm)   -> Default inner padding tombol dan kartu
+24px (md)   -> Gap antar section atau form fields
+32px (lg)   -> Spacing antar grup modul besar
+48px (xl)   -> Spacing section container desktop
+64px (xxl)  -> Hero section vertical padding</code>
+              <button class="copy-btn" data-clipboard="4px (xxs), 8px (xs), 16px (sm), 24px (md), 32px (lg), 48px (xl), 64px (xxl)">Copy</button>
+            </div>
+            <div class="card-tips">
+              <strong>Mengapa 8px?</strong> Sebagian besar resolusi layar digital (termasuk rasio Retina 2x dan 3x) dapat dibagi bulat dengan angka 8 tanpa menghasilkan rendering pecahan pixel (anti-aliasing blur).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: 10 UX Heuristics -->
+      <section id="ux-heuristics" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="check-circle-2"></i> 10 Prinsip Heuristik UX Jakob Nielsen</h2>
+          <p class="section-desc">Fondasi evaluasi usability yang selalu diujikan dalam wawancara Product Design.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="formula-card">
+            <div class="card-header">
+              <span class="formula-name">10 Heuristik Usability Jakob Nielsen</span>
+              <span class="category-tag">Evaluation</span>
+            </div>
+            <div class="card-details">
+              <div class="param-row"><span class="param-name">1. Visibility of System Status:</span> Sistem selalu memberi umpan balik yang tepat waktu (contoh: loading spinner, upload progress bar).</div>
+              <div class="param-row"><span class="param-name">2. Match System & Real World:</span> Gunakan istilah, metafora, dan bahasa yang akrab bagi pengguna (ikon keranjang belanja, folder).</div>
+              <div class="param-row"><span class="param-name">3. User Control & Freedom:</span> Sediakan pintu darurat yang jelas saat salah klik (tombol Undo, Cancel, Redo).</div>
+              <div class="param-row"><span class="param-name">4. Consistency & Standards:</span> Pertahankan terminologi dan konvensi platform (ikon magnifying glass selalu berarti Search).</div>
+              <div class="param-row"><span class="param-name">5. Error Prevention:</span> Desain terbaik mencegah terjadinya error sejak awal (validasi real-time form, konfirmasi hapus data penting).</div>
+              <div class="param-row"><span class="param-name">6. Recognition over Recall:</span> Minimalkan beban ingatan pengguna dengan membuat opsi dan tindakan terlihat langsung di layar.</div>
+              <div class="param-row"><span class="param-name">7. Flexibility & Efficiency:</span> Sediakan jalan pintas (accelerator/shortcut) bagi pengguna mahir tanpa membingungkan pemula.</div>
+              <div class="param-row"><span class="param-name">8. Aesthetic & Minimalist:</span> Hapus elemen visual yang tidak relevan agar tidak mengaburkan informasi krusial (tingkatkan signal-to-noise ratio).</div>
+              <div class="param-row"><span class="param-name">9. Help Users Recognize Errors:</span> Pesan kesalahan ditulis dalam bahasa manusia sederhana, jelaskan apa masalahnya dan tawarkan solusi perbaikan.</div>
+              <div class="param-row"><span class="param-name">10. Help & Documentation:</span> Sediakan panduan dan dokumentasi pencarian yang mudah diakses saat pengguna buntu.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Figma Shortcuts -->
+      <section id="figma-shortcuts" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="keyboard"></i> Shortcut Figma Esensial (Windows vs Mac)</h2>
+          <p class="section-desc">Mempercepat workflow desain harian Anda berkali-kali lipat.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Tindakan Desain</th>
+                <th>Shortcut Windows</th>
+                <th>Shortcut Mac</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Add Auto Layout</strong></td>
+                <td><code>Shift + A</code></td>
+                <td><code>Shift + A</code></td>
+              </tr>
+              <tr>
+                <td><strong>Remove Auto Layout</strong></td>
+                <td><code>Alt + Shift + A</code></td>
+                <td><code>Option + Shift + A</code></td>
+              </tr>
+              <tr>
+                <td><strong>Create Component</strong></td>
+                <td><code>Ctrl + Alt + K</code></td>
+                <td><code>Cmd + Option + K</code></td>
+              </tr>
+              <tr>
+                <td><strong>Detach Instance</strong></td>
+                <td><code>Ctrl + Alt + B</code></td>
+                <td><code>Cmd + Option + B</code></td>
+              </tr>
+              <tr>
+                <td><strong>Batch Rename Layers</strong></td>
+                <td><code>Ctrl + R</code></td>
+                <td><code>Cmd + R</code></td>
+              </tr>
+              <tr>
+                <td><strong>Copy Properties (Style)</strong></td>
+                <td><code>Ctrl + Alt + C</code></td>
+                <td><code>Cmd + Option + C</code></td>
+              </tr>
+              <tr>
+                <td><strong>Paste Properties (Style)</strong></td>
+                <td><code>Ctrl + Alt + V</code></td>
+                <td><code>Cmd + Option + V</code></td>
+              </tr>
+              <tr>
+                <td><strong>Deep Select Layer in Group</strong></td>
+                <td><code>Ctrl + Klik</code></td>
+                <td><code>Cmd + Klik</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 6: Quick Reference -->
+      <section id="quick-reference" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference UI/UX</h2>
+          <p class="section-desc">Ringkasan cepat istilah dan formula pengujian UX.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="quick-ref-table">
+            <thead>
+              <tr>
+                <th>Metrik / Konsep</th>
+                <th>Formula / Definisi</th>
+                <th>Standar Benchmark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>SUS Score</strong></td>
+                <td>System Usability Scale (10 pertanyaan skala Likert 1-5)</td>
+                <td>Nilai di atas <strong>68</strong> dianggap di atas rata-rata industri</td>
+              </tr>
+              <tr>
+                <td><strong>Task Completion Rate</strong></td>
+                <td><code>(Jumlah Tugas Berhasil / Total Percobaan) * 100%</code></td>
+                <td>Idealnya &gt; 80% untuk alur esensial (checkout/onboarding)</td>
+              </tr>
+              <tr>
+                <td><strong>WCAG Contrast Ratio</strong></td>
+                <td>Rasio kontras warna teks terhadap background</td>
+                <td>Minimum <strong>4.5:1</strong> (Normal) &amp; <strong>3:1</strong> (Large Text 18pt+)</td>
+              </tr>
+              <tr>
+                <td><strong>Minimum Tap Target</strong></td>
+                <td>Ukuran tombol sentuh mobile (Apple Human Interface &amp; Android Material)</td>
+                <td>Minimum <strong>44 x 44 pt</strong> (iOS) / <strong>48 x 48 dp</strong> (Android)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Practice Questions -->
+      <section id="practice-questions" class="category-section">
+        <div class="section-header">
+          <h2 class="section-title"><i data-lucide="help-circle"></i> Latihan Soal Tes Desain UI/UX</h2>
+          <p class="section-desc">12 soal uji kompetensi desain produk dan tools Figma.</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">Pertanyaan 1 dari 12</span>
+            <span class="quiz-score" id="quizScore">Skor: 0</span>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question" id="quizQuestion">Memuat pertanyaan...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+            <div class="quiz-actions">
+              <button id="quizNextBtn" class="quiz-btn" style="display:none;">Lanjut <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" style="display:none;">
+            <h3>Tes Selesai! 🎉</h3>
+            <p id="quizFinalScore">Skor Akhir Anda: 0 / 12</p>
+            <p id="quizSummaryText"></p>
+            <button id="quizRestartBtn" class="quiz-btn"><i data-lucide="rotate-ccw"></i> Ulangi Latihan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Cheatsheet Hub — Dibuat untuk persiapan tes rekrutmen kerja dan referensi cepat developer.</p>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const figmaQuizData = [
+      {
+        question: "Perilaku resizing Auto Layout manakah yang membuat lebar elemen otomatis melebar memenuhi seluruh sisa ruang yang tersedia di frame induknya?",
+        options: [
+          "Fixed Width",
+          "Fill Container",
+          "Hug Contents",
+          "Scale Automatically"
+        ],
+        answer: 1,
+        explanation: "'Fill Container' memerintahkan layer untuk meregang mengisi sisa ruang horisontal atau vertikal pada frame induk Auto Layout."
+      },
+      {
+        question: "Mengapa sistem 8-point grid menjadi standar industri utama dalam desain antarmuka digital?",
+        options: [
+          "Karena desainer grafis zaman dahulu hanya menyukai angka genap",
+          "Karena sebagian besar resolusi layar digital dan skala densitas Retina (1x, 2x, 3x) dapat membagi angka 8 secara bulat tanpa menghasilkan pecahan sub-pixel yang kabur",
+          "Karena software Figma tidak bisa merender angka kelipatan 5",
+          "Agar ukuran file gambar PNG menjadi lebih kecil"
+        ],
+        answer: 1,
+        explanation: "Kelipatan 8px konsisten merender pixel sempurna (crisp edges) di berbagai tingkat densitas piksel perangkat seluler (misal @2x, @3x) tanpa memicu rendering pixel kabur."
+      },
+      {
+        question: "Prinsip heuristik Jakob Nielsen manakah yang menekankan pentingnya tombol 'Undo' atau 'Cancel' saat pengguna tidak sengaja melakukan kesalahan klik?",
+        options: [
+          "Visibility of System Status",
+          "User Control and Freedom",
+          "Flexibility and Efficiency of Use",
+          "Aesthetic and Minimalist Design"
+        ],
+        answer: 1,
+        explanation: "Heuristik #3 (User Control and Freedom) mewajibkan tersedianya 'pintu darurat' yang jelas seperti tombol Undo atau Batal agar pengguna merasa aman bereksplorasi."
+      },
+      {
+        question: "Menurut pedoman aksesibilitas Web (WCAG AA), berapa rasio kontras warna minimum yang wajib dipenuhi untuk teks ukuran standar (body text)?",
+        options: [
+          "2:1",
+          "3:1",
+          "4.5:1",
+          "7:1"
+        ],
+        answer: 2,
+        explanation: "WCAG 2.1 Level AA mewajibkan rasio kontras minimum sebesar 4.5:1 untuk teks biasa, dan 3:1 untuk teks berukuran besar (18pt atau 14pt tebal)."
+      },
+      {
+        question: "Fitur Figma apa yang digunakan untuk menyembunyikan/menampilkan ikon di dalam tombol tanpa harus membuat varian baru di Component Set?",
+        options: [
+          "Text Property",
+          "Boolean Property",
+          "Instance Swap Property",
+          "Color Style"
+        ],
+        answer: 1,
+        explanation: "Boolean Property memungkinkan desainer mengaitkan layer visibility (mata layer) dengan toggle switch True/False langsung pada panel instance properti."
+      },
+      {
+        question: "Berapa target ukuran sentuh (touch target) minimum yang direkomendasikan pada Apple Human Interface Guidelines untuk perangkat layar sentuh iOS?",
+        options: [
+          "24 x 24 pt",
+          "32 x 32 pt",
+          "44 x 44 pt",
+          "60 x 60 pt"
+        ],
+        answer: 2,
+        explanation: "Apple Human Interface Guidelines merekomendasikan touch target minimum 44 x 44 pt, sedangkan Google Material Design merekomendasikan 48 x 48 dp untuk mencegah salah pencet jari jempol pengguna."
+      },
+      {
+        question: "Berapa skor rata-rata benchmark industri untuk survei kepuasan System Usability Scale (SUS)?",
+        options: [
+          "50",
+          "68",
+          "85",
+          "100"
+        ],
+        answer: 1,
+        explanation: "Skor SUS rata-rata secara global adalah 68. Skor di atas 68 mengindikasikan usability produk tergolong baik (di atas rata-rata), sedangkan di atas 80 dinilai sangat unggul (Grade A)."
+      },
+      {
+        question: "Shortcut Figma untuk membuat Component dari layer yang sedang dipilih pada macOS adalah:",
+        options: [
+          "Cmd + K",
+          "Cmd + Option + K",
+          "Cmd + Shift + C",
+          "Option + Shift + K"
+        ],
+        answer: 1,
+        explanation: "'Cmd + Option + K' pada Mac (atau 'Ctrl + Alt + K' pada Windows) adalah shortcut resmi untuk mengubah layer atau frame menjadi Master Component."
+      },
+      {
+        question: "Apa fungsi dari Heuristik 'Recognition rather than Recall'?",
+        options: [
+          "Pengguna harus mengingat nomor ID transaksi mereka tanpa bantuan layar",
+          "Membuat opsi, menu, dan informasi terlihat jelas di antarmuka sehingga pengguna tidak perlu memeras memori untuk mengingat langkah sebelumnya",
+          "Mengharuskan pengguna menghafal shortcut keyboard aplikasi",
+          "Membuat desain serba hitam putih"
+        ],
+        answer: 1,
+        explanation: "Manusia jauh lebih cepat mengenali sesuatu yang tampak di depan mata (recognition) daripada harus mengingat informasi dari memori otak (recall)."
+      },
+      {
+        question: "Bagaimana cara memilih langsung sebuah layer anak yang berada jauh di dalam nested grup atau Auto Layout tanpa membukanya satu per satu?",
+        options: [
+          "Klik dua kali lalu tekan Enter",
+          "Tahan tombol Cmd (Mac) / Ctrl (Windows) lalu klik langsung objek tersebut",
+          "Tekan tombol Tab 10 kali",
+          "Gunakan tombol spasi dan drag mouse"
+        ],
+        answer: 1,
+        explanation: "Deep select dengan menahan 'Cmd + Click' (Mac) atau 'Ctrl + Click' (Win) memungkinkan kita menembus seluruh struktur nested frame dan langsung memilih layer terbawah."
+      },
+      {
+        question: "Apa arti dari 'Fitts's Law' dalam desain antarmuka pengguna?",
+        options: [
+          "Waktu yang dibutuhkan untuk mencapai target bergantung pada jarak ke target dan ukuran target tersebut",
+          "Semakin banyak opsi yang diberikan, semakin lama pengguna mengambil keputusan",
+          "Pengguna menghabiskan sebagian besar waktunya di situs lain, sehingga mengharapkan situs Anda bekerja serupa",
+          "Warna merah selalu diasosiasikan dengan peringatan bahaya"
+        ],
+        answer: 0,
+        explanation: "Hukum Fitts menyatakan bahwa tombol yang berukuran lebih besar dan berjarak lebih dekat ke posisi kursor/jempol pengguna akan lebih cepat dan akurat untuk diklik."
+      },
+      {
+        question: "Apa shortcut untuk melakukan rename banyak layer sekaligus (Batch Rename) di Figma?",
+        options: [
+          "Ctrl / Cmd + R",
+          "F2",
+          "Ctrl / Cmd + B",
+          "Shift + R"
+        ],
+        answer: 0,
+        explanation: "'Ctrl + R' (Windows) atau 'Cmd + R' (Mac) membuka modal Batch Rename yang mendukung regex, penomoran urut otomatis (%n), dan replace kata."
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CheatsheetEngine.init({
+        storageKey: 'excel-cheatsheet-theme',
+        quizData: figmaQuizData,
+        searchSelector: '#cheatsheetSearch',
+        cardSelector: '.formula-card'
+      });
+    });
+  </script>
+</body>
+</html>
