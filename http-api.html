@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>HTTP Status &amp; REST API Cheatsheet - Panduan Web Services &amp; Status Codes</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #e11d48;
+      --excel-primary-hover: #be123c;
+      --excel-primary-light: #ffe4e6;
+      --excel-primary-subtle: rgba(225, 29, 72, 0.08);
+      --excel-border-accent: #e11d48;
+      --excel-dark: #9f1239;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #fb7185;
+      --excel-primary-hover: #e11d48;
+      --excel-primary-light: rgba(251, 113, 133, 0.15);
+      --excel-primary-subtle: rgba(251, 113, 133, 0.1);
+      --excel-border-accent: #fb7185;
+      --excel-dark: #be123c;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #e11d48, #be123c);">
+            <i data-lucide="globe" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>HTTP &amp; REST API</h1>
+            <p>Status Codes, Headers &amp; API Design Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari status (401 vs 403, 502, PUT vs PATCH)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-codes" class="btn-pill"><i data-lucide="table"></i><span>Tabel Status</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#e11d48; border-color:#e11d48;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-methods" class="sidebar-link"><i data-lucide="repeat" class="nav-icon"></i><span>1. HTTP Methods (Verbs)</span></a></li>
+        <li><a href="#section-codes" class="sidebar-link"><i data-lucide="check-circle" class="nav-icon"></i><span>2. Status Codes (2xx, 4xx, 5xx)</span></a></li>
+        <li><a href="#section-headers" class="sidebar-link"><i data-lucide="file-text" class="nav-icon"></i><span>3. Headers &amp; Auth Tokens</span></a></li>
+        <li><a href="#section-design" class="sidebar-link"><i data-lucide="compass" class="nav-icon"></i><span>4. Desain RESTful API</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #e11d48; background: linear-gradient(135deg, color-mix(in srgb, #e11d48 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#ffe4e6; color:#9f1239;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Backend, Frontend &amp; QA Tester</span>
+          <span class="hero-pill" style="background:#ffe4e6; color:#9f1239;">HTTP/1.1 &amp; HTTP/2 Protocol</span>
+        </div>
+        <h1 class="hero-title">HTTP Status &amp; REST API Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan komprehensif protokol HTTP dan arsitektur REST API. Meliputi perbedaan mutlak <code>PUT</code> vs <code>PATCH</code>, matriks pemecahan masalah HTTP Status Codes (perbedaan 401 Unauthorized vs 403 Forbidden, 502 Bad Gateway), tata kelola header CORS, serta standar penamaan endpoint URL profesional.
+        </p>
+      </section>
+
+      <!-- 1. HTTP Methods -->
+      <section id="section-methods" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="repeat"></i> HTTP Methods (Verbs) &amp; Idempotency</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Metode</th><th>Tujuan / Aksi</th><th>Idempotent?</th><th>Safe?</th><th>Body Payload?</th></tr></thead>
+            <tbody>
+              <tr><td><strong>GET</strong></td><td>Mengambil data resource tanpa mengubah data server.</td><td>Ya</td><td>Ya (Safe)</td><td>Tidak dianjurkan</td></tr>
+              <tr><td><strong>POST</strong></td><td>Membuat resource baru di server.</td><td><strong>TIDAK</strong></td><td>Tidak</td><td>Ya (Wajib)</td></tr>
+              <tr><td><strong>PUT</strong></td><td>Mengganti seluruh data resource secara utuh (Replace all).</td><td>Ya</td><td>Tidak</td><td>Ya (Full entity)</td></tr>
+              <tr><td><strong>PATCH</strong></td><td>Mengubah sebagian kecil kolom resource (Partial update).</td><td>Tergantung</td><td>Tidak</td><td>Ya (Partial)</td></tr>
+              <tr><td><strong>DELETE</strong></td><td>Menghapus resource tertentu.</td><td>Ya</td><td>Tidak</td><td>Opsional</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-tips">
+          <i data-lucide="info" class="card-tips-icon"></i>
+          <span><strong>Arti Idempotent:</strong> Sebuah metode disebut <em>Idempotent</em> jika dipanggil 1 kali atau 100 kali berturut-turut dengan data yang sama akan menghasilkan kondisi akhir sistem yang sama persis (contoh: DELETE ID 5). Sebaliknya, POST tidak idempotent karena 2 kali POST akan membuat 2 baris data baru!</span>
+        </div>
+      </section>
+
+      <!-- 2. Status Codes -->
+      <section id="section-codes" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="check-circle"></i> Matriks HTTP Status Codes Paling Sering Muncul</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Kode</th><th>Nama Status</th><th>Kapan Terjadi?</th><th>Contoh Skenario</th></tr></thead>
+            <tbody>
+              <tr><td><code style="color:#16a34a;font-weight:700;">200</code></td><td>OK</td><td>Permintaan HTTP sukses dieksekusi.</td><td>GET data profil berhasil dimuat.</td></tr>
+              <tr><td><code style="color:#16a34a;font-weight:700;">201</code></td><td>Created</td><td>Resource baru sukses dibuat di server.</td><td>POST pendaftaran user baru sukses.</td></tr>
+              <tr><td><code style="color:#16a34a;font-weight:700;">204</code></td><td>No Content</td><td>Aksi sukses, tidak ada isi body yang dikembalikan.</td><td>DELETE berhasil dieksekusi.</td></tr>
+              <tr><td><code style="color:#ca8a04;font-weight:700;">301</code></td><td>Moved Permanently</td><td>URL resource telah pindah alamat secara permanen.</td><td>Migrasi domain lama ke domain baru.</td></tr>
+              <tr><td><code style="color:#ca8a04;font-weight:700;">304</code></td><td>Not Modified</td><td>Konten belum berubah, browser pakai cache lokal.</td><td>Cache browser menghemat kuota internet.</td></tr>
+              <tr><td><code style="color:#e11d48;font-weight:700;">400</code></td><td>Bad Request</td><td>Sintaks request salah, payload JSON cacat format.</td><td>JSON lupa kurung tutup kurawal.</td></tr>
+              <tr><td><code style="color:#e11d48;font-weight:700;">401</code></td><td>Unauthorized</td><td><strong>Belum Login / Token Hilang atau Expired.</strong></td><td>Akses data privat tanpa Header Authorization Bearer.</td></tr>
+              <tr><td><code style="color:#e11d48;font-weight:700;">403</code></td><td>Forbidden</td><td><strong>Sudah Login, tapi Tidak Punya Izin Akses (Hak Role).</strong></td><td>Akun Staff biasa mencoba membuka endpoint Admin.</td></tr>
+              <tr><td><code style="color:#e11d48;font-weight:700;">404</code></td><td>Not Found</td><td>URL endpoint atau resource ID tidak ditemukan di server.</td><td>Mencari user dengan ID 9999999.</td></tr>
+              <tr><td><code style="color:#e11d48;font-weight:700;">422</code></td><td>Unprocessable Entity</td><td>Format JSON benar, tapi validasi kolom bisnis gagal.</td><td>Email salah format atau password kurang dari 8 karakter.</td></tr>
+              <tr><td><code style="color:#e11d48;font-weight:700;">429</code></td><td>Too Many Requests</td><td>Pengguna melampaui batas kuota request (Rate Limiting).</td><td>User melakukan 100 kali klik tombol per detik.</td></tr>
+              <tr><td><code style="color:#dc2626;font-weight:700;">500</code></td><td>Internal Server Error</td><td>Kode backend crash, exception unhandled di server.</td><td>Error null pointer exception di backend.</td></tr>
+              <tr><td><code style="color:#dc2626;font-weight:700;">502</code></td><td>Bad Gateway</td><td>Reverse Proxy (Nginx) gagal menghubungi aplikasi backend.</td><td>Container Node.js mati di belakang Nginx.</td></tr>
+              <tr><td><code style="color:#dc2626;font-weight:700;">504</code></td><td>Gateway Timeout</td><td>Server backend terlalu lama merespons hingga timeout.</td><td>Query database berat memakan waktu lebih dari 60 detik.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. Headers -->
+      <section id="section-headers" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="file-text"></i> HTTP Headers &amp; Token Autentikasi</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Authorization &amp; Content-Type</span>
+              <button class="btn-copy" data-copy="curl -X POST https://api.domain.com/v1/orders -H &quot;Content-Type: application/json&quot; -H &quot;Authorization: Bearer eyJhbGciOi...&quot; -d '{&quot;item_id&quot;: 10, &quot;qty&quot;: 2}'"><i data-lucide="copy"></i><span>Salin cURL</span></button>
+            </div>
+            <div class="code-box">
+              <code>Content-Type: application/json &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Format isi body request<br>Authorization: Bearer &lt;JWT_TOKEN&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Token login sesi autentikasi<br>Access-Control-Allow-Origin: * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Header CORS izin lintas domain</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. REST API Design -->
+      <section id="section-design" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="compass"></i> Standar Desain RESTful URL</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Aksi Operasi</th><th>Metode</th><th>Bentuk Endpoint URL yang Benar</th><th>Bentuk yang SALAH (Anti-pattern)</th></tr></thead>
+            <tbody>
+              <tr><td>Ambil semua produk</td><td>GET</td><td><code>/api/v1/products</code></td><td><s style="color:var(--text-subtle);">/api/getAllProducts</s> (Jangan pakai kata kerja di URL)</td></tr>
+              <tr><td>Ambil 1 produk</td><td>GET</td><td><code>/api/v1/products/12</code></td><td><s style="color:var(--text-subtle);">/api/product?id=12</s></td></tr>
+              <tr><td>Tambah produk baru</td><td>POST</td><td><code>/api/v1/products</code></td><td><s style="color:var(--text-subtle);">/api/createProduct</s></td></tr>
+              <tr><td>Hapus produk</td><td>DELETE</td><td><code>/api/v1/products/12</code></td><td><s style="color:var(--text-subtle);">/api/deleteProduct/12</s></td></tr>
+              <tr><td>Komentar di produk</td><td>GET</td><td><code>/api/v1/products/12/comments</code></td><td><s style="color:var(--text-subtle);">/api/getCommentsByProductId/12</s></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes REST API &amp; HTTP</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#e11d48; border-color:#e11d48; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#e11d48;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="globe" style="width:16px;height:16px;"></i></div>
+        <div><strong>HTTP &amp; REST API Cheatsheet</strong> &mdash; Panduan Web Services &amp; Status Codes.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const HTTP_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Status',
+        question: 'Apakah perbedaan mendasar antara HTTP Status Code <code>401 Unauthorized</code> dan <code>403 Forbidden</code>?',
+        options: [
+          '401 berarti belum login atau token hilang/kedaluwarsa; sedangkan 403 berarti sudah berhasil login namun akun tidak memiliki hak izin akses ke resource tersebut.',
+          '401 untuk error server, 403 untuk error database.',
+          '403 hanya berlaku di website e-commerce.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: 'Singkatnya: 401 adalah masalah <em>Authentication</em> (Siapa Anda?), sedangkan 403 adalah masalah <em>Authorization</em> (Anda siapa kami tahu, tapi Anda tidak berhak masuk!).'
+      },
+      {
+        id: 2,
+        category: 'Methods',
+        question: 'Dalam standar arsitektur REST API, apa perbedaan antara metode <code>PUT</code> dan <code>PATCH</code>?',
+        options: [
+          'PUT mengganti seluruh isi data resource secara penuh (Full Replacement), sedangkan PATCH hanya memperbarui sebagian field kolom tertentu saja (Partial Update).',
+          'PUT untuk file gambar, PATCH untuk teks.',
+          'PATCH tidak aman.',
+          'PUT tidak menerima request body.'
+        ],
+        answer: 0,
+        explanation: 'Sesuai RFC 5789, <code>PUT</code> menimpa seluruh entitas resource, sedangkan <code>PATCH</code> dirancang khusus untuk memodifikasi sebagian kolom tanpa harus mengirimkan seluruh data lainnya.'
+      },
+      {
+        id: 3,
+        category: 'Status',
+        question: 'Status code <code>201 Created</code> paling tepat dikembalikan oleh server setelah pemanggilan metode HTTP apakah yang sukses membuat data baru di database?',
+        options: ['POST', 'GET', 'DELETE', 'OPTIONS'],
+        answer: 0,
+        explanation: '<code>201 Created</code> adalah status resmi yang menandakan bahwa request (biasanya metode POST) telah sukses membuat entitas resource baru di server.'
+      },
+      {
+        id: 4,
+        category: 'Status',
+        question: 'Ketika sebuah website menampilkan pesan error <code>502 Bad Gateway</code>, apa yang sebenarnya sedang terjadi di sisi infrastruktur server?',
+        options: [
+          'Server gerbang perantara (seperti Nginx reverse proxy) gagal menerima respons yang valid dari server aplikasi hulu (upstream backend seperti Node.js/PHP/Python).',
+          'Komputer pengguna kehabisan kuota kuota internet.',
+          'Domain website belum dibayar.',
+          'Harddisk pengguna penuh.'
+        ],
+        answer: 0,
+        explanation: 'Status <code>502 Bad Gateway</code> terjadi ketika server proxy/web server di garis depan tidak dapat berkomunikasi dengan aplikasi backend di belakangnya (misal: service aplikasi sedang down atau crash).'
+      },
+      {
+        id: 5,
+        category: 'Design',
+        question: 'Sesuai konvensi standar penamaan endpoint REST API yang baik, manakah bentuk URL yang paling tepat untuk mengambil daftar ulasan dari produk bernomor ID 45?',
+        options: [
+          '/api/v1/products/45/reviews',
+          '/api/v1/getReviews?productId=45',
+          '/api/v1/product_review_fetch/45',
+          '/api/v1/showReviews_45'
+        ],
+        answer: 0,
+        explanation: 'REST API menggunakan kata benda jamak (plural nouns) hierarkis: <code>/resources/:id/sub-resources</code> tanpa menyisipkan kata kerja.'
+      },
+      {
+        id: 6,
+        category: 'Status',
+        question: 'Status code <code>204 No Content</code> biasanya paling sering digunakan sebagai respons sukses untuk operasi:',
+        options: ['DELETE', 'GET', 'PUT', 'HEAD'],
+        answer: 0,
+        explanation: 'Setelah berhasil menghapus data via DELETE, server sering kali mengembalikan status <code>204 No Content</code> karena tidak ada data yang perlu dikirimkan kembali ke klien.'
+      },
+      {
+        id: 7,
+        category: 'Headers',
+        question: 'Header HTTP request apakah yang wajib dikirimkan oleh klien ke server untuk menyatakan bahwa data yang dikirim di dalam body berformat JSON?',
+        options: [
+          'Content-Type: application/json',
+          'Accept-Format: json',
+          'Body-Type: json',
+          'Type: text/json'
+        ],
+        answer: 0,
+        explanation: '<code>Content-Type: application/json</code> memberi tahu server parser bahwa payload body di-encode dalam format standar JSON.'
+      },
+      {
+        id: 8,
+        category: 'Status',
+        question: 'Jika seorang pengguna mencoba login dengan memasukkan password yang salah 10 kali berturut-turut dalam 1 menit sehingga akunnya dikunci sementara, status code apakah yang tepat dikembalikan oleh server?',
+        options: [
+          '429 Too Many Requests',
+          '404 Not Found',
+          '500 Server Error',
+          '302 Found'
+        ],
+        answer: 0,
+        explanation: '<code>429 Too Many Requests</code> digunakan untuk mekanisme Rate Limiting ketika klien mengirimkan terlalu banyak permintaan dalam kurun waktu tertentu.'
+      },
+      {
+        id: 9,
+        category: 'Security',
+        question: 'Error browser berupa <em>"CORS policy: No \'Access-Control-Allow-Origin\' header is present"</em> terjadi karena:',
+        options: [
+          'Kebijakan keamanan Same-Origin Policy di browser memblokir JavaScript di domain A memanggil API di domain B tanpa izin eksplisit header CORS dari server domain B.',
+          'Kabel internet terputus.',
+          'Database server sedang offline.',
+          'File HTML tidak memiliki tag head.'
+        ],
+        answer: 0,
+        explanation: 'CORS (Cross-Origin Resource Sharing) adalah mekanisme keamanan peramban yang membatasi akses lintas domain kecuali server tujuan mengizinkannya secara eksplisit lewat header Access-Control-Allow-Origin.'
+      },
+      {
+        id: 10,
+        category: 'Status',
+        question: 'Apa perbedaan antara status redirect <code>301 Moved Permanently</code> dan <code>302 Found (Temporary Redirect)</code> bagi mesin pencari Google (SEO)?',
+        options: [
+          '301 memindahkan bobot reputasi SEO (link equity) ke URL baru secara permanen, sedangkan 302 tidak memindahkan bobot SEO karena hanya bersifat sementara.',
+          '302 lebih cepat dari 301.',
+          '301 menghapus website dari Google.',
+          'Keduanya sama persis untuk Google.'
+        ],
+        answer: 0,
+        explanation: 'Dalam SEO, <code>301</code> mentransfer ranking dan page authority ke alamat baru, sedangkan <code>302</code> mempertahankan indeks alamat lama karena dianggap pengalihan sementara.'
+      },
+      {
+        id: 11,
+        category: 'Methods',
+        question: 'Metode HTTP preflight request apakah yang secara otomatis dikirimkan oleh browser sebelum mengirim request POST/PUT yang menggunakan header kustom untuk memeriksa izin server?',
+        options: ['OPTIONS', 'HEAD', 'CHECK', 'PING'],
+        answer: 0,
+        explanation: 'Browser secara otomatis mengirimkan preflight request menggunakan metode <code>OPTIONS</code> untuk mengecek apakah server mengizinkan method dan header yang akan dikirim.'
+      },
+      {
+        id: 12,
+        category: 'Status',
+        question: 'Jika format JSON yang dikirimkan klien sudah valid secara sintaks, namun ada aturan validasi bisnis yang gagal (misal: kolom umur bernilai minus atau format email salah), status code apakah yang paling direkomendasikan?',
+        options: [
+          '422 Unprocessable Entity',
+          '500 Internal Server Error',
+          '404 Not Found',
+          '503 Service Unavailable'
+        ],
+        answer: 0,
+        explanation: '<code>422 Unprocessable Entity</code> adalah standar HTTP untuk mengindikasikan bahwa server memahami sintaks request (JSON valid), namun tidak dapat memproses instruksi karena pelanggaran validasi data semantik.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: HTTP_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Power BI &amp; DAX Cheatsheet - Panduan Business Intelligence &amp; Data Modeling</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #ca8a04;
+      --excel-primary-hover: #a16207;
+      --excel-primary-light: #fef9c3;
+      --excel-primary-subtle: rgba(202, 138, 4, 0.08);
+      --excel-border-accent: #ca8a04;
+      --excel-dark: #713f12;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #facc15;
+      --excel-primary-hover: #ca8a04;
+      --excel-primary-light: rgba(250, 204, 21, 0.15);
+      --excel-primary-subtle: rgba(250, 204, 21, 0.1);
+      --excel-border-accent: #facc15;
+      --excel-dark: #a16207;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #f2c811, #ca8a04);">
+            <i data-lucide="pie-chart" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Power BI &amp; DAX</h1>
+            <p>Data Modeling &amp; Analytics Interview Guide</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari rumus DAX (CALCULATE, DATESYTD, SUMX)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel DAX</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#ca8a04; border-color:#ca8a04;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori DAX</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-col-vs-measure" class="sidebar-link"><i data-lucide="columns" class="nav-icon"></i><span>1. Column vs Measure</span></a></li>
+        <li><a href="#section-calculate" class="sidebar-link"><i data-lucide="calculator" class="nav-icon"></i><span>2. CALCULATE &amp; FILTER</span></a></li>
+        <li><a href="#section-time" class="sidebar-link"><i data-lucide="calendar" class="nav-icon"></i><span>3. Time Intelligence (YTD, YoY)</span></a></li>
+        <li><a href="#section-iterators" class="sidebar-link"><i data-lucide="repeat" class="nav-icon"></i><span>4. Iterators (SUMX, RELATED)</span></a></li>
+        <li><a href="#section-starschema" class="sidebar-link"><i data-lucide="layout" class="nav-icon"></i><span>5. Star Schema Modeling</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #ca8a04; background: linear-gradient(135deg, color-mix(in srgb, #ca8a04 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#fef9c3; color:#713f12;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Dashboard Enterprise &amp; BI Analyst</span>
+          <span class="hero-pill" style="background:#fef9c3; color:#713f12;">Power BI Desktop &amp; DAX Studio</span>
+        </div>
+        <h1 class="hero-title">Power BI &amp; DAX Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan komprehensif bahasa ekspresi analisis data DAX (Data Analysis Expressions) dan arsitektur pemodelan data Star Schema. Menguasai fungsi sakti <code>CALCULATE()</code>, kalkulasi tren Year-Over-Year, serta pemahaman row context vs filter context.
+        </p>
+      </section>
+
+      <!-- 1. Column vs Measure -->
+      <section id="section-col-vs-measure" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="columns"></i> Calculated Column vs Measure: Perbedaan Mutlak</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Aspek</th><th>Calculated Column</th><th>Measure</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Waktu Kalkulasi</strong></td><td>Dihitung saat data dimuat (Refresh / Data load).</td><td>Dihitung dinamis saat runtime (ketika user mengklik slicer visual).</td></tr>
+              <tr><td><strong>Penyimpanan Memori</strong></td><td>Disimpan ke dalam memori RAM (menambah ukuran file .pbix).</td><td>Tidak disimpan di disk/RAM, dihitung instan oleh mesin VertiPaq.</td></tr>
+              <tr><td><strong>Context</strong></td><td>Memiliki <strong>Row Context</strong> (evaluasi baris per baris).</td><td>Memiliki <strong>Filter Context</strong> (evaluasi berdasarkan filter visual).</td></tr>
+              <tr><td><strong>Kapan Digunakan?</strong></td><td>Hanya jika kolom dibutuhkan sebagai slicer atau tajuk baris/kolom matriks.</td><td>Untuk semua nilai agregasi numerik (Total Omzet, % Margin, YoY).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. CALCULATE -->
+      <section id="section-calculate" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="calculator"></i> CALCULATE(): Fungsi Paling Penting di DAX</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">CALCULATE(Expression, [Filter1], ...)</span>
+              <button class="btn-copy" data-copy="Total_Sales_Jakarta = CALCULATE([Total_Sales], Dim_Customer[City] = &quot;Jakarta&quot;)"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Satu-satunya fungsi di DAX yang mampu memodifikasi, menimpa, atau menghapus <em>Filter Context</em> yang sedang aktif pada visual dashboard.</p>
+            <div class="code-box">
+              <code>Total_Sales_Jakarta = CALCULATE(<br>&nbsp;&nbsp;[Total_Sales],<br>&nbsp;&nbsp;Dim_Customer[City] = "Jakarta"<br>)</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">ALL() &amp; Menghitung Persentase Total</span>
+              <button class="btn-copy" data-copy="%_Contribution = DIVIDE([Total_Sales], CALCULATE([Total_Sales], ALL(Dim_Product)), 0)"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Fungsi <code>ALL()</code> menghapus seluruh filter pada tabel/kolom yang ditentukan untuk mendapatkan Grand Total yang statis sebagai pembagi persentase.</p>
+            <div class="code-box">
+              <code>%_Contribution = <br>DIVIDE(<br>&nbsp;&nbsp;[Total_Sales],<br>&nbsp;&nbsp;CALCULATE([Total_Sales], ALL(Dim_Product)),<br>&nbsp;&nbsp;0<br>)</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. Time Intelligence -->
+      <section id="section-time" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="calendar"></i> Time Intelligence (YTD, MTD &amp; YoY)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">DATESYTD &amp; SAMEPERIODLASTYEAR</span>
+              <button class="btn-copy" data-copy="Sales_YTD = CALCULATE([Total_Sales], DATESYTD(Dim_Date[Date]))"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code># Total Penjualan Kumulatif Tahun Berjalan (YTD):<br>Sales_YTD = CALCULATE([Total_Sales], DATESYTD(Dim_Date[Date]))<br><br># Penjualan Periode Sama Tahun Lalu (SPLY / YoY):<br>Sales_Last_Year = CALCULATE([Total_Sales], SAMEPERIODLASTYEAR(Dim_Date[Date]))</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Iterators -->
+      <section id="section-iterators" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="repeat"></i> Iterator Functions (SUMX, RELATED)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">SUMX(Table, Expression)</span>
+              <button class="btn-copy" data-copy="Total_Revenue = SUMX(Fact_Sales, Fact_Sales[Qty] * RELATED(Dim_Product[Price]))"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Fungsi berakhiran "X" berjalan baris demi baris (Row Context) lalu menjumlahkan hasilnya. <code>RELATED()</code> menarik nilai dari tabel dimensi lain yang terhubung relasi.</p>
+            <div class="code-box">
+              <code>Total_Revenue = <br>SUMX(<br>&nbsp;&nbsp;Fact_Sales,<br>&nbsp;&nbsp;Fact_Sales[Quantity] * RELATED(Dim_Product[UnitPrice])<br>)</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. Star Schema -->
+      <section id="section-starschema" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="layout"></i> Pemodelan Data: Arsitektur Star Schema</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Komponen</th><th>Ciri &amp; Karakteristik</th><th>Contoh Tabel</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Fact Table (Tabel Fakta)</strong></td><td>Tabel transaksi di tengah, berisi angka metrik (omzet, qty, diskon) dan Foreign Key ID. Memiliki jutaan baris.</td><td><code>Fact_Sales</code>, <code>Fact_Orders</code></td></tr>
+              <tr><td><strong>Dimension Table (Tabel Dimensi)</strong></td><td>Tabel atribut deskriptif di sekeliling fakta, berisi Primary Key unik untuk filtering dan slicing.</td><td><code>Dim_Customer</code>, <code>Dim_Product</code>, <code>Dim_Date</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Fungsi DAX</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari fungsi DAX (CALCULATE, ALL, SUMX)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="Filter">Filter Context</option>
+            <option value="Time">Time Intelligence</option>
+            <option value="Iterator">Iterators</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Fungsi DAX</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Power BI &amp; DAX</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#ca8a04; border-color:#ca8a04; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#ca8a04;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="pie-chart" style="width:16px;height:16px;"></i></div>
+        <div><strong>Power BI &amp; DAX Cheatsheet</strong> &mdash; Panduan Business Intelligence &amp; Modeling.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const DAX_CATALOG = [
+      { name: 'CALCULATE', cat: 'Filter', desc: 'Mengevaluasi ekspresi dalam modifikasi filter context baru.', syntax: 'CALCULATE(Expression, [Filter1], ...)', example: 'CALCULATE([Sales], Dim_City[City]="Jakarta")', section: 'section-calculate' },
+      { name: 'DIVIDE', cat: 'Filter', desc: 'Pembagian aman dari error division by zero (#DIV/0!).', syntax: 'DIVIDE(Numerator, Denominator, [AlternateResult])', example: 'DIVIDE([Margin], [Sales], 0)', section: 'section-calculate' },
+      { name: 'ALL', cat: 'Filter', desc: 'Menghapus semua filter yang aktif untuk menghitung Grand Total.', syntax: 'ALL(Table | Column)', example: 'CALCULATE([Sales], ALL(Dim_Product))', section: 'section-calculate' },
+      { name: 'DATESYTD', cat: 'Time', desc: 'Menghitung nilai kumulatif dari 1 Januari sampai tanggal terpilih.', syntax: 'DATESYTD(DateColumn, [YearEndDate])', example: 'CALCULATE([Sales], DATESYTD(Dim_Date[Date]))', section: 'section-time' },
+      { name: 'SAMEPERIODLASTYEAR', cat: 'Time', desc: 'Menggeser konteks tanggal ke periode yang sama tepat 1 tahun sebelumnya.', syntax: 'SAMEPERIODLASTYEAR(DateColumn)', example: 'CALCULATE([Sales], SAMEPERIODLASTYEAR(Dim_Date[Date]))', section: 'section-time' },
+      { name: 'SUMX', cat: 'Iterator', desc: 'Mengalikan atau mengevaluasi ekspresi baris per baris lalu menjumlahkannya.', syntax: 'SUMX(Table, Expression)', example: 'SUMX(Fact_Sales, Fact_Sales[Qty] * Fact_Sales[Price])', section: 'section-iterators' },
+      { name: 'RELATED', cat: 'Iterator', desc: 'Mengambil kolom dari tabel relasi satu (One-to-Many).', syntax: 'RELATED(ColumnName)', example: 'RELATED(Dim_Product[Price])', section: 'section-iterators' }
+    ];
+
+    const DAX_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Filter',
+        question: 'Mengapa membuat <code>Measure</code> jauh lebih dianjurkan dibandingkan membuat <code>Calculated Column</code> untuk menghitung Total Penjualan di Power BI?',
+        options: [
+          'Measure tidak memakan ruang penyimpanan RAM/disk dan dihitung dinamis sesuai filter visual pengguna.',
+          'Calculated column tidak bisa diformat menjadi mata uang.',
+          'Measure lebih mudah dibuat.',
+          'Power BI melarang penggunaan calculated column.'
+        ],
+        answer: 0,
+        explanation: 'Calculated Column memakan memori fisik RAM karena disimpan permanen pada setiap baris dataset. Sedangkan Measure dihitung dinamis secara virtual oleh CPU mesin analitik VertiPaq hanya saat visual di-render di layar.'
+      },
+      {
+        id: 2,
+        category: 'Filter',
+        question: 'Fungsi apakah di DAX yang merupakan satu-satunya sarana untuk memodifikasi, menambah, atau menghapus Filter Context pada visual?',
+        options: [
+          'CALCULATE()',
+          'FILTER()',
+          'LOOKUPVALUE()',
+          'SUM()'
+        ],
+        answer: 0,
+        explanation: '<code>CALCULATE()</code> adalah jantung dari DAX dan satu-satunya fungsi yang dapat melakukan *Context Transition* dan memodifikasi Filter Context yang aktif.'
+      },
+      {
+        id: 3,
+        category: 'Filter',
+        question: 'Mengapa Anda harus menggunakan <code>DIVIDE(A, B, 0)</code> alih-alih operator garis miring biasa <code>A / B</code> di DAX?',
+        options: [
+          'DIVIDE() secara otomatis menangani error pembagian dengan nol (#DIV/0!) dan mengembalikan nilai alternatif yang ditentukan (misal: 0).',
+          'DIVIDE() menghitung lebih presisi hingga 10 digit desimal.',
+          'Operator garis miring / sudah dihapus di Power BI.',
+          'DIVIDE() mengubah hasil menjadi persentase.'
+        ],
+        answer: 0,
+        explanation: 'Fungsi <code>DIVIDE()</code> dirancang untuk mencegah error division by zero yang dapat merusak visual kartu/tabel di dashboard Power BI.'
+      },
+      {
+        id: 4,
+        category: 'Time',
+        question: 'Untuk menghitung pertumbuhan penjualan Year-Over-Year (YoY) dibandingkan bulan yang sama di tahun sebelumnya, fungsi Time Intelligence manakah yang digunakan?',
+        options: [
+          'SAMEPERIODLASTYEAR()',
+          'LASTYEAR()',
+          'PREVIOUSMONTH()',
+          'DATEDIF()'
+        ],
+        answer: 0,
+        explanation: '<code>SAMEPERIODLASTYEAR(DateColumn)</code> mengembalikan tabel tanggal yang digeser tepat 1 tahun ke belakang sesuai periode yang sedang dilihat oleh pengguna.'
+      },
+      {
+        id: 5,
+        category: 'Iterator',
+        question: 'Tabel <code>Fact_Sales</code> memiliki kolom <code>Quantity</code> dan kolom <code>UnitPrice</code>. Rumus Measure manakah yang tepat untuk menghitung total penjualan tanpa membuat kolom pembantu?',
+        options: [
+          'Total_Sales = SUMX(Fact_Sales, Fact_Sales[Quantity] * Fact_Sales[UnitPrice])',
+          'Total_Sales = SUM(Fact_Sales[Quantity] * Fact_Sales[UnitPrice])',
+          'Total_Sales = MULTIPLY(Fact_Sales[Quantity], Fact_Sales[UnitPrice])',
+          'Total_Sales = Fact_Sales[Quantity] * Fact_Sales[UnitPrice]'
+        ],
+        answer: 0,
+        explanation: 'Fungsi <code>SUM()</code> biasa hanya menerima satu argumen kolom. Untuk mengalikan dua kolom baris per baris sebelum dijumlahkan, Anda wajib menggunakan fungsi iterator <code>SUMX()</code>.'
+      },
+      {
+        id: 6,
+        category: 'Modeling',
+        question: 'Dalam konsep arsitektur data Star Schema di Power BI, tabel apakah yang ditempatkan di tengah diagram model dan berisi data numerik transaksi harian?',
+        options: [
+          'Fact Table (Tabel Fakta)',
+          'Dimension Table (Tabel Dimensi)',
+          'Bridge Table',
+          'Date Table'
+        ],
+        answer: 0,
+        explanation: 'Fact Table berada di pusat Star Schema berisi data metrik numerik transaksi (omzet, kuantitas) dan Foreign Key yang menghubungkannya ke Dimension Tables di sekelilingnya.'
+      },
+      {
+        id: 7,
+        category: 'Filter',
+        question: 'Fungsi apakah yang digunakan di dalam CALCULATE untuk menghapus filter pada kategori produk sehingga menghasilkan angka Grand Total untuk menghitung % kontribusi?',
+        options: [
+          'ALL()',
+          'REMOVE()',
+          'CLEAR()',
+          'TOTAL()'
+        ],
+        answer: 0,
+        explanation: 'Fungsi <code>ALL(Dim_Product)</code> menginstruksikan Power BI untuk mengabaikan filter produk yang sedang dipilih pada visual, menghasilkan total keseluruhan.'
+      },
+      {
+        id: 8,
+        category: 'Time',
+        question: 'Apa syarat wajib dalam Power BI agar seluruh fungsi Time Intelligence (seperti DATESYTD, SAMEPERIODLASTYEAR) dapat bekerja dengan akurat tanpa error?',
+        options: [
+          'Harus memiliki Date Table (Tabel Kalender) khusus yang berkesinambungan tanpa ada tanggal yang bolong/hilang.',
+          'Harus menggunakan mata uang Dollar.',
+          'Harus memiliki koneksi internet aktif.',
+          'Data harus diimpor dari Excel.'
+        ],
+        answer: 0,
+        explanation: 'Fungsi Time Intelligence DAX mensyaratkan adanya tabel kalender tanggal (Date Table) yang memiliki tanggal kontinu tanpa jeda dari 1 Januari s/d 31 Desember.'
+      },
+      {
+        id: 9,
+        category: 'Iterator',
+        question: 'Fungsi apakah yang digunakan pada Calculated Column di Fact Table untuk menarik nilai dari tabel Dimensi yang berada di sisi "One" dari relasi One-to-Many?',
+        options: [
+          'RELATED()',
+          'RELATEDTABLE()',
+          'VLOOKUP()',
+          'FETCH()'
+        ],
+        answer: 0,
+        explanation: '<code>RELATED(Kolom)</code> mengikuti jalur relasi One-to-Many untuk mengambil nilai atribut dari tabel dimensi relasi.'
+      },
+      {
+        id: 10,
+        category: 'Filter',
+        question: 'Apa arti dari istilah "Row Context" di DAX?',
+        options: [
+          'Konteks baris aktif saat ini, di mana mesin mengevaluasi nilai berdasarkan baris yang sedang diproses (seperti pada Calculated Column atau fungsi iterator X).',
+          'Jumlah baris di layar monitor.',
+          'Warna baris di tabel matriks.',
+          'Header kolom tabel.'
+        ],
+        answer: 0,
+        explanation: 'Row Context adalah kemampuan mesin untuk mengetahui "baris mana yang sedang dievaluasi saat ini". Secara default, Measure tidak memiliki Row Context kecuali dibungkus fungsi iterator seperti SUMX.'
+      },
+      {
+        id: 11,
+        category: 'Modeling',
+        question: 'Jika ada dua relasi antara Tabel Fakta dan Tabel Kalender (misal: Tanggal Pesan dan Tanggal Kirim), hanya satu yang dapat aktif (garis solid). Fungsi DAX apakah yang digunakan untuk mengaktifkan sementara relasi sekunder (garis putus-putus)?',
+        options: [
+          'USERELATIONSHIP()',
+          'ACTIVATE()',
+          'SWITCHRELATION()',
+          'USEKEYS()'
+        ],
+        answer: 0,
+        explanation: 'Fungsi <code>USERELATIONSHIP(Fact[ShipDate], Dim_Date[Date])</code> di dalam <code>CALCULATE()</code> secara khusus mengaktifkan relasi yang sedang tidak aktif untuk kebutuhan kalkulasi tertentu.'
+      },
+      {
+        id: 12,
+        category: 'Filter',
+        question: 'Fungsi DAX apakah yang mengembalikan daftar nilai unik dari suatu kolom dalam bentuk tabel satu kolom?',
+        options: [
+          'VALUES() atau DISTINCT()',
+          'UNIQUE_LIST()',
+          'KEYS()',
+          'ONLY()'
+        ],
+        answer: 0,
+        explanation: '<code>VALUES(Kolom)</code> atau <code>DISTINCT(Kolom)</code> mengembalikan tabel berisi nilai unik yang masih menghormati filter context aktif.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: DAX_CATALOG,
+      questions: DAX_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

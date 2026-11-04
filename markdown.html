@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Markdown &amp; GFM Cheatsheet - Panduan Dokumentasi Teknis &amp; GitHub</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #4f46e5;
+      --excel-primary-hover: #4338ca;
+      --excel-primary-light: #e0e7ff;
+      --excel-primary-subtle: rgba(79, 70, 229, 0.08);
+      --excel-border-accent: #4f46e5;
+      --excel-dark: #312e81;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #818cf8;
+      --excel-primary-hover: #4f46e5;
+      --excel-primary-light: rgba(129, 140, 248, 0.15);
+      --excel-primary-subtle: rgba(129, 140, 248, 0.1);
+      --excel-border-accent: #818cf8;
+      --excel-dark: #4338ca;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #4f46e5, #4338ca);">
+            <i data-lucide="file-text" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Markdown &amp; GFM</h1>
+            <p>Developer Technical Writing Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari sintaks (tabel, alerts, mermaid, task list)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-alerts" class="btn-pill"><i data-lucide="alert-circle"></i><span>GFM Alerts</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#4f46e5; border-color:#4f46e5;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-formatting" class="sidebar-link"><i data-lucide="type" class="nav-icon"></i><span>Format Teks &amp; Judul</span></a></li>
+        <li><a href="#section-tables" class="sidebar-link"><i data-lucide="table" class="nav-icon"></i><span>Tabel &amp; Penyelarasan</span></a></li>
+        <li><a href="#section-alerts" class="sidebar-link"><i data-lucide="alert-triangle" class="nav-icon"></i><span>GitHub Alerts Box</span></a></li>
+        <li><a href="#section-mermaid" class="sidebar-link"><i data-lucide="git-pull-request" class="nav-icon"></i><span>Diagram Mermaid</span></a></li>
+        <li><a href="#section-math" class="sidebar-link"><i data-lucide="sigma" class="nav-icon"></i><span>Rumus KaTeX / LaTeX</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">10 Soal</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #4f46e5; background: linear-gradient(135deg, color-mix(in srgb, #4f46e5 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#e0e7ff; color:#312e81;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Dokumentasi GitHub &amp; Technical Writing</span>
+          <span class="hero-pill" style="background:#e0e7ff; color:#312e81;">CommonMark &amp; GFM</span>
+        </div>
+        <h1 class="hero-title">Markdown &amp; GFM Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis menulis dokumen teknis menggunakan Markdown dan GitHub Flavored Markdown (GFM). Mulai dari format tabel, daftar checklist, kotak alert GitHub <code>[!NOTE]</code>, visualisasi diagram Mermaid, hingga notasi matematika KaTeX.
+        </p>
+      </section>
+
+      <!-- 1. Formatting -->
+      <section id="section-formatting" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="type"></i> Tipografi, Judul &amp; Checklist</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Elemen</th><th>Sintaks Markdown</th><th>Hasil Render</th></tr></thead>
+            <tbody>
+              <tr><td>Heading 1 &amp; 2</td><td><code># Judul Utama<br>## Subjudul</code></td><td>Teks judul ukuran besar &amp; menengah</td></tr>
+              <tr><td>Tebal &amp; Miring</td><td><code>**Tebal** dan *Miring*</code></td><td><strong>Tebal</strong> dan <em>Miring</em></td></tr>
+              <tr><td>Coret (Strikethrough)</td><td><code>~~Teks Dicoret~~</code></td><td><s>Teks Dicoret</s></td></tr>
+              <tr><td>Task List (Checklist)</td><td><code>- [x] Selesai<br>- [ ] Belum Selesai</code></td><td>Kotak centang interaktif</td></tr>
+              <tr><td>Inline Code</td><td><code>Gunakan fungsi `console.log()`</code></td><td>Kotak kode monospaced kecil</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. Tables -->
+      <section id="section-tables" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Tabel &amp; Perataan Teks (Alignment)</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Titik dua <code>:</code> pada baris pembatas menentukan perataan kolom: rata kiri <code>:---</code>, rata tengah <code>:---:</code>, atau rata kanan <code>---:</code>.</p>
+          <div class="code-box">
+            <code>| Kolom Kiri (Nama) | Rata Tengah (Status) | Rata Kanan (Harga) |<br>| :--- | :---: | ---: |<br>| Laptop Pro | Aktif | Rp 15.000.000 |<br>| Mouse Wireless | Habis | Rp 250.000 |</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. GitHub Alerts -->
+      <section id="section-alerts" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="alert-triangle"></i> Kotak Peringatan (GitHub Alerts)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">5 Tipe Alert Box Resmi GitHub</span>
+              <button class="btn-copy" data-copy="> [!NOTE]&#10;> Ini adalah catatan informasi penting."><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>&gt; [!NOTE]<br>&gt; Informasi pelengkap atau penjelasan latar belakang.<br><br>&gt; [!TIP]<br>&gt; Tips optimasi atau cara tercepat melakukan sesuatu.<br><br>&gt; [!IMPORTANT]<br>&gt; Instruksi atau persyaratan penting yang wajib diikuti.<br><br>&gt; [!WARNING]<br>&gt; Peringatan potensi kesalahan atau perubahan yang merusak.<br><br>&gt; [!CAUTION]<br>&gt; Tindakan berisiko tinggi yang dapat menyebabkan kehilangan data.</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Mermaid -->
+      <section id="section-mermaid" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="git-pull-request"></i> Diagram Mermaid Berbasis Teks</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Flowchart &amp; Alur Keputusan</span>
+              <button class="btn-copy" data-copy="```mermaid&#10;graph TD&#10;    A[Mulai] --> B{Apakah Lulus?}&#10;    B -- Ya --> C[Terima Offering]&#10;    B -- Tidak --> D[Belajar Lagi]&#10;```"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>```mermaid<br>graph TD<br>&nbsp;&nbsp;&nbsp;&nbsp;A[Mulai] --&gt; B{Apakah Lulus Tes?}<br>&nbsp;&nbsp;&nbsp;&nbsp;B -- Ya --&gt; C[Terima Surat Penawaran Kerja]<br>&nbsp;&nbsp;&nbsp;&nbsp;B -- Tidak --&gt; D[Pelajari Kembali Cheatsheet]<br>```</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. Math KaTeX -->
+      <section id="section-math" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="sigma"></i> Notasi Matematika KaTeX (LaTeX)</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Gunakan tanda dollar tunggal <code>$rumus$</code> untuk inline math, atau dollar ganda <code>$$rumus$$</code> untuk formula blok terpusat.</p>
+          <div class="code-box">
+            <code>Persamaan Einstein: $E = mc^2$<br><br>Rumus Kuadratik:<br>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 10 Soal Tes Markdown</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 10</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#4f46e5; border-color:#4f46e5; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#4f46e5;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="file-text" style="width:16px;height:16px;"></i></div>
+        <div><strong>Markdown &amp; GFM Cheatsheet</strong> &mdash; Panduan Dokumentasi Teknis.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const MARKDOWN_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Syntax',
+        question: 'Pada tabel Markdown, penulisan sintaks apakah pada baris pembatas yang membuat isi kolom rata tengah (Center Aligned)?',
+        options: [
+          ':---:',
+          ':---',
+          '---:',
+          '| center |'
+        ],
+        answer: 0,
+        explanation: 'Penempatan tanda titik dua di kedua ujung pembatas (<code>:---:</code>) menghasilkan perataan tengah (center alignment) pada kolom tabel.'
+      },
+      {
+        id: 2,
+        category: 'Alerts',
+        question: 'Sintaks resmi GitHub Flavored Markdown apakah yang digunakan untuk membuat kotak peringatan berwarna kuning bahaya (Warning)?',
+        options: [
+          '> [!WARNING]',
+          '> [!ALERT]',
+          '> [!DANGER]',
+          '**WARNING:**'
+        ],
+        answer: 0,
+        explanation: 'GitHub Alerts menggunakan sintaks blockquote khusus: <code>> [!WARNING]</code> (tersedia juga NOTE, TIP, IMPORTANT, dan CAUTION).'
+      },
+      {
+        id: 3,
+        category: 'Syntax',
+        question: 'Bagaimana cara membuat item checklist yang sudah dalam kondisi tercentang (checked) di Markdown?',
+        options: [
+          '- [x] Tugas selesai',
+          '- [v] Tugas selesai',
+          '- [1] Tugas selesai',
+          '- [true] Tugas selesai'
+        ],
+        answer: 0,
+        explanation: 'Tanda huruf "x" di dalam kurung siku <code>- [x]</code> merepresentasikan item task list yang telah selesai (checked).'
+      },
+      {
+        id: 4,
+        category: 'Syntax',
+        question: 'Sintaks manakah yang benar untuk menyisipkan gambar (image) dengan teks alternatif (alt text) di Markdown?',
+        options: [
+          '![Alt Text](url_gambar.png)',
+          '[Alt Text](url_gambar.png)',
+          'img:url_gambar.png',
+          '<image alt="Alt Text" src="url">'
+        ],
+        answer: 0,
+        explanation: 'Penyisipan gambar diawali tanda seru <code>![Alt Text](URL)</code>, sedangkan tanpa tanda seru <code>[Link](URL)</code> adalah hyperlink biasa.'
+      },
+      {
+        id: 5,
+        category: 'Syntax',
+        question: 'Blok kode multi-baris (fenced code block) dengan pewarnaan sintaks Python dibuat dengan pembungkus:',
+        options: [
+          '```python ... ``` (tiga backticks)',
+          '~~~python ... ~~~',
+          '"""python ... """',
+          '<code>python ... </code>'
+        ],
+        answer: 0,
+        explanation: 'Tiga backticks (<code>```</code>) diikuti nama bahasa pemrograman (seperti <code>python</code>, <code>sql</code>, <code>javascript</code>) mengaktifkan fitur syntax highlighting.'
+      },
+      {
+        id: 6,
+        category: 'Syntax',
+        question: 'Bagaimana cara membuat teks menjadi coret tengah (strikethrough) di GitHub Flavored Markdown?',
+        options: [
+          '~~Teks Dicoret~~',
+          '--Teks Dicoret--',
+          '__Teks Dicoret__',
+          '==Teks Dicoret=='
+        ],
+        answer: 0,
+        explanation: 'Dua karakter tilde <code>~~teks~~</code> mengubah teks menjadi coretan strikethrough.'
+      },
+      {
+        id: 7,
+        category: 'Mermaid',
+        question: 'Di dalam diagram alur Mermaid (<code>graph TD</code>), arti dari singkatan "TD" adalah:',
+        options: [
+          'Top-Down (Arah diagram dari atas ke bawah)',
+          'True Decision',
+          'Terminal Diagram',
+          'Time Data'
+        ],
+        answer: 0,
+        explanation: '<code>TD</code> singkatan dari Top-Down (vertikal dari atas ke bawah). Opsi lainnya adalah <code>LR</code> (Left to Right / horizontal dari kiri ke kanan).'
+      },
+      {
+        id: 8,
+        category: 'Math',
+        question: 'Untuk menuliskan rumus matematika KaTeX inline di dalam kalimat, simbol pembungkus apakah yang digunakan?',
+        options: [
+          '$rumus$',
+          '#rumus#',
+          '@rumus@',
+          '&rumus&'
+        ],
+        answer: 0,
+        explanation: 'Tanda dollar tunggal <code>$E = mc^2$</code> digunakan untuk inline math equation.'
+      },
+      {
+        id: 9,
+        category: 'Syntax',
+        question: 'Bagaimana cara memaksa baris teks pindah ke baris baru (line break) tanpa membuat paragraf baru yang terpisah renggang di Markdown standar?',
+        options: [
+          'Menambahkan 2 spasi kosong di ujung akhir baris sebelum menekan Enter.',
+          'Menekan Enter 5 kali.',
+          'Mengetik simbol //.',
+          'Menggunakan tombol Tab.'
+        ],
+        answer: 0,
+        explanation: 'Memberikan 2 spasi di akhir baris (trailing spaces) atau menyisipkan tag <code>&lt;br&gt;</code> akan menghasilkan line break tanpa jarak paragraf besar.'
+      },
+      {
+        id: 10,
+        category: 'Syntax',
+        question: 'Karakter apakah yang digunakan di awal baris untuk membuat kutipan blok (blockquotes)?',
+        options: [
+          '> (lebih besar dari)',
+          '# (pagar)',
+          '* (bintang)',
+          '- (minus)'
+        ],
+        answer: 0,
+        explanation: 'Karakter <code>&gt;</code> di awal baris menandakan kutipan teks (blockquote).'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: MARKDOWN_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

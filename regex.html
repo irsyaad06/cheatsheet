@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Regex Cheatsheet - Panduan Regular Expression &amp; Resep Pola Siap Pakai</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #9333ea;
+      --excel-primary-hover: #7e22ce;
+      --excel-primary-light: #f3e8ff;
+      --excel-primary-subtle: rgba(147, 51, 234, 0.08);
+      --excel-border-accent: #9333ea;
+      --excel-dark: #581c87;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #c084fc;
+      --excel-primary-hover: #9333ea;
+      --excel-primary-light: rgba(192, 132, 252, 0.15);
+      --excel-primary-subtle: rgba(192, 132, 252, 0.1);
+      --excel-border-accent: #c084fc;
+      --excel-dark: #7e22ce;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #9333ea, #7e22ce);">
+            <i data-lucide="regex" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Regex Cheatsheet</h1>
+            <p>Regular Expressions &amp; Indonesian Recipes</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari pola (email, NIK, lookahead, digit)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-tester" class="btn-pill"><i data-lucide="play"></i><span>Regex Tester</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#9333ea; border-color:#9333ea;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-tester" class="sidebar-link"><i data-lucide="play-circle" class="nav-icon"></i><span>Live Regex Tester</span></a></li>
+        <li><a href="#section-recipes" class="sidebar-link"><i data-lucide="bookmark" class="nav-icon"></i><span>Resep Pola Siap Pakai</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Regex</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-meta" class="sidebar-link"><i data-lucide="type" class="nav-icon"></i><span>1. Metakarakter Dasar</span></a></li>
+        <li><a href="#section-quantifiers" class="sidebar-link"><i data-lucide="hash" class="nav-icon"></i><span>2. Quantifiers (Jumlah)</span></a></li>
+        <li><a href="#section-anchors" class="sidebar-link"><i data-lucide="anchor" class="nav-icon"></i><span>3. Anchors &amp; Boundaries</span></a></li>
+        <li><a href="#section-lookaround" class="sidebar-link"><i data-lucide="eye" class="nav-icon"></i><span>4. Lookahead &amp; Lookbehind</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #9333ea; background: linear-gradient(135deg, color-mix(in srgb, #9333ea 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#f3e8ff; color:#581c87;"><i data-lucide="check" style="width:13px;height:13px;"></i> Validasi Data &amp; String Parsing</span>
+          <span class="hero-pill" style="background:#f3e8ff; color:#581c87;">PCRE &amp; JavaScript Regex Engine</span>
+        </div>
+        <h1 class="hero-title">Regex (Regular Expression) Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan tuntas memahami pola ekspresi reguler. Dari pemahaman simbol karakter, pengelompokan grup tangkapan, assertion lookahead tingkat lanjut, hingga kamus resep pola validasi siap salin untuk format data Indonesia.
+        </p>
+      </section>
+
+      <!-- LIVE REGEX TESTER WIDGET -->
+      <section id="section-tester" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Alat Interaktif</span>
+          <h2 class="section-title"><i data-lucide="play"></i> Live Interactive Regex Tester</h2>
+          <p class="section-description">Uji pola regex Anda secara langsung di peramban dan lihat apakah teks uji cocok seketika.</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div>
+              <label style="font-weight:700; font-size:0.85rem; display:block; margin-bottom:0.35rem;">Pola Regex:</label>
+              <div class="code-box" style="padding:0.4rem 0.75rem;">
+                <span style="color:var(--text-subtle);font-weight:700;">/</span>
+                <input type="text" id="interactiveRegexPattern" value="^08[1-9][0-9]{7,10}$" style="flex:1; border:none; background:transparent; font-family:var(--font-mono); font-size:1rem; outline:none; color:var(--text-main);" />
+                <span style="color:var(--text-subtle);font-weight:700;">/</span>
+                <input type="text" id="interactiveRegexFlags" value="g" style="width:35px; border:none; background:transparent; font-family:var(--font-mono); font-size:1rem; outline:none; color:var(--excel-primary); font-weight:700;" title="Flags: g, i, m" />
+              </div>
+            </div>
+
+            <div>
+              <label style="font-weight:700; font-size:0.85rem; display:block; margin-bottom:0.35rem;">Teks Uji (Test String):</label>
+              <input type="text" id="interactiveRegexText" value="081234567890" style="width:100%; height:42px; border-radius:var(--radius-sm); border:1px solid var(--border-color); background:var(--bg-surface); padding:0 0.85rem; font-family:var(--font-mono); font-size:0.95rem; outline:none; color:var(--text-main);" />
+            </div>
+
+            <div id="interactiveRegexResult" style="padding:0.75rem 1rem; border-radius:var(--radius-sm); font-weight:700; font-size:0.9rem; background:var(--success-bg); color:var(--success-text); border:1px solid var(--success-border);">
+              Cocok! Pola regex berhasil memvalidasi teks uji.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1. Metakarakter Dasar -->
+      <section id="section-meta" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="type"></i> Karakter &amp; Kelas Karakter Dasar</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Simbol</th><th>Arti</th><th>Mencocokkan</th><th>Kebalikannya</th></tr></thead>
+            <tbody>
+              <tr><td><code>\d</code></td><td>Digit (Angka)</td><td>Angka 0 s/d 9</td><td><code>\D</code> (Bukan angka)</td></tr>
+              <tr><td><code>\w</code></td><td>Word Character</td><td>Huruf, Angka, dan Garis Bawah [a-zA-Z0-9_]</td><td><code>\W</code> (Bukan word char / simbol)</td></tr>
+              <tr><td><code>\s</code></td><td>Whitespace</td><td>Spasi, Tab (\t), Baris baru (\n)</td><td><code>\S</code> (Bukan spasi)</td></tr>
+              <tr><td><code>.</code></td><td>Sembarang Karakter</td><td>Karakter apa pun kecuali baris baru (\n)</td><td>Gunakan flag <code>s</code> untuk include \n</td></tr>
+              <tr><td><code>[abc]</code></td><td>Karakter Set</td><td>Hanya huruf a, b, ATAU c</td><td><code>[^abc]</code> (Bukan a, b, c)</td></tr>
+              <tr><td><code>[a-z]</code></td><td>Rentang Karakter</td><td>Semua huruf kecil dari a sampai z</td><td><code>[A-Z]</code> (Huruf besar)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. Quantifiers -->
+      <section id="section-quantifiers" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="hash"></i> Quantifiers (Jumlah Pengulangan)</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Simbol</th><th>Frekuensi</th><th>Contoh</th><th>Hasil Kecocokan</th></tr></thead>
+            <tbody>
+              <tr><td><code>+</code></td><td>1 atau lebih kali (Minimal 1)</td><td><code>\d+</code></td><td>"5", "120", "9999"</td></tr>
+              <tr><td><code>*</code></td><td>0 atau lebih kali (Boleh tidak ada)</td><td><code>ab*c</code></td><td>"ac", "abc", "abbbc"</td></tr>
+              <tr><td><code>?</code></td><td>0 atau 1 kali (Opsional)</td><td><code>https?</code></td><td>"http" atau "https"</td></tr>
+              <tr><td><code>{n}</code></td><td>Tepat sebanyak n kali</td><td><code>\d{4}</code></td><td>Tepat 4 digit angka (Tahun: "2026")</td></tr>
+              <tr><td><code>{min,max}</code></td><td>Rentang min sampai max kali</td><td><code>\d{7,10}</code></td><td>Antara 7 hingga 10 digit</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. Anchors & Boundaries -->
+      <section id="section-anchors" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="anchor"></i> Anchors &amp; Word Boundaries</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">^ (Awal) &amp; $ (Akhir)</span>
+              <button class="btn-copy" data-copy="^\d{5}$"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc"><code>^</code> mengunci pencocokan harus dimulai dari awal string. <code>$</code> mengunci pencocokan harus berakhir di akhir string. Wajib digunakan untuk validasi input formulir agar tidak lolos sebagian!</p>
+            <div class="code-box">
+              <code>^\d{5}$ &nbsp;# Tepat 5 digit kode pos dari awal sampai akhir</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Lookaround -->
+      <section id="section-lookaround" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="eye"></i> Lookahead &amp; Lookbehind Assertions</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Tipe</th><th>Sintaks</th><th>Arti</th><th>Contoh</th></tr></thead>
+            <tbody>
+              <tr><td>Positive Lookahead</td><td><code>(?=...)</code></td><td>Diikuti oleh pola tertentu di depannya</td><td><code>\d+(?=px)</code> &rarr; angka yang diikuti kata 'px' (contoh: '16' dari '16px')</td></tr>
+              <tr><td>Negative Lookahead</td><td><code>(?!...)</code></td><td>TIDAK boleh diikuti oleh pola tertentu</td><td><code>\d+(?!px)</code> &rarr; angka yang tidak berakhiran 'px'</td></tr>
+              <tr><td>Positive Lookbehind</td><td><code>(?&lt;=...)</code></td><td>Didahului oleh pola tertentu di belakangnya</td><td><code>(?&lt;=Rp\s?)\d+</code> &rarr; angka nominal setelah kata 'Rp'</td></tr>
+              <tr><td>Negative Lookbehind</td><td><code>(?&lt;!...)</code></td><td>TIDAK boleh didahului oleh pola tertentu</td><td><code>(?&lt;!\$)\d+</code> &rarr; angka yang bukan harga dollar</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- RESEP POLA VALIDASI SIAP PAKAI -->
+      <section id="section-recipes" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kamus Pola</span>
+          <h2 class="section-title"><i data-lucide="bookmark"></i> Resep Pola Regex Siap Pakai (Indonesia &amp; Umum)</h2>
+          <p class="section-description">Koleksi pola regex validasi terpopuler yang telah diuji dan siap disalin ke proyek Anda.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Nomor HP Indonesia (+62 / 08xx)</span>
+              <button class="btn-copy" data-copy="^(?:\+62|62|0)8[1-9][0-9]{7,10}$"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menerima format 08123456789, +628123456789, atau 628123456789 (panjang 10-13 digit angka).</p>
+            <div class="code-box"><code>^(?:\+62|62|0)8[1-9][0-9]{7,10}$</code></div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Nomor Induk Kependudukan (NIK KTP 16 Digit)</span>
+              <button class="btn-copy" data-copy="^[1-9][0-9]{15}$"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Tepat 16 digit angka, tidak berawalan angka nol.</p>
+            <div class="code-box"><code>^[1-9][0-9]{15}$</code></div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Validasi Format Email Lengkap</span>
+              <button class="btn-copy" data-copy="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Format nama pengguna, tanda @, domain, dan ekstensi minimal 2 karakter.</p>
+            <div class="code-box"><code>^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$</code></div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Password Kuat (Kombinasi Karakter)</span>
+              <button class="btn-copy" data-copy="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&amp;])[A-Za-z\d@$!%*?&amp;]{8,}$"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Minimal 8 karakter: wajib mengandung minimal 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol khusus.</p>
+            <div class="code-box"><code>^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&amp;])[A-Za-z\d@$!%*?&amp;]{8,}$</code></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Regex</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#9333ea; border-color:#9333ea; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#9333ea;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="regex" style="width:16px;height:16px;"></i></div>
+        <div><strong>Regex Cheatsheet</strong> &mdash; Panduan Pola Reguler &amp; Resep Validasi.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    // Live Regex Tester Interactive Script
+    const pInput = document.getElementById('interactiveRegexPattern');
+    const fInput = document.getElementById('interactiveRegexFlags');
+    const tInput = document.getElementById('interactiveRegexText');
+    const rBox = document.getElementById('interactiveRegexResult');
+
+    function updateRegexTest() {
+      if (!pInput || !tInput || !rBox) return;
+      try {
+        const re = new RegExp(pInput.value, fInput ? fInput.value : 'g');
+        const isMatch = re.test(tInput.value);
+        if (isMatch) {
+          rBox.style.background = 'var(--success-bg)';
+          rBox.style.color = 'var(--success-text)';
+          rBox.style.borderColor = 'var(--success-border)';
+          rBox.innerHTML = '<i data-lucide="check-circle" style="width:16px;height:16px;display:inline;vertical-align:text-bottom;"></i> Cocok! Teks uji memenuhi pola regex yang Anda masukkan.';
+        } else {
+          rBox.style.background = 'var(--danger-bg)';
+          rBox.style.color = 'var(--danger-text)';
+          rBox.style.borderColor = 'var(--danger-border)';
+          rBox.innerHTML = '<i data-lucide="x-circle" style="width:16px;height:16px;display:inline;vertical-align:text-bottom;"></i> Tidak Cocok. Teks uji tidak memenuhi kriteria pola regex.';
+        }
+      } catch (err) {
+        rBox.style.background = 'var(--warning-bg)';
+        rBox.style.color = 'var(--warning-text)';
+        rBox.style.borderColor = 'var(--warning-border)';
+        rBox.textContent = `Pola Regex Error: ${err.message}`;
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    if (pInput) pInput.addEventListener('input', updateRegexTest);
+    if (fInput) fInput.addEventListener('input', updateRegexTest);
+    if (tInput) tInput.addEventListener('input', updateRegexTest);
+
+    const REGEX_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Basic',
+        question: 'Karakter meta apakah yang digunakan untuk mencocokkan sembarang digit angka (setara dengan <code>[0-9]</code>)?',
+        options: ['\\d', '\\w', '\\s', '\\a'],
+        answer: 0,
+        explanation: '<code>\\d</code> (digit) mencocokkan satu karakter angka numerik dari 0 sampai 9. Huruf besarnya (<code>\\D</code>) mencocokkan karakter yang bukan angka.'
+      },
+      {
+        id: 2,
+        category: 'Quantifier',
+        question: 'Apa perbedaan antara quantifier <code>+</code> dan <code>*</code> dalam Regex?',
+        options: [
+          '+ berarti minimal muncul 1 kali, sedangkan * berarti boleh muncul 0 kali atau lebih.',
+          '+ hanya untuk huruf, * untuk angka.',
+          '* lebih lambat daripada +.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: 'Karakter <code>+</code> mensyaratkan kecocokan minimal 1 kemunculan (1 or more). Sedangkan <code>*</code> bersifat opsional dan mengizinkan 0 kemunculan (0 or more).'
+      },
+      {
+        id: 3,
+        category: 'Anchors',
+        question: 'Mengapa pola validasi formulir wajib diawali simbol <code>^</code> dan diakhiri simbol <code>$</code> (contoh: <code>^\\d{5}$</code>)?',
+        options: [
+          'Agar pola hanya mencocokkan string secara penuh dari karakter pertama hingga terakhir, bukan sekadar potongan substring di tengah.',
+          'Hanya sebagai pemanis sintaks.',
+          'Agar regex bisa berjalan di Google Chrome.',
+          'Wajib menurut aturan W3C.'
+        ],
+        answer: 0,
+        explanation: 'Tanpa <code>^</code> dan <code>$</code>, pola <code>\\d{5}</code> akan menganggap teks "ABC12345DEF" sebagai valid karena di tengahnya terdapat 5 angka!'
+      },
+      {
+        id: 4,
+        category: 'Lookaround',
+        question: 'Sintaks <code>(?=...)</code> dalam ekspresi reguler dikenal sebagai:',
+        options: [
+          'Positive Lookahead',
+          'Negative Lookahead',
+          'Non-capturing Group',
+          'Named Group'
+        ],
+        answer: 0,
+        explanation: '<code>(?=...)</code> adalah Positive Lookahead yang memastikan pola tertentu ada di posisi depan tanpa mengonsumsi karakter tersebut ke dalam hasil tangkapan.'
+      },
+      {
+        id: 5,
+        category: 'Basic',
+        question: 'Flag regex apakah yang digunakan agar pencarian teks tidak membedakan antara huruf kapital dan huruf kecil (Case-Insensitive)?',
+        options: [
+          'Flag i',
+          'Flag g',
+          'Flag m',
+          'Flag s'
+        ],
+        answer: 0,
+        explanation: 'Flag <code>i</code> (ignore case) membuat pencarian regex tidak peka terhadap besar/kecilnya huruf (misal: /abc/i akan mencocokkan "ABC", "Abc", maupun "abc").'
+      },
+      {
+        id: 6,
+        category: 'Basic',
+        question: 'Bagaimana cara mencocokkan karakter tanda titik literal (<code>.</code>) di dalam teks agar tidak dianggap sebagai metakarakter wildcard?',
+        options: [
+          'Escape dengan garis miring terbalik: \\.',
+          'Bungkus dengan kurung: (.)',
+          'Ketik dua kali: ..',
+          'Gunakan petik: \'.\''
+        ],
+        answer: 0,
+        explanation: 'Karena tanda titik <code>.</code> adalah metakarakter khusus yang berarti sembarang karakter, Anda harus melakukan *escape* dengan backslash <code>\\.</code> jika ingin mencocokkan simbol titik asli.'
+      },
+      {
+        id: 7,
+        category: 'Quantifier',
+        question: 'Untuk mencocokkan kata yang memiliki panjang antara 3 sampai 8 karakter huruf saja, pola manakah yang tepat?',
+        options: [
+          '^[a-zA-Z]{3,8}$',
+          '^[a-zA-Z]{3-8}$',
+          '^[a-zA-Z](3,8)$',
+          '^[a-zA-Z]*{3,8}$'
+        ],
+        answer: 0,
+        explanation: 'Kurung kurawal <code>{min,max}</code> dengan koma (<code>{3,8}</code>) menyatakan batas minimal 3 kali dan maksimal 8 kali pengulangan karakter.'
+      },
+      {
+        id: 8,
+        category: 'Basic',
+        question: 'Pola regex <code>^08[1-9][0-9]{7,10}$</code> dirancang khusus untuk memvalidasi:',
+        options: [
+          'Nomor Telepon Seluler Indonesia',
+          'Nomor Rekening Bank BCA',
+          'Nomor Surat Izin Mengemudi (SIM)',
+          'Kode Pos Seluruh Indonesia'
+        ],
+        answer: 0,
+        explanation: 'Pola ini memvalidasi awalan nomor HP di Indonesia (08 diikuti digit operator 1-9) dengan total panjang angka antara 10 sampai 13 digit.'
+      },
+      {
+        id: 9,
+        category: 'Basic',
+        question: 'Apa fungsi dari tanda kurung non-capturing group <code>(?:...)</code>?',
+        options: [
+          'Mengelompokkan sub-pola untuk menerapkan quantifier tanpa menyimpannya ke memori nomor grup tangkapan ($1, $2).',
+          'Menghapus teks yang cocok.',
+          'Membuat regex menjadi tidak aktif.',
+          'Membagi string menjadi array.'
+        ],
+        answer: 0,
+        explanation: '<code>(?:...)</code> menghemat alokasi memori dan mempercepat eksekusi regex karena ia hanya mengelompokkan logika tanpa perlu merekam hasil tangkapan ke variabel back-reference.'
+      },
+      {
+        id: 10,
+        category: 'Basic',
+        question: 'Simbol <code>\\b</code> dalam regex mewakili:',
+        options: [
+          'Word Boundary (Batas kata antara huruf dan spasi/tanda baca)',
+          'Backspace',
+          'Bold text',
+          'Beginning of line'
+        ],
+        answer: 0,
+        explanation: '<code>\\b</code> (Word Boundary) mencocokkan posisi awal atau akhir dari sebuah kata utuh (contoh: <code>\\bcat\\b</code> mencocokkan kata "cat" sendiri, tetapi tidak mencocokkan kata "category").'
+      },
+      {
+        id: 11,
+        category: 'Basic',
+        question: 'Karakter set <code>[^0-9]</code> memiliki fungsi yang identik dengan:',
+        options: [
+          '\\D',
+          '\\d',
+          '\\w',
+          '\\W'
+        ],
+        answer: 0,
+        explanation: 'Tanda caret <code>^</code> di dalam kurung siku <code>[^...]</code> menegasikan karakter set tersebut, sehingga <code>[^0-9]</code> berarti semua karakter yang bukan angka (sama dengan <code>\\D</code>).'
+      },
+      {
+        id: 12,
+        category: 'Lookaround',
+        question: 'Di antara pola berikut, manakah contoh penulisan Positive Lookbehind yang benar untuk mencocokkan angka setelah simbol mata uang Dollar (<code>$</code>)?',
+        options: [
+          '(?<=\\$)\\d+',
+          '(?=\\$)\\d+',
+          '(?!\\$)\\d+',
+          '(?<!\\$)\\d+'
+        ],
+        answer: 0,
+        explanation: 'Positive Lookbehind ditulis dengan sintaks <code>(?&lt;=...)</code>. Tanda panah ke kiri <code>&lt;</code> menandakan "menengok ke belakang" sebelum mencocokkan digit angka.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: REGEX_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

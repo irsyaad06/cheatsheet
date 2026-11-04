@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Linux &amp; Bash Cheatsheet - Panduan Perintah Terminal &amp; Sysadmin</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #d97706;
+      --excel-primary-hover: #b45309;
+      --excel-primary-light: #fef3c7;
+      --excel-primary-subtle: rgba(217, 119, 6, 0.08);
+      --excel-border-accent: #d97706;
+      --excel-dark: #78350f;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #fbbf24;
+      --excel-primary-hover: #d97706;
+      --excel-primary-light: rgba(251, 191, 36, 0.15);
+      --excel-primary-subtle: rgba(251, 191, 36, 0.1);
+      --excel-border-accent: #fbbf24;
+      --excel-dark: #b45309;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #d97706, #b45309);">
+            <i data-lucide="terminal" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Linux &amp; Bash Cheatsheet</h1>
+            <p>Terminal Commands &amp; Sysadmin Interview Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari perintah (grep, chmod, awk, systemctl, cron)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel Perintah</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#d97706; border-color:#d97706;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">15 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Linux</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-files" class="sidebar-link"><i data-lucide="folder" class="nav-icon"></i><span>1. Berkas &amp; Navigasi</span></a></li>
+        <li><a href="#section-permissions" class="sidebar-link"><i data-lucide="shield" class="nav-icon"></i><span>2. Izin Akses (chmod &amp; chown)</span></a></li>
+        <li><a href="#section-text" class="sidebar-link"><i data-lucide="search" class="nav-icon"></i><span>3. Pencarian Teks (grep, awk, sed)</span></a></li>
+        <li><a href="#section-system" class="sidebar-link"><i data-lucide="activity" class="nav-icon"></i><span>4. Proses &amp; Monitoring Sistem</span></a></li>
+        <li><a href="#section-network" class="sidebar-link"><i data-lucide="wifi" class="nav-icon"></i><span>5. Jaringan &amp; Download</span></a></li>
+        <li><a href="#section-cron" class="sidebar-link"><i data-lucide="clock" class="nav-icon"></i><span>6. Penjadwalan Crontab</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #d97706; background: linear-gradient(135deg, color-mix(in srgb, #d97706 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#fef3c7; color:#78350f;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Ubuntu, Debian, CentOS, RHEL, Alpine</span>
+          <span class="hero-pill" style="background:#fef3c7; color:#78350f;">Bash &amp; Zsh Compatible</span>
+        </div>
+        <h1 class="hero-title">Linux &amp; Bash Terminal Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis perintah CLI (Command Line Interface) sistem operasi Linux. Mulai dari manajemen berkas, kalkulasi hak akses izin numerik, pemfilteran log server bertenaga grep &amp; awk, hingga penjadwalan otomasi crontab.
+        </p>
+      </section>
+
+      <!-- 1. Berkas & Navigasi -->
+      <section id="section-files" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="folder"></i> Navigasi &amp; Pengelolaan Berkas</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">ls -la, cd, pwd &amp; mkdir</span>
+              <button class="btn-copy" data-copy="ls -lah &amp;&amp; pwd"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Perintah dasar memeriksa lokasi direktori aktif (<code>pwd</code>), melihat daftar isi folder lengkap dengan file tersembunyi berawalan titik (<code>ls -la</code>), dan membuat folder bertingkat sekaligus (<code>mkdir -p</code>).</p>
+            <div class="code-box">
+              <code>pwd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Cetak direktori kerja saat ini<br>ls -lah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# List berkas format manusia (KB/MB/GB)<br>mkdir -p app/src/utils &nbsp;# Buat struktur folder bersarang</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">cp, mv &amp; rm (Hapus &amp; Salin)</span>
+              <button class="btn-copy" data-copy="rm -rf /tmp/cache"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc"><code>cp -r</code> menyalin folder secara rekursif, <code>mv</code> memindahkan atau mengganti nama berkas, <code>rm -rf</code> menghapus direktori beserta isinya secara paksa.</p>
+            <div class="code-box">
+              <code>cp -r folder_sumber folder_tujuan<br>mv berkas_lama.txt berkas_baru.txt<br>rm -rf folder_sampah/ &nbsp;# Hati-hati: tidak bisa di-undo!</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. Izin Akses -->
+      <section id="section-permissions" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="shield"></i> Hak Izin Akses (chmod &amp; chown)</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Angka</th><th>Tipe Izin</th><th>Huruf</th><th>Arti</th></tr></thead>
+            <tbody>
+              <tr><td><code>4</code></td><td>Read (Baca)</td><td><code>r</code></td><td>Membaca isi berkas atau melihat isi direktori.</td></tr>
+              <tr><td><code>2</code></td><td>Write (Tulis)</td><td><code>w</code></td><td>Mengubah, mengedit, atau menghapus berkas.</td></tr>
+              <tr><td><code>1</code></td><td>Execute (Jalankan)</td><td><code>x</code></td><td>Menjalankan berkas sebagai program script / memasuki direktori.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="formula-grid" style="margin-top:1.25rem;">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Kombinasi Nilai chmod Populer</span>
+              <button class="btn-copy" data-copy="chmod 755 script.sh &amp;&amp; chmod 644 file.txt"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>chmod 755 script.sh &nbsp;# Owner: Read+Write+Exec (7), Group: Read+Exec (5), Others: Read+Exec (5)<br>chmod 644 config.txt &nbsp;# Owner: Read+Write (6), Group: Read (4), Others: Read (4)<br>chmod 600 id_rsa &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Private key SSH: Hanya Owner yang boleh baca &amp; tulis!</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. Pencarian Teks -->
+      <section id="section-text" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="search"></i> Pencarian &amp; Pengolahan Teks (grep, awk, sed)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">grep (Global Regular Expression Print)</span>
+              <button class="btn-copy" data-copy="grep -rn &quot;ERROR&quot; /var/log/"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Mencari baris teks di dalam berkas log server. <code>-r</code> rekursif, <code>-n</code> tampilkan nomor baris, <code>-i</code> case-insensitive.</p>
+            <div class="code-box">
+              <code>grep -rni "connection refused" /var/log/nginx/</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">awk &amp; sed (Pemrosesan Kolom &amp; Stream Edit)</span>
+              <button class="btn-copy" data-copy="cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc"><code>awk</code> mengekstrak kolom ke-n (contoh: <code>'{print $1}'</code> ambil IP address). <code>sed</code> mengganti teks massal via stream editor.</p>
+            <div class="code-box">
+              <code># Ambil kolom ke-1, urutkan, hitung frekuensi kemunculan IP address teratas:<br>cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -10<br><br># Ganti kata 'staging' menjadi 'production' di config:<br>sed -i 's/staging/production/g' config.env</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Monitoring Sistem -->
+      <section id="section-system" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="activity"></i> Monitoring Proses &amp; Sumber Daya</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">top, ps, kill, df &amp; free</span>
+              <button class="btn-copy" data-copy="df -h &amp;&amp; free -m &amp;&amp; ps aux | grep python"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>top / htop &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Monitor CPU &amp; RAM realtime interaktif<br>df -h &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Cek sisa kapasitas penyimpanan harddisk<br>free -m &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Cek penggunaan memori RAM (Megabytes)<br>kill -9 &lt;PID&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Menghentikan paksa proses yang macet</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. Jaringan -->
+      <section id="section-network" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="wifi"></i> Jaringan, Port &amp; Download</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">curl, wget &amp; ss / netstat</span>
+              <button class="btn-copy" data-copy="curl -I https://google.com &amp;&amp; ss -tulpn"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>curl -I https://api.domain.com &nbsp;&nbsp;# Periksa HTTP response header<br>ss -tulpn &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Periksa port aktif yang sedang listening<br>wget https://url.com/data.zip &nbsp;&nbsp;# Unduh berkas langsung dari internet</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 6. Crontab -->
+      <section id="section-cron" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 06</span>
+          <h2 class="section-title"><i data-lucide="clock"></i> Penjadwalan Otomatis (Crontab)</h2>
+        </div>
+        <article class="formula-card">
+          <p class="formula-desc">Format 5 kolom penentu jadwal crontab (<code>crontab -e</code>):</p>
+          <div class="code-box">
+            <code>* * * * * /path/to/script.sh<br>┬ ┬ ┬ ┬ ┬<br>│ │ │ │ │<br>│ │ │ │ └──── Hari dalam Minggu (0 - 7, 0/7 = Minggu)<br>│ │ │ └────── Bulan (1 - 12)<br>│ │ └──────── Tanggal dalam Bulan (1 - 31)<br>│ └────────── Jam (0 - 23)<br>└──────────── Menit (0 - 59)</code>
+          </div>
+          <div class="params-table-wrapper" style="margin-top:1rem;">
+            <table class="params-table">
+              <thead><tr><th>Ekspresi Cron</th><th>Artinya</th></tr></thead>
+              <tbody>
+                <tr><td><code>0 2 * * *</code></td><td>Jalankan setiap hari jam 02:00 pagi (waktu backup database).</td></tr>
+                <tr><td><code>*/15 * * * *</code></td><td>Jalankan setiap 15 menit sekali.</td></tr>
+                <tr><td><code>0 8 * * 1</code></td><td>Jalankan setiap hari Senin jam 08:00 pagi.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Perintah Linux</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari perintah (grep, chmod, systemctl)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="File">Berkas</option>
+            <option value="Permission">Izin Akses</option>
+            <option value="Text">Teks &amp; Filter</option>
+            <option value="System">Sistem &amp; Net</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Perintah</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 15 Soal Tes Kerja Linux</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 15</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div class="quiz-filter-bar">
+            <button class="quiz-filter-btn active" data-cat="ALL">Semua Soal (15)</button>
+            <button class="quiz-filter-btn" data-cat="Permission">Izin Akses (chmod)</button>
+            <button class="quiz-filter-btn" data-cat="Text">Grep &amp; Pipes</button>
+            <button class="quiz-filter-btn" data-cat="System">System &amp; Cron</button>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#d97706; border-color:#d97706; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#d97706;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="terminal" style="width:16px;height:16px;"></i></div>
+        <div><strong>Linux &amp; Bash Cheatsheet</strong> &mdash; Panduan Terminal untuk Engineer &amp; Sysadmin.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const LINUX_CATALOG = [
+      { name: 'ls -la', cat: 'File', desc: 'Melihat seluruh berkas termasuk file tersembunyi berawalan titik.', syntax: 'ls -lah', example: 'ls -lah /var/log', section: 'section-files' },
+      { name: 'pwd', cat: 'File', desc: 'Mencetak alamat direktori kerja saat ini.', syntax: 'pwd', example: 'pwd', section: 'section-files' },
+      { name: 'mkdir -p', cat: 'File', desc: 'Membuat direktori bertingkat bersarang sekaligus.', syntax: 'mkdir -p <path>', example: 'mkdir -p app/src/models', section: 'section-files' },
+      { name: 'chmod', cat: 'Permission', desc: 'Mengubah hak izin akses berkas (read, write, execute).', syntax: 'chmod <mode> <file>', example: 'chmod 755 run.sh', section: 'section-permissions' },
+      { name: 'chown', cat: 'Permission', desc: 'Mengubah pemilik (owner) dan grup suatu berkas.', syntax: 'chown user:group <file>', example: 'chown www-data:www-data /var/www', section: 'section-permissions' },
+      { name: 'grep', cat: 'Text', desc: 'Mencari baris teks atau pola regex di dalam berkas.', syntax: 'grep [flags] "pola" <file>', example: 'grep -rni "error" /var/log/', section: 'section-text' },
+      { name: 'awk', cat: 'Text', desc: 'Pemrosesan teks berbasis kolom dan pembuatan laporan ringkas.', syntax: 'awk \'{print $kolom}\' <file>', example: 'cat access.log | awk \'{print $1}\'', section: 'section-text' },
+      { name: 'sed', cat: 'Text', desc: 'Stream editor untuk mencari dan mengganti teks massal.', syntax: 'sed -i \'s/old/new/g\' <file>', example: 'sed -i \'s/http/https/g\' site.conf', section: 'section-text' },
+      { name: 'df -h', cat: 'System', desc: 'Memeriksa kapasitas ruang penyimpanan harddisk.', syntax: 'df -h', example: 'df -h', section: 'section-system' },
+      { name: 'systemctl', cat: 'System', desc: 'Mengelola background service daemon (start, stop, restart, enable).', syntax: 'systemctl [action] <service>', example: 'systemctl restart nginx', section: 'section-system' },
+      { name: 'crontab -e', cat: 'System', desc: 'Mengedit tabel jadwal cron job otomatis.', syntax: 'crontab -e', example: 'crontab -e', section: 'section-cron' }
+    ];
+
+    const LINUX_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Permission',
+        question: 'Dalam perintah <code>chmod 755 backup.sh</code>, apa arti dari angka <code>7</code> untuk pemilik berkas (owner)?',
+        options: [
+          'Read saja (4)',
+          'Write dan Read saja (4+2 = 6)',
+          'Read, Write, dan Execute (4+2+1 = 7)',
+          'Hanya Execute (1)'
+        ],
+        answer: 2,
+        explanation: 'Nilai permission adalah penjumlahan dari: Read (4) + Write (2) + Execute (1). Nilai 7 berarti pemilik berkas memiliki hak penuh: membaca, mengubah/menulis, dan mengeksekusi berkas script tersebut.'
+      },
+      {
+        id: 2,
+        category: 'Text',
+        question: 'Perintah pipeline apakah yang digunakan untuk menghitung jumlah baris yang muncul pada keluaran teks perintah lain?',
+        options: [
+          'wc -l',
+          'count -rows',
+          'ls -lines',
+          'grep -c'
+        ],
+        answer: 0,
+        explanation: '<code>wc -l</code> (Word Count - Lines) menghitung jumlah total baris teks (contoh: <code>cat user.txt | wc -l</code>).'
+      },
+      {
+        id: 3,
+        category: 'System',
+        question: 'Pada konfigurasi crontab, ekspresi apakah yang digunakan untuk menjalankan script otomatis setiap hari tepat pada jam 03:00 pagi?',
+        options: [
+          '0 3 * * *',
+          '* 3 * * *',
+          '3 0 * * *',
+          '* * 3 * *'
+        ],
+        answer: 0,
+        explanation: 'Format 5 kolom crontab adalah [Menit] [Jam] [Hari/Bulan] [Bulan] [Hari/Minggu]. Maka Menit 0 dan Jam 3 ditulis sebagai <code>0 3 * * *</code>.'
+      },
+      {
+        id: 4,
+        category: 'Text',
+        question: 'Opsi bendera (flag) manakah pada <code>grep</code> yang digunakan untuk melakukan pencarian di seluruh sub-folder secara rekursif dan menampilkan nomor barisnya?',
+        options: [
+          '-rn',
+          '-f',
+          '-x',
+          '-all'
+        ],
+        answer: 0,
+        explanation: '<code>-r</code> (recursive) mencari di dalam seluruh sub-direktori, dan <code>-n</code> (line number) menampilkan nomor baris tempat kata kunci tersebut ditemukan.'
+      },
+      {
+        id: 5,
+        category: 'Permission',
+        question: 'Kunci privat SSH (misal: <code>~/.ssh/id_rsa</code>) mensyaratkan izin akses yang sangat ketat agar aman dan tidak ditolak oleh server SSH. Berapakah kode angka chmod yang wajib digunakan?',
+        options: [
+          '777',
+          '755',
+          '600',
+          '666'
+        ],
+        answer: 2,
+        explanation: '<code>chmod 600 id_rsa</code> hanya memberikan izin Read & Write kepada Owner (6), sementara User lain dan Group tidak memiliki akses sama sekali (0 0), mencegah file private key disusupi.'
+      },
+      {
+        id: 6,
+        category: 'System',
+        question: 'Perintah apakah yang digunakan untuk mengirim sinyal KILL paksa (SIGKILL) secara instan kepada proses aplikasi yang mengalami hang/freeze dengan Process ID (PID) 2045?',
+        options: [
+          'kill -9 2045',
+          'stop 2045',
+          'terminate 2045',
+          'systemctl stop 2045'
+        ],
+        answer: 0,
+        explanation: '<code>kill -9 &lt;PID&gt;</code> mengirim sinyal 9 (SIGKILL) yang tidak dapat dicegat atau diabaikan oleh proses sistem, memaksa proses langsung ditutup.'
+      },
+      {
+        id: 7,
+        category: 'System',
+        question: 'Apa perbedaan mendasar antara operator redirect <code>&gt;</code> dan <code>&gt;&gt;</code> di Bash?',
+        options: [
+          '> menimpa (overwrite) isi file tujuan dari awal, sedangkan >> menambahkan teks ke baris paling akhir (append).',
+          '> untuk file teks, >> untuk file biner.',
+          'Keduanya sama persis.',
+          '> lebih cepat daripada >>.'
+        ],
+        answer: 0,
+        explanation: 'Operator <code>&gt;</code> akan menghapus isi file lama lalu menulis ulang dari nol, sedangkan <code>&gt;&gt;</code> mempertahankan isi yang lama dan menyematkan baris baru di ujung bawah berkas.'
+      },
+      {
+        id: 8,
+        category: 'System',
+        question: 'Perintah apakah yang digunakan untuk memeriksa sisa ruang kapasitas penyimpanan harddisk di server dengan format yang mudah dibaca manusia (Gigabytes/Megabytes)?',
+        options: [
+          'df -h',
+          'du -s',
+          'free -m',
+          'diskcheck'
+        ],
+        answer: 0,
+        explanation: '<code>df -h</code> (Disk Free - Human Readable) menampilkan persentase penggunaan storage partisi harddisk dalam format MB atau GB.'
+      },
+      {
+        id: 9,
+        category: 'Text',
+        question: 'Anda memiliki daftar nama di file yang banyak terdapat nama ganda berturut-turut. Perintah apakah yang digunakan untuk menghapus baris duplikat tersebut?',
+        options: [
+          'sort | uniq',
+          'dedup',
+          'clean',
+          'filter --unique'
+        ],
+        answer: 0,
+        explanation: 'Perintah <code>uniq</code> hanya mendeteksi baris ganda yang berdampingan, sehingga wajib didahului oleh <code>sort</code> (contoh: <code>sort file.txt | uniq</code>).'
+      },
+      {
+        id: 10,
+        category: 'System',
+        question: 'Untuk menyalakan layanan web server Nginx secara permanen agar otomatis hidup kembali setiap kali server reboot, perintah apakah yang digunakan?',
+        options: [
+          'systemctl enable nginx',
+          'systemctl start nginx',
+          'systemctl auto-boot nginx',
+          'service nginx on'
+        ],
+        answer: 0,
+        explanation: '<code>systemctl enable &lt;service&gt;</code> membuat symlink di systemd agar service berjalan otomatis saat server booting.'
+      },
+      {
+        id: 11,
+        category: 'System',
+        question: 'Apa fungsi dari tanda pipe <code>|</code> pada baris perintah terminal Linux?',
+        options: [
+          'Menghapus perintah sebelumnya.',
+          'Menyalurkan keluaran (stdout) dari perintah pertama menjadi masukan (stdin) bagi perintah berikutnya.',
+          'Membagi layar menjadi dua jendela.',
+          'Memisahkan akun pengguna.'
+        ],
+        answer: 1,
+        explanation: 'Pipeline <code>|</code> adalah konsep inti Unix yang menghubungkan output perintah pertama langsung menjadi input perintah kedua tanpa perlu file sementara.'
+      },
+      {
+        id: 12,
+        category: 'Text',
+        question: 'Bagaimana cara memantau berkas log server secara langsung (real-time) sehingga setiap ada baris transaksi baru yang masuk langsung tercetak di layar terminal?',
+        options: [
+          'tail -f /var/log/app.log',
+          'head -n 100 /var/log/app.log',
+          'cat /var/log/app.log',
+          'watch /var/log/app.log'
+        ],
+        answer: 0,
+        explanation: '<code>tail -f</code> (follow) memantau ujung akhir berkas secara aktif dan terus mencetak baris baru yang ditambahkan ke berkas log tersebut secara instan.'
+      },
+      {
+        id: 13,
+        category: 'System',
+        question: 'Perintah apakah yang digunakan untuk memeriksa port TCP/UDP mana saja yang sedang aktif mendengarkan (listening) koneksi di server?',
+        options: [
+          'ss -tulpn (atau netstat -tulpn)',
+          'ping -port',
+          'curl --listen',
+          'ifconfig --ports'
+        ],
+        answer: 0,
+        explanation: '<code>ss -tulpn</code> (Socket Statistics) menampilkan seluruh socket TCP/UDP yang sedang listening beserta nomor port dan nama proses yang memakainya.'
+      },
+      {
+        id: 14,
+        category: 'Permission',
+        question: 'Jika sebuah script Bash tidak dapat dijalankan dengan pesan error <code>Permission denied</code>, tindakan apakah yang paling tepat untuk mengatasinya?',
+        options: [
+          'chmod +x nama_script.sh',
+          'rm nama_script.sh',
+          'chmod 000 nama_script.sh',
+          'reboot server'
+        ],
+        answer: 0,
+        explanation: 'Pesan tersebut menandakan berkas belum memiliki izin execute (x). Menjalankan <code>chmod +x nama_script.sh</code> menambahkan hak eksekusi sehingga script bisa dijalankan.'
+      },
+      {
+        id: 15,
+        category: 'System',
+        question: 'Simbol pintasan (shortcut) apakah di Linux yang merepresentasikan folder beranda milik pengguna aktif saat ini (home directory)?',
+        options: [
+          '~ (tilde)',
+          '# (hash)',
+          '$ (dollar)',
+          '@ (at)'
+        ],
+        answer: 0,
+        explanation: 'Karakter tilde <code>~</code> merepresentasikan home directory pengguna yang sedang aktif (misalnya <code>/home/budi</code> atau <code>/Users/icad</code>).'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: LINUX_CATALOG,
+      questions: LINUX_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

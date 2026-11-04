@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Docker Cheatsheet - Panduan Container, Dockerfile &amp; Compose</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #0ea5e9;
+      --excel-primary-hover: #0284c7;
+      --excel-primary-light: #e0f2fe;
+      --excel-primary-subtle: rgba(14, 165, 233, 0.08);
+      --excel-border-accent: #0ea5e9;
+      --excel-dark: #0369a1;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #38bdf8;
+      --excel-primary-hover: #0ea5e9;
+      --excel-primary-light: rgba(56, 189, 248, 0.15);
+      --excel-primary-subtle: rgba(56, 189, 248, 0.1);
+      --excel-border-accent: #38bdf8;
+      --excel-dark: #0284c7;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #0284c7, #0ea5e9);">
+            <i data-lucide="box" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Docker Cheatsheet</h1>
+            <p>Container CLI, Dockerfile &amp; Compose Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari perintah docker (run, compose, build, volume)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel Perintah</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#0ea5e9; border-color:#0ea5e9;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Docker</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-cli" class="sidebar-link"><i data-lucide="terminal" class="nav-icon"></i><span>1. Perintah Container CLI</span></a></li>
+        <li><a href="#section-dockerfile" class="sidebar-link"><i data-lucide="file-code" class="nav-icon"></i><span>2. Sintaks Dockerfile</span></a></li>
+        <li><a href="#section-compose" class="sidebar-link"><i data-lucide="layers" class="nav-icon"></i><span>3. Docker Compose (YAML)</span></a></li>
+        <li><a href="#section-volumes" class="sidebar-link"><i data-lucide="database" class="nav-icon"></i><span>4. Volumes &amp; Jaringan</span></a></li>
+        <li><a href="#section-cleanup" class="sidebar-link"><i data-lucide="trash-2" class="nav-icon"></i><span>5. Pembersihan &amp; Prune</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #0ea5e9; background: linear-gradient(135deg, color-mix(in srgb, #0ea5e9 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#e0f2fe; color:#0369a1;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar DevOps, Backend &amp; Cloud Deployment</span>
+          <span class="hero-pill" style="background:#e0f2fe; color:#0369a1;">Docker Engine &amp; Compose v2</span>
+        </div>
+        <h1 class="hero-title">Docker &amp; Containerization Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis teknologi kontainer Docker. Menguasai manajemen lifecycle container (<code>run</code>, <code>exec</code>, <code>logs</code>), perakitan gambar efisien via <code>Dockerfile</code> multi-stage, orkestrasi multi-service <code>docker-compose.yml</code>, serta manajemen persistent volume data.
+        </p>
+      </section>
+
+      <!-- 1. CLI -->
+      <section id="section-cli" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="terminal"></i> Perintah Inti Container CLI</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">docker run &amp; flags</span>
+              <button class="btn-copy" data-copy="docker run -d -p 8080:80 --name web-server -v $(pwd):/usr/share/nginx/html --restart always nginx:alpine"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menjalankan container dari image. Flag <code>-d</code> detached di latar belakang, <code>-p</code> port mapping (Host:Container), <code>--name</code> beri nama kontainer.</p>
+            <div class="code-box">
+              <code>docker run -d -p 3000:3000 --name my-app node:18-alpine</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">docker ps, logs &amp; exec</span>
+              <button class="btn-copy" data-copy="docker exec -it my-app sh"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>docker ps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Lihat container yang sedang berjalan<br>docker ps -a &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Lihat semua container (termasuk yang mati)<br>docker logs -f my-app &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Pantau log output container secara realtime<br>docker exec -it my-app bash &nbsp;# Masuk ke dalam terminal shell container</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. Dockerfile -->
+      <section id="section-dockerfile" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="file-code"></i> Sintaks &amp; Struktur Dockerfile</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Resep pembuatan container image produksi (Multi-stage build):</p>
+          <div class="code-box">
+            <code># 1. Base Image<br>FROM node:20-alpine AS builder<br>WORKDIR /app<br><br># 2. Dependencies Caching<br>COPY package*.json ./<br>RUN npm ci<br><br># 3. Copy Source Code &amp; Build<br>COPY . .<br>RUN npm run build<br><br># 4. Production Runner Stage<br>FROM nginx:alpine<br>COPY --from=builder /app/dist /usr/share/nginx/html<br>EXPOSE 80<br>CMD ["nginx", "-g", "daemon off;"]</code>
+          </div>
+          <div class="card-tips">
+            <i data-lucide="info" class="card-tips-icon"></i>
+            <span><strong>CMD vs ENTRYPOINT:</strong> <code>ENTRYPOINT</code> menentukan perintah utama yang pasti dijalankan, sedangkan <code>CMD</code> menyediakan argumen default yang dapat ditimpa saat <code>docker run</code>.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Docker Compose -->
+      <section id="section-compose" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="layers"></i> Docker Compose (Multi-Service YAML)</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Contoh berkas <code>docker-compose.yml</code> untuk aplikasi Web dan Database PostgreSQL:</p>
+          <div class="code-box">
+            <code>services:<br>&nbsp;&nbsp;web:<br>&nbsp;&nbsp;&nbsp;&nbsp;build: .<br>&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "3000:3000"<br>&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- DB_HOST=db<br>&nbsp;&nbsp;&nbsp;&nbsp;depends_on:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- db<br><br>&nbsp;&nbsp;db:<br>&nbsp;&nbsp;&nbsp;&nbsp;image: postgres:16-alpine<br>&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POSTGRES_PASSWORD: rahasia123<br>&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- pgdata:/var/lib/postgresql/data<br><br>volumes:<br>&nbsp;&nbsp;pgdata:</code>
+          </div>
+          <div class="params-table-wrapper" style="margin-top:1rem;">
+            <table class="params-table">
+              <thead><tr><th>Perintah Compose</th><th>Fungsi</th></tr></thead>
+              <tbody>
+                <tr><td><code>docker compose up -d</code></td><td>Menjalankan semua service di latar belakang.</td></tr>
+                <tr><td><code>docker compose down</code></td><td>Menghentikan dan menghapus container service beserta jaringannya.</td></tr>
+                <tr><td><code>docker compose restart web</code></td><td>Me-restart satu service tertentu.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Volumes -->
+      <section id="section-volumes" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="database"></i> Volumes: Persistensi Data</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Named Volume vs Bind Mount</span>
+              <button class="btn-copy" data-copy="docker volume create db_data"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code># Named Volume (Dikelola Docker di /var/lib/docker/volumes):<br>docker run -v nama_volume:/var/lib/mysql mysql<br><br># Bind Mount (Memetakan folder lokal di laptop ke dalam container):<br>docker run -v $(pwd)/src:/app/src my-dev-app</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. Cleanup -->
+      <section id="section-cleanup" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="trash-2"></i> Pembersihan Kapasitas Harddisk (Prune)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">docker system prune</span>
+              <button class="btn-copy" data-copy="docker system prune -a --volumes"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Membersihkan container mati, image tak terpakai (dangling), dan cache build yang memakan ruang harddisk hingga puluhan gigabytes.</p>
+            <div class="code-box">
+              <code>docker system prune -a --volumes &nbsp;# Hapus container mati + image tak terpakai + volume</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Perintah Docker</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari perintah docker (run, exec, prune)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="CLI">Container CLI</option>
+            <option value="Image">Image &amp; Build</option>
+            <option value="Compose">Docker Compose</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Perintah</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Kerja Docker</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#0ea5e9; border-color:#0ea5e9; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#0ea5e9;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="box" style="width:16px;height:16px;"></i></div>
+        <div><strong>Docker Cheatsheet</strong> &mdash; Panduan Container &amp; DevOps.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const DOCKER_CATALOG = [
+      { name: 'docker run', cat: 'CLI', desc: 'Membuat dan menjalankan container baru dari image.', syntax: 'docker run [options] <image>', example: 'docker run -d -p 80:80 nginx', section: 'section-cli' },
+      { name: 'docker exec', cat: 'CLI', desc: 'Menjalankan perintah atau membuka shell di dalam container aktif.', syntax: 'docker exec -it <container> <cmd>', example: 'docker exec -it app sh', section: 'section-cli' },
+      { name: 'docker ps', cat: 'CLI', desc: 'Menampilkan daftar container yang sedang berjalan.', syntax: 'docker ps [-a]', example: 'docker ps -a', section: 'section-cli' },
+      { name: 'docker logs', cat: 'CLI', desc: 'Melihat log output standar (stdout/stderr) dari container.', syntax: 'docker logs [-f] <container>', example: 'docker logs -f my-app', section: 'section-cli' },
+      { name: 'docker build', cat: 'Image', desc: 'Merakit container image dari instruksi berkas Dockerfile.', syntax: 'docker build -t <tag> <path>', example: 'docker build -t my-app:1.0 .', section: 'section-dockerfile' },
+      { name: 'docker compose up', cat: 'Compose', desc: 'Membangun dan menjalankan seluruh service di docker-compose.yml.', syntax: 'docker compose up [-d]', example: 'docker compose up -d', section: 'section-compose' },
+      { name: 'docker system prune', cat: 'CLI', desc: 'Menghapus container mati, image tak terpakai, dan cache build.', syntax: 'docker system prune [-a]', example: 'docker system prune -a', section: 'section-cleanup' }
+    ];
+
+    const DOCKER_QUESTIONS = [
+      {
+        id: 1,
+        category: 'CLI',
+        question: 'Pada perintah <code>docker run -p 8080:80 nginx</code>, apa arti dari parameter <code>-p 8080:80</code>?',
+        options: [
+          'Memetakan port 8080 di komputer Host ke port 80 di dalam Container.',
+          'Memetakan port 80 di Host ke port 8080 di Container.',
+          'Membatasi bandwidth kecepatan internet hingga 8080 kbps.',
+          'Menjalankan container sebanyak 80 kali.'
+        ],
+        answer: 0,
+        explanation: 'Format port mapping pada Docker selalu <code>-p [Host_Port]:[Container_Port]</code>. Jadi request yang masuk ke localhost:8080 akan diteruskan ke port 80 di dalam container web server.'
+      },
+      {
+        id: 2,
+        category: 'Dockerfile',
+        question: 'Apa perbedaan mendasar antara instruksi <code>CMD</code> dan <code>ENTRYPOINT</code> di dalam Dockerfile?',
+        options: [
+          'ENTRYPOINT menentukan perintah permanen yang pasti dijalankan, sedangkan CMD menyediakan argumen default yang dapat ditimpa (overridden) saat docker run.',
+          'CMD dijalankan saat build, ENTRYPOINT saat runtime.',
+          'ENTRYPOINT hanya bekerja di Linux.',
+          'Keduanya sama saja.'
+        ],
+        answer: 0,
+        explanation: '<code>ENTRYPOINT</code> mengunci executable utama container, sedangkan <code>CMD</code> memberikan parameter opsional yang dapat diganti oleh argumen yang diketikkan pengguna saat <code>docker run</code>.'
+      },
+      {
+        id: 3,
+        category: 'Volume',
+        question: 'Mengapa Anda wajib menggunakan <strong>Docker Volume</strong> untuk database (seperti PostgreSQL atau MySQL) yang berjalan di dalam container?',
+        options: [
+          'Karena filesystem container bersifat ephemeral (sementara): data di dalam container akan terhapus jika container dimatikan/dihapus.',
+          'Database tidak bisa berjalan tanpa volume.',
+          'Volume mempercepat koneksi internet database.',
+          'Agar database bisa dibaca oleh Microsoft Excel.'
+        ],
+        answer: 0,
+        explanation: 'Container secara alami bersifat *stateless* dan sementara. Volume memindahkan penyimpanan data ke luar container (ke filesystem host) sehingga data tidak hilang saat container di-upgrade atau dihapus.'
+      },
+      {
+        id: 4,
+        category: 'CLI',
+        question: 'Perintah apakah yang digunakan untuk masuk ke sesi terminal shell interaktif di dalam container yang sedang berjalan?',
+        options: [
+          'docker exec -it <container_id> sh',
+          'docker attach <container_id>',
+          'docker open <container_id>',
+          'docker connect <container_id>'
+        ],
+        answer: 0,
+        explanation: 'Flag <code>-it</code> (interactive + tty) pada <code>docker exec -it &lt;container&gt; sh</code> membuka sesi terminal interaktif di dalam container yang sedang berjalan.'
+      },
+      {
+        id: 5,
+        category: 'Dockerfile',
+        question: 'Teknik pembuatan Dockerfile dengan memisahkan tahap kompilasi kode (builder stage) dan tahap produksi (runner stage) untuk memangkas ukuran image disebut:',
+        options: [
+          'Multi-stage Build',
+          'Dual Container',
+          'Layer Splitting',
+          'Docker Compression'
+        ],
+        answer: 0,
+        explanation: 'Multi-stage Build (menggunakan beberapa pernyataan <code>FROM</code>) memungkinkan Anda meninggalkan SDK dan dependencies berat di builder stage, dan hanya menyalin file binary/build jadi ke image final yang sangat ringan.'
+      },
+      {
+        id: 6,
+        category: 'Compose',
+        question: 'Perintah Docker Compose apakah yang mematikan seluruh service sekaligus menghapus container dan network virtual yang dibuatnya?',
+        options: [
+          'docker compose down',
+          'docker compose stop',
+          'docker compose kill',
+          'docker compose remove'
+        ],
+        answer: 0,
+        explanation: '<code>docker compose down</code> menghentikan seluruh container dan menghapus network internal yang dibuat oleh docker compose.'
+      },
+      {
+        id: 7,
+        category: 'CLI',
+        question: 'Opsi bendera (flag) <code>-d</code> pada <code>docker run -d nginx</code> memiliki fungsi untuk:',
+        options: [
+          'Menjalankan container di latar belakang (Detached mode) sehingga terminal tidak terkunci.',
+          'Menghapus container otomatis saat selesai.',
+          'Mengaktifkan mode debugging.',
+          'Mendownload image versi development.'
+        ],
+        answer: 0,
+        explanation: 'Detached mode (<code>-d</code>) menjalankan container sebagai background daemon di sistem.'
+      },
+      {
+        id: 8,
+        category: 'Dockerfile',
+        question: 'Di dalam Dockerfile, mengapa kita sebaiknya menyalin <code>package.json</code> dan menjalankan <code>npm install</code> SEBELUM menyalin seluruh source code proyek?',
+        options: [
+          'Untuk memanfaatkan Docker Layer Caching sehingga dependensi tidak di-download ulang jika hanya kode aplikasi yang berubah.',
+          'Karena aturan urutan wajib dari Node.js.',
+          'Mencegah virus.',
+          'Tidak ada bedanya.'
+        ],
+        answer: 0,
+        explanation: 'Docker meng-cache setiap layer instruksi. Menyalin <code>package.json</code> lebih awal membuat Docker menggunakan cache untuk <code>npm install</code> selama tidak ada library baru yang dipasang, mempercepat build hingga 90%!'
+      },
+      {
+        id: 9,
+        category: 'CLI',
+        question: 'Perintah apakah yang digunakan untuk menghapus seluruh container yang sudah berhenti, image yang tidak terpakai, dan cache build untuk menghemat ruang disk?',
+        options: [
+          'docker system prune',
+          'docker clean --all',
+          'docker erase',
+          'docker format'
+        ],
+        answer: 0,
+        explanation: '<code>docker system prune</code> adalah perintah pembersih resmi untuk membebaskan ruang harddisk dari sampah container dan image lama.'
+      },
+      {
+        id: 10,
+        category: 'Network',
+        question: 'Di Docker Compose, bagaimana cara service aplikasi Web menghubungi service Database yang berjalan di container lain?',
+        options: [
+          'Cukup memanggil nama servicenya (misal: host="db") karena Docker menyediakan built-in DNS otomatis.',
+          'Harus mencari tahu IP lokal WiFi pengguna.',
+          'Menggunakan kabel LAN.',
+          'Harus menggunakan port publik.'
+        ],
+        answer: 0,
+        explanation: 'Docker Compose membuat jaringan bridge khusus dengan sistem DNS otomatis: container dapat saling terhubung hanya dengan memanggil nama service yang tertulis di <code>docker-compose.yml</code>.'
+      },
+      {
+        id: 11,
+        category: 'CLI',
+        question: 'Bagaimana cara melihat daftar seluruh container di komputer Anda, termasuk container yang statusnya sudah mati (Exited)?',
+        options: [
+          'docker ps -a',
+          'docker list all',
+          'docker show',
+          'docker container status'
+        ],
+        answer: 0,
+        explanation: 'Flag <code>-a</code> (all) pada <code>docker ps -a</code> menampilkan seluruh container yang pernah dibuat, baik yang sedang aktif maupun yang sudah berhenti.'
+      },
+      {
+        id: 12,
+        category: 'CLI',
+        question: 'Apa perbedaan mendasar antara Docker Image dan Docker Container?',
+        options: [
+          'Docker Image adalah template cetak biru (blueprint) statis, sedangkan Container adalah instance hidup yang sedang berjalan dari image tersebut.',
+          'Image untuk Windows, Container untuk Linux.',
+          'Container ukurannya lebih besar.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: 'Analogi sederhananya: Image adalah berkas program instalasi (.exe atau resep), sedangkan Container adalah aplikasi yang sedang berjalan di memori (proses hidup).'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: DOCKER_CATALOG,
+      questions: DOCKER_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>SQL Cheatsheet - Panduan Lengkap Query Database &amp; Tes Rekrutmen Kerja</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #0284c7;
+      --excel-primary-hover: #0369a1;
+      --excel-primary-light: #e0f2fe;
+      --excel-primary-subtle: rgba(2, 132, 199, 0.08);
+      --excel-border-accent: #0284c7;
+      --excel-dark: #075985;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #38bdf8;
+      --excel-primary-hover: #0284c7;
+      --excel-primary-light: rgba(56, 189, 248, 0.15);
+      --excel-primary-subtle: rgba(56, 189, 248, 0.1);
+      --excel-border-accent: #38bdf8;
+      --excel-dark: #0369a1;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+            <i data-lucide="database" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>SQL Cheatsheet</h1>
+            <p>Database Query &amp; Job Interview Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari query (misal: JOIN, GROUP BY, CTE, OVER)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill" title="Ringkasan Cepat Sintaks SQL">
+          <i data-lucide="table"></i><span>Tabel Sintaks</span>
+        </a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#0284c7; border-color:#0284c7;" title="Latihan Soal Tes Kerja SQL">
+          <i data-lucide="award"></i><span>Latihan Tes</span>
+        </a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme">
+          <i data-lucide="moon"></i>
+        </button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak">
+          <i data-lucide="printer"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li>
+          <a href="#section-quickref" class="sidebar-link">
+            <i data-lucide="sparkles" class="nav-icon"></i>
+            <span>Quick Reference</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-quiz" class="sidebar-link">
+            <i data-lucide="award" class="nav-icon"></i>
+            <span>Practice Questions</span>
+            <span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">15 Soal</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Materi SQL</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-basic" class="sidebar-link"><i data-lucide="terminal" class="nav-icon"></i><span>1. Basic Query (SELECT, WHERE)</span></a></li>
+        <li><a href="#section-aggregations" class="sidebar-link"><i data-lucide="percent" class="nav-icon"></i><span>2. Agregasi &amp; GROUP BY</span></a></li>
+        <li><a href="#section-joins" class="sidebar-link"><i data-lucide="git-merge" class="nav-icon"></i><span>3. Relasi Tabel (JOINs)</span></a></li>
+        <li><a href="#section-subqueries" class="sidebar-link"><i data-lucide="layers" class="nav-icon"></i><span>4. Subquery &amp; CTE (WITH)</span></a></li>
+        <li><a href="#section-window" class="sidebar-link"><i data-lucide="cpu" class="nav-icon"></i><span>5. Window Functions</span></a></li>
+        <li><a href="#section-ddl-dml" class="sidebar-link"><i data-lucide="edit-3" class="nav-icon"></i><span>6. DDL &amp; DML (CRUD)</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #0284c7; background: linear-gradient(135deg, color-mix(in srgb, #0284c7 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#e0f2fe; color:#0369a1;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Tes Data Analyst &amp; Backend</span>
+          <span class="hero-pill" style="background:#e0f2fe; color:#0369a1;">PostgreSQL, MySQL, SQL Server, BigQuery</span>
+        </div>
+        <h1 class="hero-title">SQL Cheatsheet &amp; Panduan Tes Kerja</h1>
+        <p class="hero-desc">
+          Panduan praktis sintaks SQL (Structured Query Language) lengkap untuk manipulasi data relasional. Mulai dari query dasar, agregasi multi-tabel, teknik Window Functions mutakhir, hingga latihan soal simulasi tes teknis rekrutmen.
+        </p>
+      </section>
+
+      <!-- Section 1: Basic Query -->
+      <section id="section-basic" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="terminal"></i> Basic Query: Mengambil &amp; Memfilter Data</h2>
+          <p class="section-description">Fondasi penulisan query SQL standar untuk menarik data dari tabel dengan kriteria spesifik.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">SELECT, FROM &amp; WHERE</span>
+              <button class="btn-copy" data-copy="SELECT nama, divisi, gaji FROM karyawan WHERE gaji >= 7000000 AND status = 'Tetap';">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengambil kolom tertentu dari suatu tabel yang memenuhi kriteria kondisi filter logika.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>SELECT kolom1, kolom2 FROM nama_tabel WHERE kondisi;</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>SELECT nama, gaji FROM karyawan WHERE divisi = 'IT' AND status = 'Aktif';</code>
+                  <span class="example-result-pill">Filter Staf IT Aktif</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">ORDER BY &amp; LIMIT / TOP</span>
+              <button class="btn-copy" data-copy="SELECT nama, gaji FROM karyawan ORDER BY gaji DESC LIMIT 5;">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengurutkan baris hasil query (<code>ASC</code> untuk urut naik, <code>DESC</code> untuk urut turun) dan membatasi jumlah baris output (contoh: Top 5 gaji tertinggi).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>SELECT * FROM tabel ORDER BY kolom DESC LIMIT n;</code>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="info" class="card-tips-icon"></i>
+              <span><strong>Catatan Dialek SQL:</strong> Di PostgreSQL/MySQL gunakan <code>LIMIT 5</code> di akhir query. Di Microsoft SQL Server gunakan <code>SELECT TOP 5 ...</code> di awal.</span>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Operator IN, BETWEEN &amp; LIKE</span>
+              <button class="btn-copy" data-copy="SELECT * FROM produk WHERE nama_produk LIKE 'Laptop%' AND harga BETWEEN 5000000 AND 15000000;">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>IN</code> mencocokkan nilai dengan daftar list. <code>BETWEEN</code> memeriksa rentang inklusif. <code>LIKE</code> pencocokan pola teks wildcard (<code>%</code> untuk sembarang karakter, <code>_</code> untuk satu karakter).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>WHERE kota IN ('Jakarta', 'Bandung') AND nama LIKE 'A%'</code>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section 2: Aggregations & GROUP BY -->
+      <section id="section-aggregations" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="percent"></i> Agregasi &amp; Perbedaan WHERE vs HAVING</h2>
+          <p class="section-description">Fungsi ringkasan data dan aturan mutlak penggunaan HAVING saat memfilter hasil agregasi.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">GROUP BY &amp; HAVING</span>
+              <button class="btn-copy" data-copy="SELECT divisi, COUNT(*) AS total_staf, AVG(gaji) AS rerata_gaji FROM karyawan GROUP BY divisi HAVING COUNT(*) >= 5;">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengelompokkan baris berdasarkan kategori. <strong>HAVING</strong> memfilter kelompok *setelah* diagregasi, sedangkan <strong>WHERE</strong> memfilter baris individual *sebelum* dikelompokkan.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>SELECT kategori, SUM(total) FROM penjualan GROUP BY kategori HAVING SUM(total) &gt; 100000000;</code>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="alert-triangle" class="card-tips-icon"></i>
+              <span><strong>Jebakan Tes Kerja #1:</strong> Jangan pernah meletakkan fungsi agregasi (seperti <code>WHERE COUNT(*) > 5</code>) di dalam klausa WHERE! Itu akan menghasilkan syntax error. Gunakan <code>HAVING COUNT(*) > 5</code>.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section 3: JOINs -->
+      <section id="section-joins" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="git-merge"></i> Relasi Antar Tabel (JOINs)</h2>
+          <p class="section-description">Menghubungkan data dari dua atau lebih tabel berdasarkan kolom kunci relasi (Primary Key &amp; Foreign Key).</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr>
+                <th>Tipe JOIN</th>
+                <th>Perilaku Pencocokan Data</th>
+                <th>Sintaks Contoh</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>INNER JOIN</strong></td>
+                <td>Hanya menampilkan baris yang memiliki kecocokan di <strong>kedua tabel</strong>.</td>
+                <td><code>SELECT * FROM pesanan p INNER JOIN pelanggan c ON p.pelanggan_id = c.id;</code></td>
+              </tr>
+              <tr>
+                <td><strong>LEFT JOIN</strong></td>
+                <td>Menampilkan <strong>semua baris tabel kiri</strong> + baris cocok di tabel kanan (isi NULL jika tidak ada pasangan).</td>
+                <td><code>SELECT * FROM pelanggan c LEFT JOIN pesanan p ON c.id = p.pelanggan_id;</code></td>
+              </tr>
+              <tr>
+                <td><strong>RIGHT JOIN</strong></td>
+                <td>Menampilkan <strong>semua baris tabel kanan</strong> + baris cocok di tabel kiri.</td>
+                <td><code>SELECT * FROM pesanan p RIGHT JOIN karyawan k ON p.sales_id = k.id;</code></td>
+              </tr>
+              <tr>
+                <td><strong>FULL OUTER JOIN</strong></td>
+                <td>Menampilkan semua data dari kedua tabel, baik yang memiliki kecocokan maupun tidak.</td>
+                <td><code>SELECT * FROM cabang a FULL OUTER JOIN target b ON a.id = b.cabang_id;</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 4: Subqueries & CTE -->
+      <section id="section-subqueries" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="layers"></i> Subquery &amp; CTE (Common Table Expressions)</h2>
+          <p class="section-description">Menulis query bersarang dan tabel sementara modular menggunakan klausa modern WITH.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">CTE: WITH Clause</span>
+              <button class="btn-copy" data-copy="WITH RingkasanSales AS (SELECT sales_id, SUM(omzet) AS total_omzet FROM transaksi GROUP BY sales_id) SELECT * FROM RingkasanSales WHERE total_omzet > 50000000;">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc">Membuat tabel virtual sementara yang membuat query kompleks jauh lebih bersih dan mudah dibaca dibanding subquery bertumpuk.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>WITH cte_name AS (SELECT ...) SELECT * FROM cte_name WHERE ...;</code>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section 5: Window Functions -->
+      <section id="section-window" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="cpu"></i> Window Functions (OVER, PARTITION BY, RANK)</h2>
+          <p class="section-description">Kalkulasi baris per baris tanpa mengubah jumlah baris tabel. Sangat sering ditanyakan pada tes kerja Data Analyst tingkat menengah ke atas.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">ROW_NUMBER(), RANK() &amp; DENSE_RANK()</span>
+              <button class="btn-copy" data-copy="SELECT nama, divisi, gaji, DENSE_RANK() OVER (PARTITION BY divisi ORDER BY gaji DESC) as peringkat_divisi FROM karyawan;">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc">Memberi peringkat data di dalam masing-masing kelompok (<code>PARTITION BY</code>). <code>ROW_NUMBER()</code> nomor unik urut, <code>RANK()</code> melompati nomor jika ada nilai kembar, <code>DENSE_RANK()</code> tidak melompati nomor urut.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>DENSE_RANK() OVER (PARTITION BY divisi ORDER BY gaji DESC)</code>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section 6: DDL & DML -->
+      <section id="section-ddl-dml" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 06</span>
+          <h2 class="section-title"><i data-lucide="edit-3"></i> DDL &amp; DML (Membuat Tabel &amp; Manipulasi Data)</h2>
+          <p class="section-description">Perintah CRUD dasar: INSERT, UPDATE, DELETE, CREATE TABLE, ALTER TABLE.</p>
+        </div>
+
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">INSERT, UPDATE &amp; DELETE</span>
+              <button class="btn-copy" data-copy="UPDATE karyawan SET gaji = gaji * 1.1 WHERE divisi = 'Sales';">
+                <i data-lucide="copy"></i><span>Salin Query</span>
+              </button>
+            </div>
+            <p class="formula-desc">Perintah manipulasi data. <em>PERINGATAN: Selalu gunakan klausa WHERE pada UPDATE dan DELETE agar tidak mengubah/menghapus seluruh isi tabel secara tidak sengaja!</em></p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>UPDATE tabel SET kolom = nilai WHERE id = 10; &nbsp;|&nbsp; DELETE FROM tabel WHERE id = 10;</code>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Quick Reference Table -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Sintaks SQL</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari klausa SQL (JOIN, GROUP BY, CTE)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="Basic">Basic Query</option>
+            <option value="Aggregasi">Agregasi</option>
+            <option value="Join">JOIN</option>
+            <option value="Advanced">Advanced (CTE &amp; Window)</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr>
+                <th style="width:40px;">#</th>
+                <th>Klausa / Fungsi</th>
+                <th>Kategori</th>
+                <th>Kegunaan Utama</th>
+                <th>Sintaks Standar</th>
+                <th>Salin Contoh</th>
+              </tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions Quiz -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 15 Soal Tes Kerja SQL</h2>
+          <p class="section-description">Uji pemahaman Anda menghadapi tes teknis rekrutmen SQL (Data Analyst, Business Intelligence, Junior Developer).</p>
+        </div>
+
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 15</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+
+          <div class="quiz-filter-bar">
+            <button class="quiz-filter-btn active" data-cat="ALL">Semua Soal (15)</button>
+            <button class="quiz-filter-btn" data-cat="Basic">Basic Query</button>
+            <button class="quiz-filter-btn" data-cat="Join">JOIN</button>
+            <button class="quiz-filter-btn" data-cat="Aggregasi">Agregasi &amp; HAVING</button>
+            <button class="quiz-filter-btn" data-cat="Advanced">Advanced (Window &amp; CTE)</button>
+          </div>
+
+          <div id="quizQuestionsList"></div>
+
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#0284c7; border-color:#0284c7; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#0284c7;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="database" style="width:16px;height:16px;"></i></div>
+        <div><strong>SQL Cheatsheet</strong> &mdash; Panduan Database Relasional untuk Tes Kerja.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const SQL_CATALOG = [
+      { name: 'SELECT', cat: 'Basic', desc: 'Mengambil kolom data dari tabel.', syntax: 'SELECT col1, col2 FROM tabel;', example: 'SELECT nama, email FROM users;', section: 'section-basic' },
+      { name: 'WHERE', cat: 'Basic', desc: 'Memfilter baris sebelum dikelompokkan.', syntax: 'SELECT * FROM tabel WHERE syarat;', example: 'SELECT * FROM order WHERE total > 1000;', section: 'section-basic' },
+      { name: 'ORDER BY', cat: 'Basic', desc: 'Mengurutkan hasil secara ASC (naik) atau DESC (turun).', syntax: 'ORDER BY kolom [ASC|DESC]', example: 'SELECT * FROM staf ORDER BY gaji DESC;', section: 'section-basic' },
+      { name: 'LIMIT', cat: 'Basic', desc: 'Membatasi jumlah baris output data.', syntax: 'LIMIT jumlah_baris', example: 'SELECT * FROM produk LIMIT 10;', section: 'section-basic' },
+      { name: 'COUNT / SUM / AVG', cat: 'Aggregasi', desc: 'Fungsi agregasi statistik.', syntax: 'COUNT(*), SUM(kolom), AVG(kolom)', example: 'SELECT AVG(gaji) FROM staf;', section: 'section-aggregations' },
+      { name: 'GROUP BY', cat: 'Aggregasi', desc: 'Mengelompokkan baris berdasarkan nilai kolom.', syntax: 'GROUP BY kolom1, kolom2', example: 'SELECT dept, COUNT(*) FROM emp GROUP BY dept;', section: 'section-aggregations' },
+      { name: 'HAVING', cat: 'Aggregasi', desc: 'Memfilter baris hasil agregasi (setelah GROUP BY).', syntax: 'HAVING COUNT(*) > 5', example: 'HAVING SUM(omzet) > 50000000', section: 'section-aggregations' },
+      { name: 'INNER JOIN', cat: 'Join', desc: 'Menggabungkan baris yang memiliki pasangan cocok di kedua tabel.', syntax: 'FROM t1 INNER JOIN t2 ON t1.id = t2.t1_id', example: 'FROM order o INNER JOIN cust c ON o.cid = c.id', section: 'section-joins' },
+      { name: 'LEFT JOIN', cat: 'Join', desc: 'Mengambil semua data tabel kiri + data cocok tabel kanan.', syntax: 'FROM t1 LEFT JOIN t2 ON t1.id = t2.t1_id', example: 'FROM cust c LEFT JOIN order o ON c.id = o.cid', section: 'section-joins' },
+      { name: 'CTE (WITH)', cat: 'Advanced', desc: 'Mendefinisikan tabel virtual sementara untuk mempermudah query bertingkat.', syntax: 'WITH cte AS (SELECT ...) SELECT * FROM cte;', example: 'WITH Rekap AS (SELECT dept, SUM(gaji) FROM emp) ...', section: 'section-subqueries' },
+      { name: 'ROW_NUMBER()', cat: 'Advanced', desc: 'Memberikan nomor urut baris unik di dalam partisi data.', syntax: 'ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)', example: 'ROW_NUMBER() OVER (PARTITION BY dept ORDER BY gaji DESC)', section: 'section-window' },
+      { name: 'DENSE_RANK()', cat: 'Advanced', desc: 'Memberikan ranking data tanpa melompati urutan jika ada skor kembar.', syntax: 'DENSE_RANK() OVER (ORDER BY ...)', example: 'DENSE_RANK() OVER (ORDER BY nilai DESC)', section: 'section-window' }
+    ];
+
+    const SQL_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Aggregasi',
+        question: 'Manakah perbedaan utama antara klausa <code>WHERE</code> dan <code>HAVING</code> dalam SQL?',
+        options: [
+          'WHERE digunakan untuk angka, sedangkan HAVING untuk teks.',
+          'WHERE memfilter baris sebelum pengelompokan (GROUP BY), sedangkan HAVING memfilter setelah agregasi dihitung.',
+          'HAVING hanya dapat digunakan pada tabel yang memiliki Primary Key.',
+          'WHERE dan HAVING sama saja dan dapat saling menggantikan.'
+        ],
+        answer: 1,
+        explanation: 'Klausa <code>WHERE</code> menyaring baris individual sebelum proses agregasi dijalankan. Sedangkan <code>HAVING</code> menyaring nilai agregasi (seperti <code>COUNT(*) > 5</code> atau <code>SUM(total) > 1000000</code>) setelah baris dikelompokkan oleh <code>GROUP BY</code>.'
+      },
+      {
+        id: 2,
+        category: 'Join',
+        question: 'Anda ingin menampilkan SELURUH daftar pelanggan yang ada di tabel <code>Pelanggan</code>, beserta riwayat pesanannya dari tabel <code>Pesanan</code>. Jika seorang pelanggan belum pernah memesan, namanya tetap harus muncul dengan nilai pesanan NULL. Jenis JOIN apakah yang tepat?',
+        options: [
+          'INNER JOIN',
+          'LEFT JOIN',
+          'CROSS JOIN',
+          'NATURAL JOIN'
+        ],
+        answer: 1,
+        explanation: '<code>LEFT JOIN</code> (atau LEFT OUTER JOIN) mengembalikan seluruh baris dari tabel sebelah kiri (Pelanggan), dan mencocokkannya dengan tabel kanan (Pesanan). Jika tidak ada pasangan pesanan, kolom dari tabel kanan akan diisi nilai <code>NULL</code>.'
+      },
+      {
+        id: 3,
+        category: 'Basic',
+        question: 'Query manakah yang benar untuk mencari seluruh data karyawan yang namanya berawalan huruf "B" dan memiliki gaji di atas 8.000.000?',
+        options: [
+          'SELECT * FROM karyawan WHERE nama = "B%" AND gaji > 8000000;',
+          'SELECT * FROM karyawan WHERE nama LIKE "B%" AND gaji > 8000000;',
+          'SELECT * FROM karyawan WHERE nama IN ("B") OR gaji > 8000000;',
+          'SELECT * FROM karyawan HAVING nama LIKE "B%" AND gaji > 8000000;'
+        ],
+        answer: 1,
+        explanation: 'Pencocokan pola string (wildcard) di SQL menggunakan operator <code>LIKE</code> dengan simbol <code>%</code> (artinya diikuti nol atau banyak karakter sembarang).'
+      },
+      {
+        id: 4,
+        category: 'Advanced',
+        question: 'Fungsi window function manakah yang memberikan ranking pada sekumpulan data tanpa melompati nomor urut meskipun ada dua baris yang memiliki nilai sama?',
+        options: [
+          'ROW_NUMBER()',
+          'RANK()',
+          'DENSE_RANK()',
+          'COUNT()'
+        ],
+        answer: 2,
+        explanation: '<code>DENSE_RANK()</code> memberikan peringkat rapat tanpa jeda. Jika nilai tertinggi kedua kembar di posisi 2, maka nilai berikutnya akan diberi nomor 3. Sebaliknya, <code>RANK()</code> akan melompati ke nomor 4.'
+      },
+      {
+        id: 5,
+        category: 'Advanced',
+        question: 'Klausa apakah yang digunakan untuk membuat Common Table Expression (CTE) sebagai tabel virtual sementara yang bersih sebelum query utama dijalankan?',
+        options: [
+          'CREATE TEMPORARY TABLE',
+          'WITH',
+          'VIRTUAL',
+          'SUBQUERY'
+        ],
+        answer: 1,
+        explanation: 'CTE diawali dengan kata kunci <code>WITH nama_cte AS (SELECT ...)</code> dan langsung diikuti query utama <code>SELECT * FROM nama_cte;</code>.'
+      },
+      {
+        id: 6,
+        category: 'Basic',
+        question: 'Ketika menulis query <code>SELECT DISTINCT kota FROM pelanggan;</code>, apa fungsi kata kunci <code>DISTINCT</code>?',
+        options: [
+          'Mengurutkan kota dari A sampai Z.',
+          'Menghapus nama kota yang duplikat sehingga hanya menampilkan daftar kota unik.',
+          'Menghitung jumlah kota yang terdaftar.',
+          'Mengubah nama kota menjadi huruf kapital.'
+        ],
+        answer: 1,
+        explanation: '<code>DISTINCT</code> menghapus duplikasi baris pada kolom yang dipilih sehingga hanya mengembalikan nilai-nilai unik.'
+      },
+      {
+        id: 7,
+        category: 'Aggregasi',
+        question: 'Apa hasil dari query <code>SELECT COUNT(*) FROM tabel;</code> dibandingkan dengan <code>SELECT COUNT(email) FROM tabel;</code> jika ada 2 baris di mana kolom email bernilai NULL?',
+        options: [
+          'Hasilnya sama persis.',
+          'COUNT(*) menghitung seluruh baris termasuk yang kolomnya NULL, sedangkan COUNT(email) mengabaikan baris yang emailnya NULL.',
+          'COUNT(email) akan menghasilkan pesan error #VALUE!.',
+          'COUNT(*) hanya menghitung kolom numerik.'
+        ],
+        answer: 1,
+        explanation: '<code>COUNT(*)</code> menghitung total baris yang ada di tabel tanpa memedulikan nilai sel. Sementara <code>COUNT(kolom)</code> hanya menghitung sel yang memiliki nilai (mengabaikan NULL).'
+      },
+      {
+        id: 8,
+        category: 'Join',
+        question: 'Apa yang terjadi jika Anda melakukan <code>CROSS JOIN</code> antara tabel A berisi 10 baris dan tabel B berisi 5 baris tanpa kondisi ON?',
+        options: [
+          'Menghasilkan 15 baris.',
+          'Menghasilkan 50 baris (Cartesian Product dari 10 x 5).',
+          'Menghasilkan error syntax karena wajib menggunakan ON.',
+          'Menghasilkan 5 baris.'
+        ],
+        answer: 1,
+        explanation: '<code>CROSS JOIN</code> menghasilkan perkalian kartesian (Cartesian Product): setiap baris dari tabel pertama dipasangkan dengan setiap baris dari tabel kedua (10 x 5 = 50 baris).'
+      },
+      {
+        id: 9,
+        category: 'Basic',
+        question: 'Untuk mengambil data transaksi yang dilakukan pada bulan Januari 2026, manakah kondisi rentang tanggal yang benar menggunakan operator <code>BETWEEN</code>?',
+        options: [
+          'WHERE tanggal BETWEEN "2026-01-01" AND "2026-01-31"',
+          'WHERE tanggal IN ("2026-01-01", "2026-01-31")',
+          'WHERE tanggal LIKE "2026-01-%-31"',
+          'WHERE tanggal FROM "2026-01-01" TO "2026-01-31"'
+        ],
+        answer: 0,
+        explanation: 'Sintaks <code>BETWEEN nilai1 AND nilai2</code> memeriksa nilai yang berada dalam rentang inklusif dari batas awal hingga batas akhir.'
+      },
+      {
+        id: 10,
+        category: 'Aggregasi',
+        question: 'Manakah aturan yang BENAR ketika menggunakan klausa <code>GROUP BY</code>?',
+        options: [
+          'Semua kolom non-agregasi yang ada di klausa SELECT wajib disertakan di dalam klausa GROUP BY.',
+          'Klausa GROUP BY harus diletakkan sebelum klausa WHERE.',
+          'GROUP BY tidak boleh digunakan bersamaan dengan ORDER BY.',
+          'GROUP BY hanya bisa mengelompokkan maksimal 1 kolom.'
+        ],
+        answer: 0,
+        explanation: 'Setiap kolom yang muncul pada pernyataan <code>SELECT</code> yang bukan merupakan bagian dari fungsi agregasi (SUM, COUNT, AVG, dsb.) harus dicantumkan di klausa <code>GROUP BY</code>.'
+      },
+      {
+        id: 11,
+        category: 'Advanced',
+        question: 'Bagaimana cara mengambil karyawan dengan gaji tertinggi nomor 2 (peringkat 2) di perusahaan?',
+        options: [
+          'SELECT * FROM karyawan ORDER BY gaji DESC LIMIT 1 OFFSET 1;',
+          'SELECT * FROM karyawan WHERE gaji = MAX(gaji) - 1;',
+          'SELECT TOP 2 * FROM karyawan ORDER BY gaji ASC;',
+          'SELECT * FROM karyawan HAVING gaji = 2;'
+        ],
+        answer: 0,
+        explanation: '<code>LIMIT 1 OFFSET 1</code> dengan urutan <code>ORDER BY gaji DESC</code> akan melewati baris pertama (gaji tertinggi ke-1) dan mengambil tepat 1 baris berikutnya (gaji tertinggi ke-2).'
+      },
+      {
+        id: 12,
+        category: 'Basic',
+        question: 'Bagaimana cara memeriksa nilai yang kosong/hilang di SQL pada kolom catatan?',
+        options: [
+          'WHERE catatan = NULL',
+          'WHERE catatan IS NULL',
+          'WHERE catatan == ""',
+          'WHERE catatan IN (NULL)'
+        ],
+        answer: 1,
+        explanation: 'Di SQL, nilai NULL tidak dapat dibandingkan dengan operator sama dengan (<code>=</code>) karena NULL merepresentasikan ketiadaan nilai (unknown). Gunakan operator khusus <code>IS NULL</code> atau <code>IS NOT NULL</code>.'
+      },
+      {
+        id: 13,
+        category: 'Join',
+        question: 'Bagaimana cara menemukan pelanggan yang BELUM PERNAH melakukan transaksi sama sekali?',
+        options: [
+          'SELECT * FROM pelanggan p INNER JOIN transaksi t ON p.id = t.pelanggan_id WHERE t.id IS NULL;',
+          'SELECT * FROM pelanggan p LEFT JOIN transaksi t ON p.id = t.pelanggan_id WHERE t.id IS NULL;',
+          'SELECT * FROM pelanggan p RIGHT JOIN transaksi t ON p.id = t.pelanggan_id WHERE p.id IS NOT NULL;',
+          'SELECT * FROM pelanggan WHERE transaksi = 0;'
+        ],
+        answer: 1,
+        explanation: 'Teknik <code>LEFT JOIN</code> dipadukan dengan <code>WHERE t.id IS NULL</code> (Anti-Join) adalah metode standar paling efisien untuk mencari data di tabel kiri yang tidak memiliki relasi di tabel kanan.'
+      },
+      {
+        id: 14,
+        category: 'Advanced',
+        question: 'Pada window function <code>SUM(omzet) OVER (PARTITION BY divisi ORDER BY tanggal)</code>, apa fungsi argumen <code>ORDER BY tanggal</code> di dalam OVER?',
+        options: [
+          'Mengurutkan tabel akhir saja.',
+          'Menghitung jumlah kumulatif berjalan (Running Total) seiring berjalannya tanggal di setiap divisi.',
+          'Membatalkan fungsi partisi.',
+          'Menghapus tanggal yang sama.'
+        ],
+        answer: 1,
+        explanation: 'Menyertakan <code>ORDER BY</code> di dalam klausa <code>OVER()</code> untuk fungsi agregasi seperti SUM akan secara otomatis menghasilkan kalkulasi kumulatif berjalan (Running Total / Cumulative Sum).'
+      },
+      {
+        id: 15,
+        category: 'Basic',
+        question: 'Perintah DML manakah yang digunakan untuk mengubah isi data yang sudah ada di dalam tabel?',
+        options: [
+          'MODIFY',
+          'ALTER',
+          'UPDATE',
+          'CHANGE'
+        ],
+        answer: 2,
+        explanation: '<code>UPDATE</code> adalah perintah DML untuk memodifikasi baris data. Sedangkan <code>ALTER</code> adalah perintah DDL untuk memodifikasi struktur skema kolom tabel.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: SQL_CATALOG,
+      questions: SQL_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

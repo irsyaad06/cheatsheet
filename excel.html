@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Excel Cheatsheet - Panduan Lengkap Rumus & Fungsi Persiapan Tes Kerja</title>
+  
+  <!-- Inter & JetBrains Mono Fonts via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Top Bar -->
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon">X</div>
+          <div class="brand-text">
+            <h1>Excel Cheatsheet</h1>
+            <p>Complete Formula &amp; Function Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Live Search Bar -->
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari rumus (misal: VLOOKUP, SUMIFS, TRIM)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <!-- Live Search Result Dropdown Overlay -->
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill" title="Ringkasan Cepat Seluruh Rumus">
+          <i data-lucide="table"></i>
+          <span>Tabel Rumus</span>
+        </a>
+        <a href="#section-quiz" class="btn-pill primary" title="Latihan Soal Tes Kerja">
+          <i data-lucide="award"></i>
+          <span>Latihan Tes</span>
+        </a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Mode Tampilan" title="Ganti Mode Gelap/Terang">
+          <i data-lucide="moon"></i>
+        </button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak / Simpan PDF" title="Cetak atau Simpan sebagai PDF">
+          <i data-lucide="printer"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- App Layout: Sidebar + Main Content -->
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Ringkasan &amp; Latihan</div>
+      <ul class="sidebar-nav-list">
+        <li>
+          <a href="#section-quickref" class="sidebar-link">
+            <i data-lucide="sparkles" class="nav-icon"></i>
+            <span>Quick Reference</span>
+            <span class="sidebar-badge">Semua</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-quiz" class="sidebar-link">
+            <i data-lucide="help-circle" class="nav-icon"></i>
+            <span>Practice Questions</span>
+            <span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">22 Soal</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-heading">Daftar Kategori Rumus</div>
+      <ul class="sidebar-nav-list">
+        <li>
+          <a href="#section-basic" class="sidebar-link">
+            <i data-lucide="calculator" class="nav-icon"></i>
+            <span>1. Basic Functions</span>
+            <span class="sidebar-badge">9</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-logical" class="sidebar-link">
+            <i data-lucide="git-branch" class="nav-icon"></i>
+            <span>2. Logical Functions</span>
+            <span class="sidebar-badge">6</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-conditional" class="sidebar-link">
+            <i data-lucide="filter" class="nav-icon"></i>
+            <span>3. Conditional Functions</span>
+            <span class="sidebar-badge">6</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-lookup" class="sidebar-link">
+            <i data-lucide="search" class="nav-icon"></i>
+            <span>4. Lookup Functions</span>
+            <span class="sidebar-badge">6</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-text" class="sidebar-link">
+            <i data-lucide="type" class="nav-icon"></i>
+            <span>5. Text Functions</span>
+            <span class="sidebar-badge">17</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-datetime" class="sidebar-link">
+            <i data-lucide="calendar" class="nav-icon"></i>
+            <span>6. Date &amp; Time</span>
+            <span class="sidebar-badge">10</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-math" class="sidebar-link">
+            <i data-lucide="percent" class="nav-icon"></i>
+            <span>7. Math Functions</span>
+            <span class="sidebar-badge">11</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-references" class="sidebar-link">
+            <i data-lucide="lock" class="nav-icon"></i>
+            <span>8. Cell References</span>
+            <span class="sidebar-badge">$A$1</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-heading">Pengolahan &amp; Analisis Data</div>
+      <ul class="sidebar-nav-list">
+        <li>
+          <a href="#section-datatools" class="sidebar-link">
+            <i data-lucide="database" class="nav-icon"></i>
+            <span>9. Data Tools</span>
+            <span class="sidebar-badge">9 Alat</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-pivottable" class="sidebar-link">
+            <i data-lucide="layout-grid" class="nav-icon"></i>
+            <span>10. Pivot Table</span>
+            <span class="sidebar-badge">Wajib</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-charts" class="sidebar-link">
+            <i data-lucide="bar-chart-2" class="nav-icon"></i>
+            <span>11. Charts</span>
+            <span class="sidebar-badge">6 Tipe</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-shortcuts" class="sidebar-link">
+            <i data-lucide="keyboard" class="nav-icon"></i>
+            <span>12. Shortcuts (Win &amp; Mac)</span>
+            <span class="sidebar-badge">24</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Hero Banner -->
+      <section class="hero-banner">
+        <div class="hero-badge-row">
+          <span class="hero-pill"><i data-lucide="check-check" style="width:14px;height:14px;"></i> Standar Tes Rekrutmen Kerja</span>
+          <span class="hero-pill"><i data-lucide="laptop" style="width:14px;height:14px;"></i> Excel 2016 / 2019 / 2021 / Microsoft 365</span>
+          <span class="hero-pill"><i data-lucide="globe" style="width:14px;height:14px;"></i> Koma (,) &amp; Titik Koma (;) Ready</span>
+        </div>
+        <h1 class="hero-title">Excel Cheatsheet &amp; Panduan Tes Kerja</h1>
+        <p class="hero-desc">
+          Referensi rumus dan fungsi terlengkap dalam Bahasa Indonesia dengan contoh kasus nyata dunia kerja (karyawan, penjualan, keuangan, inventaris). Dirancang khusus untuk persiapan menghadapi tes rekrutmen kerja dan peningkatan produktivitas kerja harian.
+        </p>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">70+</span>
+            <span class="stat-label">Rumus &amp; Fungsi Lengkap</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">9</span>
+            <span class="stat-label">Tutorial Data Tools Interaktif</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">24</span>
+            <span class="stat-label">Shortcut Keyboard Win &amp; Mac</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">22</span>
+            <span class="stat-label">Simulasi Soal Tes Rekrutmen</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Penting: Catatan Regional Setting Excel -->
+      <div class="callout warning">
+        <i data-lucide="alert-triangle" class="callout-icon"></i>
+        <div>
+          <strong>PENTING: Regional Setting Koma (,) vs Titik Koma (;)</strong><br>
+          Pemisah argumen rumus di Microsoft Excel tergantung pada pengaturan bahasa/regional di komputer Anda:
+          <ul style="margin: 0.35rem 0 0 1.25rem; font-size: 0.88rem;">
+            <li><strong>English (United States):</strong> Menggunakan pemisah koma <code>,</code> contoh: <code>=SUMIF(A2:A10, "Laptop", C2:C10)</code>.</li>
+            <li><strong>Indonesian (Indonesia):</strong> Menggunakan pemisah titik koma <code>;</code> contoh: <code>=SUMIF(A2:A10; "Laptop"; C2:C10)</code>.</li>
+          </ul>
+          Jika saat mengetik rumus Excel menampilkan pesan error <em>"There's a problem with this formula"</em>, cukup ganti tanda koma menjadi titik koma (atau sebaliknya).
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           SECTION 0: QUICK REFERENCE TABLE
+           =================================================================== -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Lengkap</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Rumus</h2>
+          <p class="section-description">
+            Pindai seluruh fungsi Excel dengan cepat. Gunakan kolom pencarian atau filter kategori di bawah ini untuk menemukan sintaks dan contoh rumus yang Anda butuhkan dalam hitungan detik.
+          </p>
+        </div>
+
+        <div class="quick-ref-controls">
+          <div class="quick-ref-search">
+            <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Ketik nama fungsi atau kata kunci..." />
+          </div>
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori (70+)</option>
+            <option value="Basic">Basic Functions</option>
+            <option value="Logical">Logical Functions</option>
+            <option value="Conditional">Conditional Functions</option>
+            <option value="Lookup">Lookup Functions</option>
+            <option value="Text">Text Functions</option>
+            <option value="Date & Time">Date &amp; Time Functions</option>
+            <option value="Math">Math Functions</option>
+            <option value="Cell Reference">Cell References</option>
+          </select>
+        </div>
+
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr>
+                <th style="width:40px;">#</th>
+                <th style="width:130px;">Nama Fungsi</th>
+                <th style="width:120px;">Kategori</th>
+                <th>Kegunaan Utama</th>
+                <th>Sintaks Standar</th>
+                <th style="width:170px;">Contoh Cepat (Klik Salin)</th>
+              </tr>
+            </thead>
+            <tbody id="quickRefTableBody">
+              <!-- Dynamically rendered via script.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 1: BASIC FUNCTIONS
+           =================================================================== -->
+      <section id="section-basic" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="calculator"></i> Basic Functions (Fungsi Dasar)</h2>
+          <p class="section-description">
+            Fondasi kalkulasi dan agregasi angka di Excel. Hampir 100% tes rekrutmen kerja menguji pemahaman dasar antara fungsi yang hanya menghitung angka vs menghitung teks tidak kosong.
+          </p>
+        </div>
+
+        <!-- Sample Data Context Table for Basic Functions -->
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th class="excel-col-header">A: Nama Staf</th>
+                <th class="excel-col-header">B: Divisi</th>
+                <th class="excel-col-header">C: Gaji Pokok (Rp)</th>
+                <th class="excel-col-header">D: Bonus Penjualan (Rp)</th>
+                <th class="excel-col-header">E: Status Absensi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-num">2</td><td>Budi Pratama</td><td>Sales</td><td>5.500.000</td><td>1.200.000</td><td>Hadir</td></tr>
+              <tr><td class="row-num">3</td><td>Siti Rahma</td><td>Finance</td><td>6.000.000</td><td>0</td><td>Hadir</td></tr>
+              <tr><td class="row-num">4</td><td>Agus Santoso</td><td>Sales</td><td>5.200.000</td><td>800.000</td><td>Sakit</td></tr>
+              <tr><td class="row-num">5</td><td>Dewi Lestari</td><td>IT Support</td><td>7.000.000</td><td>500.000</td><td>Hadir</td></tr>
+              <tr><td class="row-num">6</td><td>Rian Hidayat</td><td>Sales</td><td>5.000.000</td><td><em>(kosong)</em></td><td><em>(kosong)</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula-grid">
+          
+          <!-- SUM -->
+          <article class="formula-card" id="fn-SUM">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SUM</span>
+                <span class="version-badge">Semua Versi</span>
+              </div>
+              <button class="btn-copy" data-copy="=SUM(C2:C6)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menjumlahkan seluruh nilai angka dalam rentang sel atau daftar argumen numerik.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=SUM(number1, [number2], ...)</code>
+              </div>
+            </div>
+            <div class="params-table-wrapper">
+              <table class="params-table">
+                <thead><tr><th>Parameter</th><th>Keterangan</th><th>Sifat</th></tr></thead>
+                <tbody>
+                  <tr><td><code class="param-name">number1</code></td><td>Sel atau rentang pertama yang ingin dijumlahkan (contoh: <code>C2:C6</code>).</td><td><span class="param-req wajib">Wajib</span></td></tr>
+                  <tr><td><code class="param-name">number2, ...</code></td><td>Sel, rentang, atau angka tambahan lain yang ingin disertakan.</td><td><span class="param-req opsional">Opsional</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="example-section">
+              <div class="example-header"><i data-lucide="play-circle"></i> Contoh Penggunaan &amp; Hasil:</div>
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SUM(C2:C6)</code>
+                  <span class="example-result-pill">Hasil: 28.700.000</span>
+                </div>
+                <p class="example-note">Menjumlahkan seluruh gaji pokok staf dari sel C2 sampai C6. Sel teks atau kosong secara otomatis diabaikan.</p>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="lightbulb" class="card-tips-icon"></i>
+              <span><strong>Tips Tes Kerja:</strong> Gunakan shortcut cepat <kbd class="shortcut-kbd">Alt</kbd> + <kbd class="shortcut-kbd">=</kbd> di Windows untuk memicu AutoSum otomatis pada baris atau kolom yang aktif!</span>
+            </div>
+          </article>
+
+          <!-- AVERAGE -->
+          <article class="formula-card" id="fn-AVERAGE">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">AVERAGE</span>
+                <span class="version-badge">Semua Versi</span>
+              </div>
+              <button class="btn-copy" data-copy="=AVERAGE(C2:C6)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghitung nilai rata-rata aritmatika (mean) dari kumpulan angka dalam rentang sel.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=AVERAGE(number1, [number2], ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=AVERAGE(C2:C6)</code>
+                  <span class="example-result-pill">Hasil: 5.740.000</span>
+                </div>
+                <p class="example-note">Menghitung rata-rata gaji pokok dari 5 karyawan. Sel bernilai 0 akan dihitung sebagai pembagi, sedangkan sel kosong tidak dihitung.</p>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="info" class="card-tips-icon"></i>
+              <span><strong>Perhatian:</strong> Sel yang berisi angka <code>0</code> berbeda dengan sel kosong. Angka 0 ikut dihitung sebagai pembagi dalam AVERAGE, sedangkan sel kosong tidak.</span>
+            </div>
+          </article>
+
+          <!-- MIN & MAX -->
+          <article class="formula-card" id="fn-MIN-MAX">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">MIN &amp; MAX</span>
+                <span class="version-badge">Semua Versi</span>
+              </div>
+              <button class="btn-copy" data-copy="=MAX(C2:C6)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>MIN</code> mencari nilai numerik terendah, sedangkan <code>MAX</code> mencari nilai numerik tertinggi dalam kumpulan data.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=MIN(number1, [number2], ...) &nbsp;|&nbsp; =MAX(number1, [number2], ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=MIN(C2:C6)</code>
+                  <span class="example-result-pill">Hasil: 5.000.000</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=MAX(C2:C6)</code>
+                  <span class="example-result-pill">Hasil: 7.000.000</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- COUNT vs COUNTA vs COUNTBLANK (Krusial untuk tes kerja!) -->
+          <article class="formula-card" id="fn-COUNT-TRIO">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">COUNT vs COUNTA vs COUNTBLANK</span>
+                <span class="version-badge" style="background-color:var(--warning-bg); color:var(--warning-text); border-color:var(--warning-border);">Paling Sering Ditanyakan</span>
+              </div>
+              <button class="btn-copy" data-copy="=COUNTA(E2:E6)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Perbedaan vital dalam menghitung sel: hanya angka, teks/semua isi, atau sel kosong.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=COUNT(range) &nbsp;|&nbsp; =COUNTA(range) &nbsp;|&nbsp; =COUNTBLANK(range)</code>
+              </div>
+            </div>
+            <div class="params-table-wrapper">
+              <table class="params-table">
+                <thead><tr><th>Fungsi</th><th>Apa yang Dihitung?</th><th>Contoh di Kolom E (Status)</th><th>Hasil</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong class="param-name">COUNT(E2:E6)</strong></td>
+                    <td>HANYA sel yang berisi <strong>angka numerik</strong> murni.</td>
+                    <td><code>=COUNT(E2:E6)</code></td>
+                    <td><span class="example-result-pill" style="background:var(--danger-bg);color:var(--danger-text);">0</span> (karena isinya teks "Hadir", dll.)</td>
+                  </tr>
+                  <tr>
+                    <td><strong class="param-name">COUNTA(E2:E6)</strong></td>
+                    <td>Semua sel yang <strong>TIDAK KOSONG</strong> (teks, angka, error, boolean).</td>
+                    <td><code>=COUNTA(E2:E6)</code></td>
+                    <td><span class="example-result-pill">4</span> (Budi, Siti, Agus, Dewi)</td>
+                  </tr>
+                  <tr>
+                    <td><strong class="param-name">COUNTBLANK(E2:E6)</strong></td>
+                    <td>Hanya sel yang <strong>KOSONG</strong> (belum diisi data).</td>
+                    <td><code>=COUNTBLANK(E2:E6)</code></td>
+                    <td><span class="example-result-pill">1</span> (Rian Hidayat kosong)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="check-circle" class="card-tips-icon"></i>
+              <span><strong>Ingat Trik Tes:</strong> Jika soal meminta menghitung <em>jumlah pelamar yang hadir</em> (kolom berisi teks nama/status), gunakan <code>COUNTA</code>. Jika Anda menggunakan <code>COUNT</code>, hasilnya akan salah (0).</span>
+            </div>
+          </article>
+
+          <!-- PRODUCT -->
+          <article class="formula-card" id="fn-PRODUCT">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">PRODUCT</span>
+                <span class="version-badge">Semua Versi</span>
+              </div>
+              <button class="btn-copy" data-copy="=PRODUCT(B2:D2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengalikan seluruh angka yang diberikan sebagai argumen dalam rentang sel.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=PRODUCT(number1, [number2], ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=PRODUCT(10, 5, 2)</code>
+                  <span class="example-result-pill">Hasil: 100</span>
+                </div>
+                <p class="example-note">Sama dengan perhitungan <code>=10 * 5 * 2</code>. Sangat praktis saat mengalikan rentang panjang seperti <code>=PRODUCT(B2:E2)</code>.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- SUBTOTAL -->
+          <article class="formula-card" id="fn-SUBTOTAL">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SUBTOTAL</span>
+                <span class="version-badge" style="background-color:var(--info-bg); color:var(--info-text);">Wajib Laporan Filter</span>
+              </div>
+              <button class="btn-copy" data-copy="=SUBTOTAL(109, C2:C10)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghitung agregasi (SUM, AVERAGE, COUNT) dengan keistimewaan <strong>mengabaikan baris tersembunyi</strong> akibat penerapan Filter data.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=SUBTOTAL(function_num, ref1, [ref2], ...)</code>
+              </div>
+            </div>
+            <div class="params-table-wrapper">
+              <table class="params-table">
+                <thead><tr><th>Kode (function_num)</th><th>Operasi</th><th>Perilaku saat Baris Difilter</th></tr></thead>
+                <tbody>
+                  <tr><td><code>9</code> atau <code>109</code></td><td>SUM (Penjumlahan)</td><td>Hanya menjumlahkan baris yang tampak di layar setelah filter.</td></tr>
+                  <tr><td><code>1</code> atau <code>101</code></td><td>AVERAGE (Rata-rata)</td><td>Menghitung rata-rata baris yang tampak saja.</td></tr>
+                  <tr><td><code>2</code> atau <code>102</code></td><td>COUNT (Hitung Angka)</td><td>Menghitung sel numerik yang tampak saja.</td></tr>
+                  <tr><td><code>3</code> atau <code>103</code></td><td>COUNTA (Hitung Sel Berisi)</td><td>Menghitung sel tidak kosong yang tampak saja.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SUBTOTAL(109, C2:C6)</code>
+                  <span class="example-result-pill">Hasil: Sesuai data yang sedang difilter</span>
+                </div>
+                <p class="example-note">Jika kita memfilter divisi "Sales" saja (baris Agus dan Siti tersembunyi), <code>=SUM()</code> biasa akan tetap menjumlahkan semua baris (28.700.000), sedangkan <code>=SUBTOTAL(109, ...)</code> hanya menjumlahkan staf Sales yang terlihat (15.700.000).</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 2: LOGICAL FUNCTIONS
+           =================================================================== -->
+      <section id="section-logical" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="git-branch"></i> Logical Functions (Fungsi Logika)</h2>
+          <p class="section-description">
+            Membuat keputusan otomatis berdasarkan kriteria tertentu. Wajib dikuasai untuk pengujian kelulusan, penetapan grade bonus karyawan, dan penanganan error spreadsheet.
+          </p>
+        </div>
+
+        <div class="formula-grid">
+          
+          <!-- IF -->
+          <article class="formula-card" id="fn-IF">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">IF</span>
+                <span class="version-badge">Fundamental</span>
+              </div>
+              <button class="btn-copy" data-copy="=IF(C2>=75, &quot;Lulus&quot;, &quot;Remedial&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menguji suatu kondisi logika. Mengembalikan satu nilai jika kondisi terpenuhi (TRUE) dan nilai lain jika tidak terpenuhi (FALSE).</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=IF(logical_test, value_if_true, [value_if_false])</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=IF(C2>=75, "Lulus", "Remedial")</code>
+                  <span class="example-result-pill">Jika C2 = 82 &rarr; "Lulus"</span>
+                </div>
+                <p class="example-note">Jika nilai tes calon karyawan di sel C2 minimal 75, maka lulus. Jika kurang dari 75, maka remedial.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- AND & OR -->
+          <article class="formula-card" id="fn-AND-OR">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">AND &amp; OR</span>
+                <span class="version-badge">Multi Kondisi</span>
+              </div>
+              <button class="btn-copy" data-copy="=IF(AND(B2>=10000000, C2>=90%), &quot;Bonus Penuh&quot;, &quot;Tidak&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>AND</code> memerlukan SEMUA kondisi bernilai benar (TRUE). <code>OR</code> hanya memerlukan SALAH SATU kondisi bernilai benar.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=AND(logical1, [logical2], ...) &nbsp;|&nbsp; =OR(logical1, [logical2], ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=IF(AND(B2>=10000000, C2>=90%), "Bonus Penuh", "Tidak")</code>
+                  <span class="example-result-pill">Syarat: Omzet &ge; 10jt DAN Absensi &ge; 90%</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=IF(OR(D2="Gold", E2>=500000), 10%, 0%)</code>
+                  <span class="example-result-pill">Syarat: Member Gold ATAU Belanja &ge; 500rb</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- NOT -->
+          <article class="formula-card" id="fn-NOT">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">NOT</span>
+                <span class="version-badge">Semua Versi</span>
+              </div>
+              <button class="btn-copy" data-copy="=IF(NOT(E2=&quot;Closed&quot;), &quot;Tindak Lanjuti&quot;, &quot;Selesai&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Membalikkan nilai logika argumennya: mengubah nilai TRUE menjadi FALSE, dan mengubah FALSE menjadi TRUE.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=NOT(logical)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=IF(NOT(E2="Closed"), "Tindak Lanjuti", "Selesai")</code>
+                  <span class="example-result-pill">Hasil: "Tindak Lanjuti" jika bukan status Closed</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- IFERROR (Sangat penting saat VLOOKUP!) -->
+          <article class="formula-card" id="fn-IFERROR">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">IFERROR</span>
+                <span class="version-badge" style="background-color:var(--success-bg); color:var(--success-text);">Best Practice Tes Kerja</span>
+              </div>
+              <button class="btn-copy" data-copy="=IFERROR(VLOOKUP(A2, D:E, 2, FALSE), &quot;Data Tidak Ditemukan&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mencegah tampilan error yang buruk (seperti <code>#N/A</code>, <code>#VALUE!</code>, <code>#DIV/0!</code>) dengan menggantinya menjadi teks bersih atau angka 0.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=IFERROR(value, value_if_error)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=IFERROR(C2/D2, 0)</code>
+                  <span class="example-result-pill">Cegah Error #DIV/0! saat pembagi nol</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=IFERROR(VLOOKUP(A2, Karyawan!A:B, 2, 0), "-")</code>
+                  <span class="example-result-pill">Cegah Error #N/A saat ID tidak ketemu</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="star" class="card-tips-icon"></i>
+              <span><strong>Kunci Nilai Plus saat Tes Kerja:</strong> Penguji tes kerja sangat menyukai kandidat yang selalu membungkus rumus <code>VLOOKUP</code> mereka dengan <code>IFERROR</code> agar laporan terlihat rapi dan tidak ada tanda error merah!</span>
+            </div>
+          </article>
+
+          <!-- Nested IF (IF Bersarang) -->
+          <article class="formula-card" id="fn-Nested-IF">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">Nested IF (IF Bersarang)</span>
+                <span class="version-badge">Multi-Tier Grading</span>
+              </div>
+              <button class="btn-copy" data-copy="=IF(C2>=85, &quot;A&quot;, IF(C2>=75, &quot;B&quot;, IF(C2>=60, &quot;C&quot;, &quot;D&quot;)))">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Memasukkan fungsi IF di dalam fungsi IF lain untuk mengevaluasi lebih dari dua kondisi bertingkat (misal: sistem grade nilai A, B, C, D).</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=IF(kondisi1, hasil1, IF(kondisi2, hasil2, IF(kondisi3, hasil3, hasil_default)))</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=IF(C2>=85, "A", IF(C2>=75, "B", IF(C2>=60, "C", "D")))</code>
+                  <span class="example-result-pill">Jika C2 = 78 &rarr; "B"</span>
+                </div>
+                <p class="example-note">Evaluasi berjalan dari kiri ke kanan: jika nilai &ge; 85 diberi "A", jika tidak dicek apakah &ge; 75 ("B"), dst.</p>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="info" class="card-tips-icon"></i>
+              <span><strong>Versi Baru (Excel 2019 / 365):</strong> Anda juga dapat menggunakan fungsi <code>=IFS(C2>=85, "A", C2>=75, "B", C2>=60, "C", TRUE, "D")</code> yang lebih ringkas tanpa tumpukan kurung tutup di belakang.</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 3: CONDITIONAL FUNCTIONS
+           =================================================================== -->
+      <section id="section-conditional" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="filter"></i> Conditional Functions (Agregasi Berkriteria)</h2>
+          <p class="section-description">
+            Menghitung, menjumlahkan, dan merata-ratakan data hanya pada baris yang memenuhi kriteria tertentu. Soal nomor satu yang paling sering muncul di tes data analyst, admin, dan keuangan.
+          </p>
+        </div>
+
+        <div class="formula-grid">
+
+          <!-- COUNTIF -->
+          <article class="formula-card" id="fn-COUNTIF">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">COUNTIF</span>
+                <span class="version-badge">1 Kriteria</span>
+              </div>
+              <button class="btn-copy" data-copy="=COUNTIF(B2:B50, &quot;Finance&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghitung jumlah sel dalam suatu rentang yang memenuhi <strong>satu kriteria</strong> tertentu.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=COUNTIF(range, criteria)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=COUNTIF(B2:B50, "Finance")</code>
+                  <span class="example-result-pill">Hitung staf divisi Finance</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=COUNTIF(D2:D50, ">=1000000")</code>
+                  <span class="example-result-pill">Hitung transaksi &ge; 1 juta</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- COUNTIFS -->
+          <article class="formula-card" id="fn-COUNTIFS">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">COUNTIFS</span>
+                <span class="version-badge">Banyak Kriteria</span>
+              </div>
+              <button class="btn-copy" data-copy="=COUNTIFS(B2:B50, &quot;Sales&quot;, C2:C50, &quot;Tetap&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghitung jumlah sel yang memenuhi <strong>beberapa kriteria</strong> secara bersamaan (kombinasi logika AND).</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=COUNTIFS(B2:B50, "Sales", C2:C50, "Tetap", D2:D50, ">5000000")</code>
+                  <span class="example-result-pill">3 Kriteria Sekaligus</span>
+                </div>
+                <p class="example-note">Menghitung staf Sales yang berstatus karyawan Tetap dan bergaji di atas 5 juta.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- SUMIF -->
+          <article class="formula-card" id="fn-SUMIF">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SUMIF</span>
+                <span class="version-badge">1 Kriteria</span>
+              </div>
+              <button class="btn-copy" data-copy="=SUMIF(B2:B50, &quot;Laptop&quot;, E2:E50)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menjumlahkan nilai dalam suatu rentang berdasarkan <strong>satu kondisi</strong> yang ditentukan.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=SUMIF(range, criteria, [sum_range])</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SUMIF(B2:B50, "Laptop", E2:E50)</code>
+                  <span class="example-result-pill">Total Penjualan Laptop</span>
+                </div>
+                <p class="example-note">Mencari kata "Laptop" di kolom produk B2:B50, lalu menjumlahkan omzet nominalnya di kolom E2:E50.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- SUMIFS (Hati-hati urutan parameter!) -->
+          <article class="formula-card" id="fn-SUMIFS">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SUMIFS</span>
+                <span class="version-badge" style="background-color:var(--danger-bg); color:var(--danger-text);">Perhatikan Urutan Parameter!</span>
+              </div>
+              <button class="btn-copy" data-copy="=SUMIFS(E2:E50, B2:B50, &quot;Laptop&quot;, C2:C50, &quot;Jakarta&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menjumlahkan nilai sel yang memenuhi <strong>dua kriteria atau lebih</strong>.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=SUMIFS(sum_range, criteria_range1, criteria1, criteria_range2, criteria2, ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SUMIFS(E2:E50, B2:B50, "Laptop", C2:C50, "Jakarta")</code>
+                  <span class="example-result-pill">Laptop di Kota Jakarta</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="alert-circle" class="card-tips-icon"></i>
+              <span><strong>JEBAKAN TES KERJA TERPOPULER:</strong> Pada <code>SUMIF</code>, rentang yang dijumlahkan (<code>sum_range</code>) ada di posisi <strong>terakhir</strong>. Namun pada <code>SUMIFS</code>, <code>sum_range</code> wajib ditaruh di posisi <strong>paling depan</strong>!</span>
+            </div>
+          </article>
+
+          <!-- AVERAGEIF & AVERAGEIFS -->
+          <article class="formula-card" id="fn-AVERAGEIF-IFS">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">AVERAGEIF &amp; AVERAGEIFS</span>
+                <span class="version-badge">Rata-Rata Berkriteria</span>
+              </div>
+              <button class="btn-copy" data-copy="=AVERAGEIF(B2:B50, &quot;Sales&quot;, C2:C50)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghitung rata-rata nilai sel yang memenuhi satu kriteria (<code>AVERAGEIF</code>) atau banyak kriteria (<code>AVERAGEIFS</code>).</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=AVERAGEIF(range, criteria, [avg_range]) &nbsp;|&nbsp; =AVERAGEIFS(avg_range, c_range1, crit1, ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=AVERAGEIF(B2:B50, "Sales", C2:C50)</code>
+                  <span class="example-result-pill">Rata-rata Gaji Divisi Sales</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=AVERAGEIFS(D2:D50, B2:B50, "Retail", C2:C50, ">=2024")</code>
+                  <span class="example-result-pill">Rata-rata Omzet Retail &ge; 2024</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 4: LOOKUP FUNCTIONS
+           =================================================================== -->
+      <section id="section-lookup" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="search"></i> Lookup Functions (Pencarian &amp; Referensi)</h2>
+          <p class="section-description">
+            Pencarian data antar tabel. Topik paling wajib dan paling menentukan kelulusan dalam tes keterampilan Excel di semua bidang kerja.
+          </p>
+        </div>
+
+        <!-- Sample Master Data Table -->
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr>
+                <th colspan="4" style="background-color: var(--excel-primary-light); color: var(--excel-primary); text-align:center; font-weight:700;">
+                  Tabel Referensi Karyawan (Rentang: A1:D5)
+                </th>
+              </tr>
+              <tr>
+                <th class="row-num">#</th>
+                <th class="excel-col-header">Kolom A: ID Karyawan</th>
+                <th class="excel-col-header">Kolom B: Nama Lengkap</th>
+                <th class="excel-col-header">Kolom C: Jabatan</th>
+                <th class="excel-col-header">Kolom D: Gaji Pokok</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-num">1</td><td><strong>EMP-001</strong></td><td>Aditya Nugraha</td><td>Staff Keuangan</td><td>6.500.000</td></tr>
+              <tr><td class="row-num">2</td><td><strong>EMP-002</strong></td><td>Bella Safira</td><td>Marketing Manager</td><td>12.000.000</td></tr>
+              <tr><td class="row-num">3</td><td><strong>EMP-003</strong></td><td>Candra Wijaya</td><td>Senior Programmer</td><td>14.500.000</td></tr>
+              <tr><td class="row-num">4</td><td><strong>EMP-004</strong></td><td>Diana Putri</td><td>Admin Operasional</td><td>5.800.000</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula-grid">
+
+          <!-- VLOOKUP -->
+          <article class="formula-card" id="fn-VLOOKUP">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">VLOOKUP (Vertical Lookup)</span>
+                <span class="version-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">Kategori Wajib Tes</span>
+              </div>
+              <button class="btn-copy" data-copy="=VLOOKUP(F2, A2:D5, 3, FALSE)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mencari nilai di kolom paling kiri dari tabel referensi, lalu mengambil data pada baris yang sama dari nomor kolom yang ditentukan ke arah kanan.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</code>
+              </div>
+            </div>
+            <div class="params-table-wrapper">
+              <table class="params-table">
+                <thead><tr><th>Argumen</th><th>Penjelasan Detail</th><th>Tips Pengisian</th></tr></thead>
+                <tbody>
+                  <tr><td><code>lookup_value</code></td><td>Nilai kunci yang ingin dicari (misal sel ID di <code>F2</code>).</td><td>Harus ada di kolom pertama tabel sumber.</td></tr>
+                  <tr><td><code>table_array</code></td><td>Area tabel sumber tempat data berada (misal <code>$A$2:$D$5</code>).</td><td>Kunci absolut dengan <code>$</code> agar tidak geser.</td></tr>
+                  <tr><td><code>col_index_num</code></td><td>Nomor urut kolom data yang ingin diambil (dihitung mulai dari 1).</td><td>Contoh: Kolom C (Jabatan) adalah nomor kolom <code>3</code>.</td></tr>
+                  <tr><td><code>range_lookup</code></td><td>Tipe pencarian: <code>FALSE</code> atau <code>0</code> untuk kecocokan persis (Exact Match).</td><td><strong>Selalu ketik FALSE atau 0 untuk tes kerja!</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=VLOOKUP("EMP-002", A2:D5, 3, FALSE)</code>
+                  <span class="example-result-pill">Hasil: "Marketing Manager"</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=VLOOKUP("EMP-003", A2:D5, 4, 0)</code>
+                  <span class="example-result-pill">Hasil: 14.500.000</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="shield-alert" class="card-tips-icon"></i>
+              <span><strong>Kelemahan VLOOKUP:</strong> (1) Tidak bisa mengambil data ke arah kiri dari kolom ID. (2) Angka kolom indeks bersifat statis; jika di tabel sumber disisipkan kolom baru, hasil VLOOKUP akan meleset!</span>
+            </div>
+          </article>
+
+          <!-- HLOOKUP -->
+          <article class="formula-card" id="fn-HLOOKUP">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">HLOOKUP (Horizontal Lookup)</span>
+                <span class="version-badge">Tabel Mendatar</span>
+              </div>
+              <button class="btn-copy" data-copy="=HLOOKUP(B1, B1:E5, 3, FALSE)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mencari nilai pada baris paling atas dari tabel horizontal, lalu mengambil data di kolom yang sama dari nomor baris ke bawah.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=HLOOKUP(lookup_value, table_array, row_index_num, [range_lookup])</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=HLOOKUP("Kuartal 1", B1:E5, 2, FALSE)</code>
+                  <span class="example-result-pill">Ambil data baris ke-2</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- XLOOKUP (Modern Powerhouse) -->
+          <article class="formula-card" id="fn-XLOOKUP">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">XLOOKUP</span>
+                <span class="version-badge new">Excel 365 &amp; 2021+</span>
+              </div>
+              <button class="btn-copy" data-copy="=XLOOKUP(F2, A2:A5, B2:B5, &quot;Tidak Ditemukan&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Fungsi pencarian modern yang menggantikan VLOOKUP dan HLOOKUP secara menyeluruh. Sangat fleksibel, aman dari penambahan kolom, dan bisa mencari ke kiri.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=XLOOKUP(F2, D2:D5, A2:A5, "ID Tidak Ada")</code>
+                  <span class="example-result-pill">Bisa Lookup ke Kiri!</span>
+                </div>
+                <p class="example-note">Mencari Gaji Pokok di kolom D lalu mengambil ID di kolom A (arah ke kiri). VLOOKUP biasa tidak bisa melakukan hal ini.</p>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="zap" class="card-tips-icon"></i>
+              <span><strong>Kelebihan XLOOKUP:</strong> Default sudah Exact Match (tidak perlu ketik FALSE/0), penanganan error sudah tertanam di argumen ke-4 tanpa perlu fungsi IFERROR terpisah.</span>
+            </div>
+          </article>
+
+          <!-- INDEX & MATCH & INDEX+MATCH -->
+          <article class="formula-card" id="fn-INDEX-MATCH">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">INDEX + MATCH</span>
+                <span class="version-badge" style="background-color:var(--info-bg); color:var(--info-text);">Standar Pro Excel</span>
+              </div>
+              <button class="btn-copy" data-copy="=INDEX(B2:B5, MATCH(F2, A2:A5, 0))">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Kombinasi rumus pencarian dua arah paling tangguh di semua versi Excel. Menggabungkan <code>INDEX</code> (pengambil nilai pada koordinat) dan <code>MATCH</code> (pencari nomor baris/kolom).</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks Masing-Masing:</span>
+              <div class="code-box">
+                <code>=INDEX(array, row_num, [column_num]) &nbsp;|&nbsp; =MATCH(lookup_val, lookup_array, [match_type])</code>
+              </div>
+            </div>
+            <div class="syntax-container" style="margin-top: 0.75rem;">
+              <span class="syntax-label">Sintaks Gabungan (Formula Sakti):</span>
+              <div class="code-box">
+                <code>=INDEX(rentang_hasil, MATCH(kunci_cari, rentang_kunci, 0))</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=INDEX(B2:B5, MATCH("EMP-003", A2:A5, 0))</code>
+                  <span class="example-result-pill">Hasil: "Candra Wijaya"</span>
+                </div>
+                <p class="example-note"><code>MATCH("EMP-003", A2:A5, 0)</code> menghasilkan posisi baris ke-3, kemudian <code>INDEX(B2:B5, 3)</code> mengambil nama pada baris ke-3 tersebut.</p>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="check" class="card-tips-icon"></i>
+              <span><strong>Kenapa Wajib Dipelajari untuk Tes?</strong> Karena di perusahaan besar dengan Excel versi lama (sebelum 365 yang belum ada XLOOKUP), kombinasi <code>INDEX + MATCH</code> adalah standar emas wajib pengganti VLOOKUP.</span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Tabel Perbandingan VLOOKUP vs XLOOKUP vs INDEX+MATCH -->
+        <div style="margin-top: 1.75rem;">
+          <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:0.75rem; color:var(--text-main);">
+            Tabel Perbandingan: Kapan Harus Menggunakan yang Mana?
+          </h4>
+          <div class="table-responsive">
+            <table class="excel-grid-table">
+              <thead>
+                <tr>
+                  <th>Fitur / Kriteria</th>
+                  <th>VLOOKUP</th>
+                  <th>INDEX + MATCH</th>
+                  <th>XLOOKUP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Arah Pencarian</strong></td>
+                  <td>Hanya ke kanan (&rarr;)</td>
+                  <td>Bebas ke kiri mau pun ke kanan (&larr; &rarr;)</td>
+                  <td>Bebas ke kiri mau pun ke kanan (&larr; &rarr;)</td>
+                </tr>
+                <tr>
+                  <td><strong>Ketahanan Kolom</strong></td>
+                  <td>Rentan rusak jika disisipkan kolom baru</td>
+                  <td>Sangat aman dan otomatis menyesuaikan</td>
+                  <td>Sangat aman dan otomatis menyesuaikan</td>
+                </tr>
+                <tr>
+                  <td><strong>Ketersediaan Versi</strong></td>
+                  <td>Semua versi Excel dari dulu hingga kini</td>
+                  <td>Semua versi Excel dari dulu hingga kini</td>
+                  <td>Hanya Excel 365, Excel 2021, &amp; Excel for Web</td>
+                </tr>
+                <tr>
+                  <td><strong>Performa Data Besar</strong></td>
+                  <td>Cenderung lambat pada puluhan ribu baris</td>
+                  <td>Sangat cepat dan hemat memori</td>
+                  <td>Sangat cepat dan teroptimasi modern</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 5: TEXT FUNCTIONS
+           =================================================================== -->
+      <section id="section-text" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="type"></i> Text Functions (Manipulasi Teks &amp; String)</h2>
+          <p class="section-description">
+            Membersihkan, memotong, menggabungkan, dan merapikan data teks hasil impor database sebelum diolah lebih lanjut. Sangat sering keluar di tes administrasi dan data entry.
+          </p>
+        </div>
+
+        <div class="formula-grid">
+
+          <!-- LEFT, RIGHT, MID -->
+          <article class="formula-card" id="fn-LEFT-RIGHT-MID">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">LEFT, RIGHT, MID</span>
+                <span class="version-badge">Ekstraksi Karakter</span>
+              </div>
+              <button class="btn-copy" data-copy="=MID(A2, 4, 4)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengekstrak potongan sejumlah karakter dari awal kiri (<code>LEFT</code>), akhir kanan (<code>RIGHT</code>), atau tengah (<code>MID</code>).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=LEFT(text, [num_chars]) &nbsp;|&nbsp; =RIGHT(text, [num_chars]) &nbsp;|&nbsp; =MID(text, start_num, num_chars)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <p class="example-note">Data di sel A2: <code>"ID-2024-988"</code></p>
+                <div class="example-formula-row">
+                  <code>=LEFT(A2, 2)</code>
+                  <span class="example-result-pill">Hasil: "ID"</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=MID(A2, 4, 4)</code>
+                  <span class="example-result-pill">Hasil: "2024" (Tahun)</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=RIGHT(A2, 3)</code>
+                  <span class="example-result-pill">Hasil: "988" (No Urut)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- LEN & TRIM -->
+          <article class="formula-card" id="fn-LEN-TRIM">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">LEN &amp; TRIM</span>
+                <span class="version-badge">Sanitasi Teks</span>
+              </div>
+              <button class="btn-copy" data-copy="=TRIM(A2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>LEN</code> menghitung total jumlah karakter (termasuk spasi). <code>TRIM</code> membersihkan spasi berlebih di awal, akhir, dan spasi ganda di tengah teks.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=LEN(text) &nbsp;|&nbsp; =TRIM(text)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=TRIM(" &nbsp;PT &nbsp; Maju &nbsp; Sukses &nbsp; ")</code>
+                  <span class="example-result-pill">Hasil: "PT Maju Sukses"</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=LEN("3201012304990001")</code>
+                  <span class="example-result-pill">Hasil: 16 (Cek panjang NIK)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- UPPER, LOWER, PROPER -->
+          <article class="formula-card" id="fn-CASING">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">UPPER, LOWER, PROPER</span>
+                <span class="version-badge">Format Huruf</span>
+              </div>
+              <button class="btn-copy" data-copy="=PROPER(A2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>UPPER</code> mengubah semua menjadi HURUF BESAR, <code>LOWER</code> menjadi huruf kecil, dan <code>PROPER</code> mengubah huruf pertama setiap kata menjadi kapital (Title Case).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=UPPER(text) &nbsp;|&nbsp; =LOWER(text) &nbsp;|&nbsp; =PROPER(text)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=PROPER("budi santoso, s.kom")</code>
+                  <span class="example-result-pill">Hasil: "Budi Santoso, S.Kom"</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=UPPER("lunas")</code>
+                  <span class="example-result-pill">Hasil: "LUNAS"</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- CONCAT, CONCATENATE, TEXTJOIN, & Operator -->
+          <article class="formula-card" id="fn-CONCAT-TEXTJOIN">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">CONCAT, CONCATENATE, TEXTJOIN</span>
+                <span class="version-badge">Penggabungan Teks</span>
+              </div>
+              <button class="btn-copy" data-copy="=TEXTJOIN(&quot;, &quot;, TRUE, A2:A5)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menggabungkan teks dari berbagai sel menjadi satu string panjang. Termasuk penggunaan operator ampersand (<code>&amp;</code>).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=TEXTJOIN(delimiter, ignore_empty, text1, ...) &nbsp;|&nbsp; =CONCAT(text1, ...) &nbsp;|&nbsp; =A2 &amp; " " &amp; B2</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=A2 &amp; " " &amp; B2</code>
+                  <span class="example-result-pill">Gabung Nama Depan &amp; Belakang</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=TEXTJOIN(", ", TRUE, A2:A5)</code>
+                  <span class="example-result-pill">Hasil: "Jakarta, Bandung, Surabaya, Medan"</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="lightbulb" class="card-tips-icon"></i>
+              <span><strong>Keunggulan TEXTJOIN (Excel 2019/365):</strong> Dapat menggabungkan satu rentang sel vertikal sekaligus tanpa mengetik koma satu persatu, serta memiliki opsi otomatis mengabaikan sel yang kosong!</span>
+            </div>
+          </article>
+
+          <!-- FIND vs SEARCH -->
+          <article class="formula-card" id="fn-FIND-SEARCH">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">FIND vs SEARCH</span>
+                <span class="version-badge">Pencarian Posisi</span>
+              </div>
+              <button class="btn-copy" data-copy="=SEARCH(&quot;@&quot;, A2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mencari nomor posisi kemunculan suatu karakter dalam teks. Perbedaan penting: <code>FIND</code> bersifat <strong>Case Sensitive</strong> (peka huruf besar-kecil), sedangkan <code>SEARCH</code> <strong>Not Case Sensitive</strong> dan mendukung wildcard (<code>*</code> dan <code>?</code>).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=FIND(find_text, within_text, [start_num]) &nbsp;|&nbsp; =SEARCH(find_text, within_text, [start_num])</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SEARCH("@", "budi.santoso@company.co.id")</code>
+                  <span class="example-result-pill">Hasil: 13 (Posisi tanda @)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- SUBSTITUTE vs REPLACE -->
+          <article class="formula-card" id="fn-SUBSTITUTE-REPLACE">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SUBSTITUTE vs REPLACE</span>
+                <span class="version-badge">Penggantian Karakter</span>
+              </div>
+              <button class="btn-copy" data-copy="=SUBSTITUTE(A2, &quot;/&quot;, &quot;-&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>SUBSTITUTE</code> mengganti teks lama dengan teks baru berdasarkan kecocokan kata. <code>REPLACE</code> mengganti teks berdasarkan posisi nomor karakter dan panjangnya.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=SUBSTITUTE(text, old_text, new_text, [instance_num]) &nbsp;|&nbsp; =REPLACE(old_text, start_num, num_chars, new_text)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SUBSTITUTE("0812/3456/789", "/", "-")</code>
+                  <span class="example-result-pill">Hasil: "0812-3456-789"</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=REPLACE("IDN-001", 1, 3, "SGP")</code>
+                  <span class="example-result-pill">Hasil: "SGP-001"</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEXT & VALUE -->
+          <article class="formula-card" id="fn-TEXT-VALUE">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">TEXT &amp; VALUE</span>
+                <span class="version-badge">Konversi Format &amp; Tipe</span>
+              </div>
+              <button class="btn-copy" data-copy="=TEXT(A2, &quot;Rp #,##0&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>TEXT</code> mengubah angka menjadi teks berformat tampilan (rupiah, tanggal, persentase). <code>VALUE</code> kebalikannya: mengubah teks angka ("150000") menjadi angka numerik murni agar bisa dijumlahkan.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=TEXT(value, format_text) &nbsp;|&nbsp; =VALUE(text)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>="Total: " &amp; TEXT(2500000, "Rp #,##0")</code>
+                  <span class="example-result-pill">Hasil: "Total: Rp 2.500.000"</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=VALUE("50000") + 10000</code>
+                  <span class="example-result-pill">Hasil: 60000 (Bisa dihitung matematika)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 6: DATE & TIME FUNCTIONS
+           =================================================================== -->
+      <section id="section-datetime" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 06</span>
+          <h2 class="section-title"><i data-lucide="calendar"></i> Date &amp; Time Functions (Tanggal &amp; Waktu)</h2>
+          <p class="section-description">
+            Perhitungan masa kerja karyawan, usia, estimasi jatuh tempo piutang, serta durasi hari kerja proyek.
+          </p>
+        </div>
+
+        <div class="formula-grid">
+
+          <!-- TODAY & NOW -->
+          <article class="formula-card" id="fn-TODAY-NOW">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">TODAY &amp; NOW</span>
+                <span class="version-badge">Tanggal Dinamis</span>
+              </div>
+              <button class="btn-copy" data-copy="=TODAY()">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>TODAY</code> menghasilkan tanggal hari ini (otomatis ter-update setiap file dibuka). <code>NOW</code> menghasilkan tanggal beserta jam, menit, dan detik saat ini.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=TODAY() &nbsp;|&nbsp; =NOW()</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=TODAY()</code>
+                  <span class="example-result-pill">Hasil: Tanggal sistem saat ini</span>
+                </div>
+                <p class="example-note">Kedua fungsi ini tidak memerlukan argumen di dalam kurungnya.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- DAY, MONTH, YEAR & DATE -->
+          <article class="formula-card" id="fn-DMY-DATE">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">DAY, MONTH, YEAR, DATE</span>
+                <span class="version-badge">Dekomposisi Tanggal</span>
+              </div>
+              <button class="btn-copy" data-copy="=DATE(2026, 11, 4)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengekstrak komponen hari, bulan, atau tahun dari suatu tanggal, serta merakit kembali komponen angka menjadi serial tanggal valid menggunakan <code>DATE</code>.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=DAY(date) &nbsp;|&nbsp; =MONTH(date) &nbsp;|&nbsp; =YEAR(date) &nbsp;|&nbsp; =DATE(year, month, day)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=YEAR(A2)</code>
+                  <span class="example-result-pill">Ekstrak Tahun (misal: 2026)</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=DATE(YEAR(TODAY()), 12, 31)</code>
+                  <span class="example-result-pill">Buat tanggal akhir tahun berjalan</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- DATEDIF (Fungsi Rahasia Menghitung Usia & Masa Kerja) -->
+          <article class="formula-card" id="fn-DATEDIF">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">DATEDIF</span>
+                <span class="version-badge" style="background-color:var(--success-bg); color:var(--success-text);">Favorit HR &amp; Payroll</span>
+              </div>
+              <button class="btn-copy" data-copy="=DATEDIF(A2, TODAY(), &quot;Y&quot;)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghitung selisih antara dua tanggal dalam satuan tahun, bulan, atau hari penuh. Sangat akurat untuk masa kerja dan usia.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=DATEDIF(start_date, end_date, unit)</code>
+              </div>
+            </div>
+            <div class="params-table-wrapper">
+              <table class="params-table">
+                <thead><tr><th>Kode Unit</th><th>Penjelasan</th><th>Contoh Output</th></tr></thead>
+                <tbody>
+                  <tr><td><code>"Y"</code></td><td>Jumlah tahun penuh yang telah berlalu.</td><td>Masa kerja: <strong>5</strong> tahun</td></tr>
+                  <tr><td><code>"M"</code></td><td>Jumlah total bulan yang telah berlalu.</td><td>Total: <strong>64</strong> bulan</td></tr>
+                  <tr><td><code>"D"</code></td><td>Jumlah total hari yang telah berlalu.</td><td>Total: <strong>1.950</strong> hari</td></tr>
+                  <tr><td><code>"YM"</code></td><td>Sisa bulan setelah dikurangi tahun penuh (0-11).</td><td>Untuk format gabungan: 5 Tahun <strong>4</strong> Bulan</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=DATEDIF(B2, TODAY(), "Y") &amp; " Tahun " &amp; DATEDIF(B2, TODAY(), "YM") &amp; " Bulan"</code>
+                  <span class="example-result-pill">Hasil: "4 Tahun 8 Bulan"</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- NETWORKDAYS & WORKDAY -->
+          <article class="formula-card" id="fn-NETWORKDAYS-WORKDAY">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">NETWORKDAYS &amp; WORKDAY</span>
+                <span class="version-badge">Hari Kerja Proyek</span>
+              </div>
+              <button class="btn-copy" data-copy="=NETWORKDAYS(A2, B2, Libur!A2:A10)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>NETWORKDAYS</code> menghitung jumlah hari kerja bersih (tanpa Sabtu, Minggu &amp; hari libur). <code>WORKDAY</code> menghasilkan tanggal selesai setelah n hari kerja dari tanggal awal.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=NETWORKDAYS(start_date, end_date, [holidays]) &nbsp;|&nbsp; =WORKDAY(start_date, days, [holidays])</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=NETWORKDAYS("2026-11-01", "2026-11-30", H2:H5)</code>
+                  <span class="example-result-pill">Hasil: 21 Hari Kerja Efektif</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=WORKDAY(TODAY(), 14, H2:H5)</code>
+                  <span class="example-result-pill">Tanggal jatuh tempo 14 hari kerja ke depan</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- EOMONTH -->
+          <article class="formula-card" id="fn-EOMONTH">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">EOMONTH (End Of Month)</span>
+                <span class="version-badge">Akuntansi &amp; Finance</span>
+              </div>
+              <button class="btn-copy" data-copy="=EOMONTH(A2, 1)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Menghasilkan tanggal hari terakhir pada bulan berjalan atau sekian bulan ke depan/belakang.</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=EOMONTH(start_date, months)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=EOMONTH(TODAY(), 0)</code>
+                  <span class="example-result-pill">Hari terakhir bulan INI</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=EOMONTH(TODAY(), 1)</code>
+                  <span class="example-result-pill">Hari terakhir bulan DEPAN</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 7: MATH FUNCTIONS
+           =================================================================== -->
+      <section id="section-math" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 07</span>
+          <h2 class="section-title"><i data-lucide="percent"></i> Math Functions (Matematika &amp; Pembulatan)</h2>
+          <p class="section-description">
+            Pembulatan desimal, penghitungan modulus (sisa bagi), nilai absolut, kelipatan kasir (Ceiling/Floor), serta perkalian matriks cepat dengan SUMPRODUCT.
+          </p>
+        </div>
+
+        <div class="formula-grid">
+
+          <!-- ROUND, ROUNDUP, ROUNDDOWN -->
+          <article class="formula-card" id="fn-ROUND-TRIO">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">ROUND, ROUNDUP, ROUNDDOWN</span>
+                <span class="version-badge">Pembulatan Desimal</span>
+              </div>
+              <button class="btn-copy" data-copy="=ROUND(A2, 2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>ROUND</code> membulatkan ke digit terdekat (aturan 0.5 naik). <code>ROUNDUP</code> selalu membulatkan ke atas menjauhi nol. <code>ROUNDDOWN</code> selalu membulatkan ke bawah memotong desimal.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=ROUND(number, num_digits) &nbsp;|&nbsp; =ROUNDUP(number, num_digits) &nbsp;|&nbsp; =ROUNDDOWN(number, num_digits)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=ROUND(125.467, 2)</code>
+                  <span class="example-result-pill">Hasil: 125.47</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=ROUNDUP(125.01, 0)</code>
+                  <span class="example-result-pill">Hasil: 126</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=ROUNDDOWN(125.99, 0)</code>
+                  <span class="example-result-pill">Hasil: 125</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ABS, MOD, INT -->
+          <article class="formula-card" id="fn-ABS-MOD-INT">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">ABS, MOD, INT</span>
+                <span class="version-badge">Kalkulasi Angka</span>
+              </div>
+              <button class="btn-copy" data-copy="=ABS(A2-B2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>ABS</code> menghasilkan nilai absolut positif (hilangkan tanda minus). <code>MOD</code> menghasilkan sisa pembagian. <code>INT</code> membulatkan ke bilangan bulat terdekat ke bawah.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=ABS(number) &nbsp;|&nbsp; =MOD(number, divisor) &nbsp;|&nbsp; =INT(number)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=ABS(-450000)</code>
+                  <span class="example-result-pill">Hasil: 450000</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=MOD(10, 3)</code>
+                  <span class="example-result-pill">Hasil: 1 (Sisa 10 dibagi 3)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- SQRT & POWER -->
+          <article class="formula-card" id="fn-SQRT-POWER">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SQRT &amp; POWER</span>
+                <span class="version-badge">Akar &amp; Pangkat</span>
+              </div>
+              <button class="btn-copy" data-copy="=POWER(A2, 2)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc"><code>SQRT</code> menghitung akar kuadrat dari bilangan positif. <code>POWER</code> menghitung pemangkatan bilangan (bisa juga menggunakan simbol caret <code>^</code>).</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=SQRT(number) &nbsp;|&nbsp; =POWER(number, power) &nbsp;|&nbsp; =A2^3</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SQRT(144)</code>
+                  <span class="example-result-pill">Hasil: 12</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=POWER(5, 3)</code>
+                  <span class="example-result-pill">Hasil: 125 (5 dipangkatkan 3)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- SUMPRODUCT (Fungsi Analis Favorit) -->
+          <article class="formula-card" id="fn-SUMPRODUCT">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">SUMPRODUCT</span>
+                <span class="version-badge" style="background-color:var(--success-bg); color:var(--success-text);">Nilai Plus Tes Kerja</span>
+              </div>
+              <button class="btn-copy" data-copy="=SUMPRODUCT(B2:B10, C2:C10)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Mengalikan elemen-elemen array yang berposisi sama kemudian menjumlahkan hasil akhirnya. Menghitung total nilai transaksi tanpa kolom bantu!</p>
+            <div class="syntax-container">
+              <span class="syntax-label">Sintaks:</span>
+              <div class="code-box">
+                <code>=SUMPRODUCT(array1, [array2], [array3], ...)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=SUMPRODUCT(B2:B10, C2:C10)</code>
+                  <span class="example-result-pill">Total Omzet: (Qty * Harga)</span>
+                </div>
+                <p class="example-note">Kolom B adalah Jumlah Barang (Qty) dan Kolom C adalah Harga Satuan. Menghasilkan total nilai penjualan seketika tanpa perlu membuat kolom D (B*C) lalu di-SUM.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- CEILING & FLOOR -->
+          <article class="formula-card" id="fn-CEILING-FLOOR">
+            <div class="formula-card-header">
+              <div class="formula-identity">
+                <span class="formula-name">CEILING &amp; FLOOR</span>
+                <span class="version-badge">Pembulatan Kelipatan</span>
+              </div>
+              <button class="btn-copy" data-copy="=CEILING(A2, 500)">
+                <i data-lucide="copy"></i><span>Salin Rumus</span>
+              </button>
+            </div>
+            <p class="formula-desc">Membulatkan angka ke kelipatan bilangan tertentu (significance). <code>CEILING</code> membulatkan ke atas, sedangkan <code>FLOOR</code> membulatkan ke bawah.</p>
+            <div class="syntax-container">
+              <div class="code-box">
+                <code>=CEILING(number, significance) &nbsp;|&nbsp; =FLOOR(number, significance)</code>
+              </div>
+            </div>
+            <div class="example-section">
+              <div class="example-content">
+                <div class="example-formula-row">
+                  <code>=CEILING(14320, 500)</code>
+                  <span class="example-result-pill">Hasil: 14.500 (Kelipatan 500 ke atas)</span>
+                </div>
+                <div class="example-formula-row">
+                  <code>=FLOOR(14320, 500)</code>
+                  <span class="example-result-pill">Hasil: 14.000 (Kelipatan 500 ke bawah)</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 8: CELL REFERENCES ($)
+           =================================================================== -->
+      <section id="section-references" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 08</span>
+          <h2 class="section-title"><i data-lucide="lock"></i> Cell References (Referensi Sel &amp; Simbol $)</h2>
+          <p class="section-description">
+            Pemahaman mutlak tentang apa yang terjadi ketika sebuah rumus disalin (copy-paste / autofill drag) ke baris bawah atau ke kolom samping.
+          </p>
+        </div>
+
+        <div class="formula-grid">
+
+          <article class="formula-card">
+            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.75rem; color:var(--excel-primary);">
+              Tiga Jenis Referensi Sel di Excel
+            </h3>
+            <p class="formula-desc">
+              Simbol dollar (<code>$</code>) berfungsi sebagai <strong>Gembok Pengunci</strong>. Huruf mewakili kolom, dan angka mewakili baris.
+            </p>
+
+            <div class="table-responsive">
+              <table class="excel-grid-table">
+                <thead>
+                  <tr>
+                    <th>Jenis Referensi</th>
+                    <th>Bentuk Rumus</th>
+                    <th>Ketika Disalin ke Bawah (Vertikal)</th>
+                    <th>Ketika Disalin ke Samping (Horizontal)</th>
+                    <th>Contoh Kasus Penggunaan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>1. Relative (Relatif)</strong></td>
+                    <td><code>A1</code></td>
+                    <td>Angka baris bergeser (A2, A3, dst.)</td>
+                    <td>Huruf kolom bergeser (B1, C1, dst.)</td>
+                    <td>Menghitung total baris per karyawan: <code>=B2 * C2</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>2. Absolute (Absolut)</strong></td>
+                    <td><code>$A$1</code></td>
+                    <td><strong>TETAP $A$1</strong> (tidak berubah)</td>
+                    <td><strong>TETAP $A$1</strong> (tidak berubah)</td>
+                    <td>Mengunci sel persentase PPN 11% atau kurs mata uang di sel <code>$F$1</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>3. Mixed: Kunci Kolom</strong></td>
+                    <td><code>$A1</code></td>
+                    <td>Angka baris bergeser ($A2, $A3, dst.)</td>
+                    <td><strong>Kolom TETAP $A</strong> ($A1, $A1, dst.)</td>
+                    <td>Tabel matriks dua dimensi, kunci kolom ID</td>
+                  </tr>
+                  <tr>
+                    <td><strong>4. Mixed: Kunci Baris</strong></td>
+                    <td><code>A$1</code></td>
+                    <td><strong>Baris TETAP $1</strong> (A$1, A$1, dst.)</td>
+                    <td>Huruf kolom bergeser (B$1, C$1, dst.)</td>
+                    <td>Tabel rekap bulanan dengan judul bulan di baris ke-1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Visual Drag Simulation Box -->
+            <div class="example-section" style="margin-top: 1.25rem;">
+              <div class="example-header"><i data-lucide="move"></i> Simulasi Drag &amp; Salin Rumus:</div>
+              <div class="example-content">
+                <p style="font-size:0.9rem; line-height:1.6;">
+                  Bayangkan Anda menulis rumus di sel <strong>C2</strong>: <code>=$A$1 * B2</code><br>
+                  &bull; Jika Anda copy atau drag ke sel <strong>C3</strong>: Rumus menjadi <code>=$A$1 * B3</code><br>
+                  &bull; Jika Anda copy atau drag ke sel <strong>D2</strong>: Rumus menjadi <code>=$A$1 * C2</code><br>
+                  &bull; Jika Anda copy atau drag ke sel <strong>E5</strong>: Rumus menjadi <code>=$A$1 * D5</code><br>
+                  <em>Perhatikan bahwa <code>$A$1</code> tidak pernah bergeser karena dikunci penuh oleh tanda $.</em>
+                </p>
+              </div>
+            </div>
+
+            <div class="card-tips">
+              <i data-lucide="key" class="card-tips-icon"></i>
+              <span><strong>Shortcut Rahasia:</strong> Letakkan kursor di dalam nama sel pada formula bar lalu tekan tombol <kbd class="shortcut-kbd">F4</kbd> (Windows) atau <kbd class="shortcut-kbd">Command</kbd> + <kbd class="shortcut-kbd">T</kbd> (Mac) untuk berganti mode penguncian secara otomatis: <code>A1</code> &rarr; <code>$A$1</code> &rarr; <code>A$1</code> &rarr; <code>$A1</code> &rarr; <code>A1</code>.</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 9: DATA TOOLS (TUTORIAL LANGKAH DEMI LANGKAH)
+           =================================================================== -->
+      <section id="section-datatools" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 09</span>
+          <h2 class="section-title"><i data-lucide="database"></i> Data Tools (Alat Pengolahan Data Praktis)</h2>
+          <p class="section-description">
+            Tutorial langkah demi langkah fitur pengolahan data bawaan Microsoft Excel yang paling sering diujikan pada sesi tes praktik komputer.
+          </p>
+        </div>
+
+        <!-- 1. Sort -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div>
+              <h3 class="step-title">Sort (Pengurutan Data)</h3>
+              <p class="step-desc">Mengurutkan data abjad (A-Z / Z-A), angka (terkecil ke terbesar), tanggal, atau multi-tingkat.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Klik salah satu sel di dalam kolom yang ingin diurutkan.</li>
+            <li>Buka tab ribbon <span class="ui-path">Data &gt; Sort A to Z</span> (Ascending) atau <span class="ui-path">Sort Z to A</span> (Descending).</li>
+            <li><strong>Custom Sort (Multi-level):</strong> Buka <span class="ui-path">Data &gt; Sort</span>, klik <em>Add Level</em> untuk mengurutkan berdasarkan Divisi terlebih dahulu, lalu berdasarkan Omzet Penjualan tertinggi.</li>
+          </ul>
+        </article>
+
+        <!-- 2. Filter -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div>
+              <h3 class="step-title">Filter (Penyaringan Data)</h3>
+              <p class="step-desc">Menampilkan baris yang memenuhi kriteria dan menyembunyikan baris lainnya tanpa menghapus data.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Pilih rentang tabel atau letakkan kursor pada baris judul tabel.</li>
+            <li>Tekan shortcut cepat <kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">L</kbd> (Mac: <kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">F</kbd>) atau menu <span class="ui-path">Data &gt; Filter</span>.</li>
+            <li>Klik icon tanda panah dropdown pada kolom yang ingin difilter, pilih kriteria (misal centang hanya kota "Surabaya").</li>
+            <li>Untuk membersihkan filter, buka tab <span class="ui-path">Data &gt; Clear</span>.</li>
+          </ul>
+        </article>
+
+        <!-- 3. Remove Duplicates -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div>
+              <h3 class="step-title">Remove Duplicates (Hapus Data Ganda)</h3>
+              <p class="step-desc">Membersihkan baris data duplikat secara instan dalam satu klik.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Seleksi seluruh tabel data yang ingin dibersihkan.</li>
+            <li>Buka menu <span class="ui-path">Data &gt; Remove Duplicates</span>.</li>
+            <li>Pastikan centang <em>"My data has headers"</em> aktif.</li>
+            <li>Pilih kolom penentu keunikan (misalnya hanya kolom <em>"Nomor NIK"</em> atau <em>"ID Transaksi"</em>).</li>
+            <li>Klik <strong>OK</strong>. Excel akan menampilkan laporan berapa jumlah baris duplikat yang terhapus dan berapa baris unik yang tersisa.</li>
+          </ul>
+        </article>
+
+        <!-- 4. Conditional Formatting -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <div>
+              <h3 class="step-title">Conditional Formatting (Pewarnaan Otomatis)</h3>
+              <p class="step-desc">Memberi warna latar sel atau font secara dinamis jika memenuhi syarat tertentu.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Sorot rentang sel yang ingin diwarnai (misal kolom Nilai Ujian C2:C50).</li>
+            <li>Buka menu <span class="ui-path">Home &gt; Conditional Formatting &gt; Highlight Cells Rules</span>.</li>
+            <li>Pilih <em>Greater Than...</em> dan masukkan angka <code>75</code> dengan format warna hijau untuk menandai siswa lulus.</li>
+            <li>Pilih <em>Duplicate Values...</em> untuk mendeteksi data ganda dengan warna merah menyala.</li>
+          </ul>
+        </article>
+
+        <!-- 5. Text to Columns -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">5</div>
+            <div>
+              <h3 class="step-title">Text to Columns (Pemisah Kolom Teks)</h3>
+              <p class="step-desc">Memecah satu kolom teks panjang (seperti file CSV) menjadi beberapa kolom terpisah.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Sorot satu kolom teks yang ingin dipecah (misal teks "Nama,Divisi,Kota").</li>
+            <li>Buka menu <span class="ui-path">Data &gt; Text to Columns</span>.</li>
+            <li>Pilih <strong>Delimited</strong> jika data dipisahkan tanda koma, titik koma, spasi, atau tab. (Pilih <em>Fixed width</em> jika dipisahkan oleh jumlah spasi karakter tetap).</li>
+            <li>Centang karakter pemisah yang sesuai (misal <em>Comma</em> atau <em>Semicolon</em>).</li>
+            <li>Tentukan format kolom tujuan lalu klik <strong>Finish</strong>.</li>
+          </ul>
+        </article>
+
+        <!-- 6. Flash Fill (Ctrl + E) -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">6</div>
+            <div>
+              <h3 class="step-title">Flash Fill (Pengenalan Pola Cerdas)</h3>
+              <p class="step-desc">Fitur kecerdasan Excel untuk memisahkan, merapikan, dan menggabungkan data teks otomatis tanpa rumus!</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Di kolom sebelah data sumber, ketikkan contoh hasil yang Anda inginkan secara manual pada baris pertama (misal di kolom A ada "Budi Santoso", ketik "Budi" di kolom B baris 2).</li>
+            <li>Pindah ke baris kedua di bawahnya, lalu tekan shortcut sakti <kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">E</kbd> (atau buka tab <span class="ui-path">Data &gt; Flash Fill</span>).</li>
+            <li>Excel akan mendeteksi pola dan langsung mengisi seluruh ratusan baris di bawahnya secara otomatis dalam sekejap!</li>
+          </ul>
+        </article>
+
+        <!-- 7. Data Validation -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">7</div>
+            <div>
+              <h3 class="step-title">Data Validation (Dropdown List &amp; Pembatasan Input)</h3>
+              <p class="step-desc">Mencegah kesalahan ketik (typo) dengan membuat menu pilihan dropdown atau membatasi rentang nilai.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Pilih sel yang ingin diberi pilihan (misal kolom Status E2:E50).</li>
+            <li>Buka menu <span class="ui-path">Data &gt; Data Validation</span>.</li>
+            <li>Pada tab <em>Settings</em>, di kolom <strong>Allow</strong> pilih <strong>List</strong>.</li>
+            <li>Pada kolom <strong>Source</strong>, ketikkan opsinya dipisahkan tanda koma: <code>Hadir, Sakit, Izin, Cuti</code> (atau pilih rentang sel referensi).</li>
+            <li>Klik OK. Kini sel memiliki tombol panah dropdown yang dapat diklik!</li>
+          </ul>
+        </article>
+
+        <!-- 8. Freeze Panes -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">8</div>
+            <div>
+              <h3 class="step-title">Freeze Panes (Kunci Baris Judul &amp; Kolom)</h3>
+              <p class="step-desc">Mengunci baris judul tabel agar tetap terlihat saat lembar kerja di-scroll ke bawah.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Buka menu tab <span class="ui-path">View &gt; Freeze Panes</span>.</li>
+            <li>Pilih <strong>Freeze Top Row</strong> untuk mengunci baris pertama (baris 1).</li>
+            <li>Pilih <strong>Freeze First Column</strong> untuk mengunci kolom paling kiri (kolom A).</li>
+            <li><strong>Kunci Keduanya:</strong> Letakkan kursor di sel <code>B2</code> (tepat di bawah baris judul dan di kanan kolom pertama), lalu pilih <strong>Freeze Panes</strong>.</li>
+          </ul>
+        </article>
+
+        <!-- 9. Find & Replace -->
+        <article class="step-card">
+          <div class="step-header">
+            <div class="step-number">9</div>
+            <div>
+              <h3 class="step-title">Find &amp; Replace (Cari &amp; Ganti Massal)</h3>
+              <p class="step-desc">Mencari dan mengganti kata atau karakter tertentu di seluruh lembar kerja secara massal.</p>
+            </div>
+          </div>
+          <ul class="step-instructions">
+            <li>Tekan shortcut <kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">H</kbd> (Mac: <kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">H</kbd>).</li>
+            <li>Pada kolom <em>Find what</em>, masukkan teks lama (misal: <code>Jkt</code>).</li>
+            <li>Pada kolom <em>Replace with</em>, masukkan teks pengganti (misal: <code>Jakarta</code>).</li>
+            <li>Klik <strong>Replace All</strong> untuk mengganti semua kemunculan sekaligus.</li>
+          </ul>
+        </article>
+
+      </section>
+
+      <!-- ===================================================================
+           SECTION 10: PIVOT TABLE
+           =================================================================== -->
+      <section id="section-pivottable" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 10</span>
+          <h2 class="section-title"><i data-lucide="layout-grid"></i> Pivot Table (Analisis Data Cepat)</h2>
+          <p class="section-description">
+            Alat paling revolusioner di Excel untuk meringkas ribuan baris data transaksi menjadi laporan ringkas, interaktif, dan mudah dibaca tanpa menulis rumus satu pun.
+          </p>
+        </div>
+
+        <!-- Cara Membuat Pivot Table -->
+        <article class="step-card">
+          <h3 class="step-title" style="margin-bottom:0.75rem;">1. Langkah Membuat Pivot Table</h3>
+          <ul class="step-instructions">
+            <li>Pastikan tabel sumber Anda memiliki format yang bersih: setiap kolom wajib memiliki judul header, tidak ada sel yang di-merge, dan tidak ada baris yang kosong total.</li>
+            <li>Klik di dalam area tabel data sumber Anda.</li>
+            <li>Buka tab <span class="ui-path">Insert &gt; PivotTable</span>.</li>
+            <li>Pilih opsi penempatan: <em>New Worksheet</em> (lembar kerja baru) atau <em>Existing Worksheet</em> lalu klik <strong>OK</strong>.</li>
+          </ul>
+        </article>
+
+        <!-- 4 Area Utama Pivot Table -->
+        <div style="margin: 1.5rem 0;">
+          <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.85rem; color:var(--text-main);">
+            2. Memahami 4 Area Utama Bidang PivotTable (PivotTable Fields)
+          </h3>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-icon-box"><i data-lucide="list-filter"></i></div>
+              <h4 class="chart-title">Filters (Penyaring Laporan)</h4>
+              <p class="chart-usecase">Menempatkan bidang filter di bagian paling atas laporan untuk membatasi data (contoh: memfilter berdasarkan Tahun 2026 atau Cabang tertentu).</p>
+            </div>
+            <div class="chart-card">
+              <div class="chart-icon-box"><i data-lucide="columns"></i></div>
+              <h4 class="chart-title">Columns (Kolom Horizontal)</h4>
+              <p class="chart-usecase">Membagi nilai ke samping secara mendatar (contoh: menempatkan Triwulan Q1, Q2, Q3, Q4 sebagai tajuk kolom).</p>
+            </div>
+            <div class="chart-card">
+              <div class="chart-icon-box"><i data-lucide="rows"></i></div>
+              <h4 class="chart-title">Rows (Baris Vertikal)</h4>
+              <p class="chart-usecase">Mengelompokkan data ke bawah secara vertikal (contoh: Kategori Produk atau Nama Sales Person).</p>
+            </div>
+            <div class="chart-card">
+              <div class="chart-icon-box"><i data-lucide="hash"></i></div>
+              <h4 class="chart-title">Values (Nilai Kalkulasi)</h4>
+              <p class="chart-usecase">Bidang berisi angka numerik yang ingin dihitung: dijumlahkan (Sum), dihitung frekuensinya (Count), atau dirata-ratakan (Average).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mengubah Sum Menjadi Count / Average / % of Grand Total -->
+        <article class="step-card">
+          <h3 class="step-title" style="margin-bottom:0.75rem;">3. Mengubah Agregasi (Sum &rarr; Count / Average / %)</h3>
+          <ul class="step-instructions">
+            <li>Secara default, jika kolom berisi angka Excel akan menggunakan <strong>Sum</strong>. Jika kolom berisi teks, Excel akan otomatis menggunakan <strong>Count</strong>.</li>
+            <li>Untuk mengubahnya: Klik panah dropdown kecil pada nama field di kotak <strong>Values</strong> &gt; pilih <strong>Value Field Settings...</strong></li>
+            <li>Pilih tipe ringkasan yang diinginkan: <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, atau <em>Min</em>.</li>
+            <li><strong>Menampilkan Persentase (% of Total):</strong> Buka tab kedua bertuliskan <strong>Show Values As</strong>, ganti dari <em>No Calculation</em> menjadi <strong>% of Grand Total</strong>. Ini trik wajib tes kerja!</li>
+          </ul>
+        </article>
+
+        <!-- Contoh Analisis Penjualan & Hasil Pivot Table -->
+        <div style="margin-top: 1.5rem;">
+          <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.85rem; color:var(--text-main);">
+            4. Contoh Nyata Hasil Pivot Table: Analisis Omzet Penjualan per Kategori &amp; Wilayah
+          </h3>
+          <div class="table-responsive">
+            <table class="excel-grid-table">
+              <thead>
+                <tr>
+                  <th style="background-color: var(--excel-primary); color:#ffffff;">Row Labels (Kategori)</th>
+                  <th style="background-color: var(--excel-primary-light); color:var(--excel-primary);">Jakarta (Rp)</th>
+                  <th style="background-color: var(--excel-primary-light); color:var(--excel-primary);">Surabaya (Rp)</th>
+                  <th style="background-color: var(--excel-primary-light); color:var(--excel-primary);">Medan (Rp)</th>
+                  <th style="background-color: var(--excel-primary); color:#ffffff;">Grand Total (Rp)</th>
+                  <th style="background-color: var(--excel-primary); color:#ffffff;">% Kontribusi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Elektronik</strong></td><td>150.000.000</td><td>85.000.000</td><td>65.000.000</td><td><strong>300.000.000</strong></td><td><strong>50,0%</strong></td></tr>
+                <tr><td><strong>Furniture</strong></td><td>70.000.000</td><td>50.000.000</td><td>30.000.000</td><td><strong>150.000.000</strong></td><td><strong>25,0%</strong></td></tr>
+                <tr><td><strong>Alat Tulis Kantor</strong></td><td>45.000.000</td><td>35.000.000</td><td>20.000.000</td><td><strong>100.000.000</strong></td><td><strong>16,7%</strong></td></tr>
+                <tr><td><strong>Aksesoris Komputer</strong></td><td>25.000.000</td><td>15.000.000</td><td>10.000.000</td><td><strong>50.000.000</strong></td><td><strong>8,3%</strong></td></tr>
+              </tbody>
+              <tfoot>
+                <tr style="background-color:var(--bg-surface-muted); font-weight:800;">
+                  <td>Total Keseluruhan</td>
+                  <td>290.000.000</td>
+                  <td>185.000.000</td>
+                  <td>125.000.000</td>
+                  <td style="color:var(--excel-primary);">600.000.000</td>
+                  <td style="color:var(--excel-primary);">100,0%</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===================================================================
+           SECTION 11: CHARTS
+           =================================================================== -->
+      <section id="section-charts" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 11</span>
+          <h2 class="section-title"><i data-lucide="bar-chart-2"></i> Charts (Grafik &amp; Visualisasi Data)</h2>
+          <p class="section-description">
+            Panduan memilih tipe diagram yang tepat untuk menyajikan laporan eksekutif dan presentasi hasil analisis.
+          </p>
+        </div>
+
+        <div class="chart-grid">
+
+          <!-- Column Chart -->
+          <div class="chart-card">
+            <div class="chart-icon-box"><i data-lucide="bar-chart-2"></i></div>
+            <h3 class="chart-title">Column Chart (Grafik Kolom Vertikal)</h3>
+            <p class="chart-usecase">Membandingkan nilai antar kategori diskrit dalam satu periode waktu tertentu.</p>
+            <div class="chart-bestfor">
+              <strong>Kapan Digunakan:</strong> Perbandingan penjualan antar cabang, jumlah staf antar departemen (kategori tidak lebih dari 10-12 item).
+            </div>
+          </div>
+
+          <!-- Bar Chart -->
+          <div class="chart-card">
+            <div class="chart-icon-box"><i data-lucide="align-left"></i></div>
+            <h3 class="chart-title">Bar Chart (Grafik Batang Horizontal)</h3>
+            <p class="chart-usecase">Membandingkan kategori yang memiliki nama label teks yang panjang atau menampilkan peringkat (ranking).</p>
+            <div class="chart-bestfor">
+              <strong>Kapan Digunakan:</strong> Top 10 produk terlaris, daftar nama karyawan dengan skor evaluasi kerja tertinggi.
+            </div>
+          </div>
+
+          <!-- Line Chart -->
+          <div class="chart-card">
+            <div class="chart-icon-box"><i data-lucide="trending-up"></i></div>
+            <h3 class="chart-title">Line Chart (Grafik Garis)</h3>
+            <p class="chart-usecase">Menampilkan tren pergerakan data kontinu dari waktu ke waktu (time series data).</p>
+            <div class="chart-bestfor">
+              <strong>Kapan Digunakan:</strong> Tren pendapatan bulanan Januari-Desember, fluktuasi harga saham, pertumbuhan user harian.
+            </div>
+          </div>
+
+          <!-- Pie Chart -->
+          <div class="chart-card">
+            <div class="chart-icon-box"><i data-lucide="pie-chart"></i></div>
+            <h3 class="chart-title">Pie Chart (Grafik Lingkaran)</h3>
+            <p class="chart-usecase">Menampilkan proporsi atau persentase kontribusi bagian terhadap total keseluruhan (total 100%).</p>
+            <div class="chart-bestfor">
+              <strong>Kapan Digunakan:</strong> Pangsa pasar (market share), komposisi sumber pendapatan. <em>Catatan: Hindari jika kategori lebih dari 5-7 item!</em>
+            </div>
+          </div>
+
+          <!-- Doughnut Chart -->
+          <div class="chart-card">
+            <div class="chart-icon-box"><i data-lucide="circle-dot"></i></div>
+            <h3 class="chart-title">Doughnut Chart (Grafik Donat)</h3>
+            <p class="chart-usecase">Serupa dengan Pie Chart namun memiliki ruang kosong di tengah yang dapat diisi angka KPI utama.</p>
+            <div class="chart-bestfor">
+              <strong>Kapan Digunakan:</strong> Dashboard eksekutif modern, persentase pencapaian target penjualan vs sisa target.
+            </div>
+          </div>
+
+          <!-- Area Chart -->
+          <div class="chart-card">
+            <div class="chart-icon-box"><i data-lucide="layers"></i></div>
+            <h3 class="chart-title">Area Chart (Grafik Area)</h3>
+            <p class="chart-usecase">Mirip grafik garis tetapi area di bawah garis terisi warna untuk memperlihatkan magnitudo kumulatif.</p>
+            <div class="chart-bestfor">
+              <strong>Kapan Digunakan:</strong> Kontribusi beberapa divisi terhadap total omzet perusahaan dari tahun ke tahun.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 12: KEYBOARD SHORTCUTS (WINDOWS & MAC)
+           =================================================================== -->
+      <section id="section-shortcuts" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 12</span>
+          <h2 class="section-title"><i data-lucide="keyboard"></i> Keyboard Shortcuts (Windows &amp; Mac)</h2>
+          <p class="section-description">
+            Daftar pintasan keyboard resmi untuk mempercepat pengerjaan tes Excel di komputer Windows maupun MacBook.
+          </p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="shortcuts-table">
+            <thead>
+              <tr>
+                <th style="width: 250px;">Fungsi / Aksi</th>
+                <th style="width: 260px;">Windows Shortcut</th>
+                <th style="width: 260px;">macOS Shortcut</th>
+                <th>Kegunaan &amp; Catatan Khusus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Copy (Salin)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">C</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">C</kbd></td>
+                <td>Menyalin teks, angka, atau rumus ke clipboard.</td>
+              </tr>
+              <tr>
+                <td><strong>Paste (Tempel)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">V</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">V</kbd></td>
+                <td>Menempelkan konten hasil salinan.</td>
+              </tr>
+              <tr>
+                <td><strong>Paste Special</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">Alt</kbd> + <kbd class="shortcut-kbd">V</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">V</kbd></td>
+                <td>Membuka dialog Paste Values, Formats, atau Transpose.</td>
+              </tr>
+              <tr>
+                <td><strong>Cut (Potong)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">X</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">X</kbd></td>
+                <td>Memindahkan data ke sel lain.</td>
+              </tr>
+              <tr>
+                <td><strong>Undo &amp; Redo</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">Z</kbd> / <kbd class="shortcut-kbd">Y</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">Z</kbd> / <kbd class="shortcut-kbd">Y</kbd></td>
+                <td>Membatalkan atau mengulang aksi terakhir.</td>
+              </tr>
+              <tr>
+                <td><strong>Save (Simpan)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">S</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">S</kbd></td>
+                <td>Menyimpan perubahan file workbook saat ini.</td>
+              </tr>
+              <tr>
+                <td><strong>Find (Cari)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">F</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">F</kbd></td>
+                <td>Membuka jendela pencarian data.</td>
+              </tr>
+              <tr>
+                <td><strong>Replace (Ganti)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">H</kbd></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">H</kbd></td>
+                <td>Membuka jendela cari dan ganti karakter massal.</td>
+              </tr>
+              <tr>
+                <td><strong>Select All (Pilih Semua)</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">A</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">A</kbd></td>
+                <td>Memilih seluruh area tabel aktif.</td>
+              </tr>
+              <tr>
+                <td><strong>Format Cells Dialog</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">1</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">1</kbd></td>
+                <td>Membuka dialog format angka, font, border, alignment.</td>
+              </tr>
+              <tr>
+                <td><strong>Toggle AutoFilter</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">L</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">F</kbd></td>
+                <td>Mengaktifkan atau mematikan tombol panah filter tabel.</td>
+              </tr>
+              <tr>
+                <td><strong>AutoSum Instan</strong></td>
+                <td><kbd class="shortcut-kbd">Alt</kbd> + <kbd class="shortcut-kbd">=</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">T</kbd></td>
+                <td>Menuliskan rumus <code>=SUM()</code> otomatis pada baris/kolom aktif.</td>
+              </tr>
+              <tr>
+                <td><strong>Edit Active Cell</strong></td>
+                <td><kbd class="shortcut-kbd">F2</kbd></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">U</kbd></td>
+                <td>Mengedit isi sel langsung tanpa klik mouse ganda.</td>
+              </tr>
+              <tr>
+                <td><strong>Flash Fill</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">E</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">E</kbd></td>
+                <td>Mengisi pola data otomatis tanpa rumus.</td>
+              </tr>
+              <tr>
+                <td><strong>Kunci Referensi ($)</strong></td>
+                <td><kbd class="shortcut-kbd">F4</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">T</kbd> (atau <kbd class="shortcut-kbd">F4</kbd>)</td>
+                <td>Siklus referensi: A1 &rarr; $A$1 &rarr; A$1 &rarr; $A1.</td>
+              </tr>
+              <tr>
+                <td><strong>Worksheet Baru</strong></td>
+                <td><kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">F11</kbd></td>
+                <td><kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">F11</kbd></td>
+                <td>Menyisipkan lembar kerja baru di samping sheet aktif.</td>
+              </tr>
+              <tr>
+                <td><strong>Pindah Sheet Berikutnya</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">PageDown</kbd></td>
+                <td><kbd class="shortcut-kbd">Option</kbd> + <kbd class="shortcut-kbd">&rarr;</kbd></td>
+                <td>Berpindah ke lembar kerja di sebelah kanan.</td>
+              </tr>
+              <tr>
+                <td><strong>Pindah Sheet Sebelumnya</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">PageUp</kbd></td>
+                <td><kbd class="shortcut-kbd">Option</kbd> + <kbd class="shortcut-kbd">&larr;</kbd></td>
+                <td>Berpindah ke lembar kerja di sebelah kiri.</td>
+              </tr>
+              <tr>
+                <td><strong>Convert to Table</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">T</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">T</kbd></td>
+                <td>Mengubah rentang sel biasa menjadi Excel Official Table.</td>
+              </tr>
+              <tr>
+                <td><strong>Input Tanggal Hari Ini</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">;</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">;</kbd></td>
+                <td>Menuliskan tanggal statis saat ini secara cepat.</td>
+              </tr>
+              <tr>
+                <td><strong>Input Jam Saat Ini</strong></td>
+                <td><kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">;</kbd></td>
+                <td><kbd class="shortcut-kbd">Cmd</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">;</kbd></td>
+                <td>Menuliskan jam statis saat ini secara cepat.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 13: INTERACTIVE PRACTICE QUESTIONS (SIMULASI TES KERJA)
+           =================================================================== -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 13</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: Simulasi Tes Rekrutmen Kerja</h2>
+          <p class="section-description">
+            Uji kesiapan Anda menghadapi tes tertulis dan praktik Excel rekrutmen kerja perusahaan (Admin, Accounting, HRD, Sales Analyst, Management Trainee). Dilengkapi kunci jawaban dan pembahasan mendalam!
+          </p>
+        </div>
+
+        <div class="quiz-container">
+          <!-- Quiz Top Action Bar -->
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Benar: <strong id="quizCurrentScore">0</strong></span>
+              </div>
+              <div class="quiz-stat-pill">
+                <i data-lucide="help-circle" style="width:16px;height:16px;"></i>
+                <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 22</span>
+              </div>
+              <div class="quiz-stat-pill">
+                <i data-lucide="percent" style="width:16px;height:16px;"></i>
+                <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span>
+              </div>
+            </div>
+
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill" title="Acak urutan soal untuk melatih daya ingat">
+                <i data-lucide="shuffle"></i>
+                <span>Acak Soal</span>
+              </button>
+              <button id="btnResetQuiz" class="btn-pill" title="Ulangi dari awal">
+                <i data-lucide="rotate-ccw"></i>
+                <span>Ulangi Latihan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Filter Bar -->
+          <div class="quiz-filter-bar">
+            <button class="quiz-filter-btn active" data-cat="ALL">Semua Soal (22)</button>
+            <button class="quiz-filter-btn" data-cat="Basic">Basic Functions</button>
+            <button class="quiz-filter-btn" data-cat="Conditional">Conditional (SUMIF/COUNTIF)</button>
+            <button class="quiz-filter-btn" data-cat="Lookup">Lookup (VLOOKUP/XLOOKUP/INDEX)</button>
+            <button class="quiz-filter-btn" data-cat="Logical">Logical (IF/AND/OR)</button>
+            <button class="quiz-filter-btn" data-cat="Text">Text (TRIM/MID/TEXT)</button>
+            <button class="quiz-filter-btn" data-cat="Date & Time">Date &amp; Time (DATEDIF/WORKDAY)</button>
+            <button class="quiz-filter-btn" data-cat="Data Tools">Data Tools &amp; Pivot</button>
+            <button class="quiz-filter-btn" data-cat="Keyboard Shortcut">Shortcuts</button>
+          </div>
+
+          <!-- Questions List Container -->
+          <div id="quizQuestionsList">
+            <!-- Rendered by script.js -->
+          </div>
+
+          <!-- Final Score Summary Card -->
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc">
+              Deskripsi skor akhir dan saran persiapan tes kerja Anda akan muncul di sini.
+            </p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="padding:0.65rem 1.5rem; font-size:1rem;">
+              <i data-lucide="rotate-ccw"></i>
+              <span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="copyToast" class="toast-notification"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="width:28px;height:28px;font-size:1rem;">X</div>
+        <div>
+          <strong>Excel Cheatsheet</strong> &mdash; Panduan Referensi Lengkap Rumus &amp; Fungsi Microsoft Excel.
+        </div>
+      </div>
+      <div>
+        Dibuat murni dengan Vanilla HTML, CSS &amp; JavaScript. Siap pakai untuk persiapan tes kerja.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
+

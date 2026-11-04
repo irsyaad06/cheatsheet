@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Akuntansi &amp; Finansial Cheatsheet - Panduan Debit Kredit &amp; Laporan Keuangan</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #0d9488;
+      --excel-primary-hover: #0f766e;
+      --excel-primary-light: #ccfbf1;
+      --excel-primary-subtle: rgba(13, 148, 136, 0.08);
+      --excel-border-accent: #0d9488;
+      --excel-dark: #115e59;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #2dd4bf;
+      --excel-primary-hover: #0d9488;
+      --excel-primary-light: rgba(45, 212, 191, 0.15);
+      --excel-primary-subtle: rgba(45, 212, 191, 0.1);
+      --excel-border-accent: #2dd4bf;
+      --excel-dark: #0f766e;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #0d9488, #0f766e);">
+            <i data-lucide="dollar-sign" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Akuntansi &amp; Finansial</h1>
+            <p>Finance, Accounting &amp; Ratio Analysis Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari konsep (debit kredit, neraca, arus kas, ROA)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-ratios" class="btn-pill"><i data-lucide="table"></i><span>Rasio Finansial</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#0d9488; border-color:#0d9488;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-rules" class="sidebar-link"><i data-lucide="scale" class="nav-icon"></i><span>Aturan Debit Kredit</span></a></li>
+        <li><a href="#section-cycle" class="sidebar-link"><i data-lucide="refresh-cw" class="nav-icon"></i><span>Siklus Akuntansi</span></a></li>
+        <li><a href="#section-reports" class="sidebar-link"><i data-lucide="file-text" class="nav-icon"></i><span>Laporan Keuangan</span></a></li>
+        <li><a href="#section-ratios" class="sidebar-link"><i data-lucide="pie-chart" class="nav-icon"></i><span>Rasio Finansial</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">15 Soal</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #0d9488; background: linear-gradient(135deg, color-mix(in srgb, #0d9488 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#ccfbf1; color:#115e59;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Tes Staf Akuntansi, Pajak &amp; Finance</span>
+          <span class="hero-pill" style="background:#ccfbf1; color:#115e59;">Standar Akuntansi Keuangan (PSAK / IFRS)</span>
+        </div>
+        <h1 class="hero-title">Akuntansi Dasar &amp; Finansial Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis penguasaan persamaan dasar akuntansi, aturan mutlak posisi penambahan Debit vs Kredit, siklus penjurnalan hingga penyusunan Laporan Laba Rugi dan Neraca, serta kalkulasi rasio kesehatan finansial perusahaan.
+        </p>
+      </section>
+
+      <!-- 1. Persamaan Dasar & Debit Kredit -->
+      <section id="section-rules" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="scale"></i> Persamaan Dasar &amp; Aturan Debit Kredit</h2>
+        </div>
+
+        <div class="formula-card" style="margin-bottom:1.5rem;">
+          <h3 style="font-size:1.25rem; font-weight:800; color:var(--excel-primary); text-align:center; font-family:var(--font-mono);">
+            ASET = KEWAJIBAN (LIABILITAS) + EKUITAS (MODAL)
+          </h3>
+        </div>
+
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr>
+                <th>Kelompok Akun</th>
+                <th>Saldo Normal</th>
+                <th>Jika Bertambah (+)</th>
+                <th>Jika Berkurang (-)</th>
+                <th>Contoh Akun Nyata</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Aset / Harta</strong></td>
+                <td><span class="example-result-pill" style="background:#dcfce7;color:#166534;">DEBIT</span></td>
+                <td>DEBIT</td>
+                <td>KREDIT</td>
+                <td>Kas, Bank, Piutang Usaha, Perlengkapan, Peralatan, Bangunan</td>
+              </tr>
+              <tr>
+                <td><strong>Kewajiban / Liabilitas</strong></td>
+                <td><span class="example-result-pill" style="background:#fef3c7;color:#92400e;">KREDIT</span></td>
+                <td>KREDIT</td>
+                <td>DEBIT</td>
+                <td>Utang Usaha, Utang Bank, Utang Gaji, Pendapatan Diterima di Muka</td>
+              </tr>
+              <tr>
+                <td><strong>Ekuitas / Modal</strong></td>
+                <td><span class="example-result-pill" style="background:#fef3c7;color:#92400e;">KREDIT</span></td>
+                <td>KREDIT</td>
+                <td>DEBIT</td>
+                <td>Modal Pemilik, Saham Biasa, Laba Ditahan</td>
+              </tr>
+              <tr>
+                <td><strong>Pendapatan (Revenue)</strong></td>
+                <td><span class="example-result-pill" style="background:#fef3c7;color:#92400e;">KREDIT</span></td>
+                <td>KREDIT</td>
+                <td>DEBIT</td>
+                <td>Pendapatan Jasa, Penjualan Barang Dagang, Pendapatan Bunga</td>
+              </tr>
+              <tr>
+                <td><strong>Beban / Biaya (Expense)</strong></td>
+                <td><span class="example-result-pill" style="background:#dcfce7;color:#166534;">DEBIT</span></td>
+                <td>DEBIT</td>
+                <td>KREDIT</td>
+                <td>Beban Gaji, Beban Sewa, Beban Listrik, Beban Penyusutan</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. Siklus Akuntansi -->
+      <section id="section-cycle" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="refresh-cw"></i> 7 Tahapan Siklus Akuntansi</h2>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <h4 class="chart-title">1. Analisis Bukti Transaksi</h4>
+            <p class="chart-usecase">Kuitansi, faktur/invoice, nota kontan dicek keabsahan nominal dan akun yang terlibat.</p>
+          </div>
+          <div class="chart-card">
+            <h4 class="chart-title">2. Jurnal Umum</h4>
+            <p class="chart-usecase">Mencatat transaksi secara kronologis sesuai tanggal dengan aturan Debit = Kredit berpasangan.</p>
+          </div>
+          <div class="chart-card">
+            <h4 class="chart-title">3. Buku Besar (Ledger)</h4>
+            <p class="chart-usecase">Mem-posting setiap akun dari jurnal umum ke rekening masing-masing (format T-account).</p>
+          </div>
+          <div class="chart-card">
+            <h4 class="chart-title">4. Neraca Saldo (Trial Balance)</h4>
+            <p class="chart-usecase">Memastikan total seluruh saldo Debit sama persis (balance) dengan total saldo Kredit.</p>
+          </div>
+          <div class="chart-card">
+            <h4 class="chart-title">5. Jurnal Penyesuaian</h4>
+            <p class="chart-usecase">Menyesuaikan akun akrual/deferral di akhir periode (penyusutan aset, sewa dibayar di muka).</p>
+          </div>
+          <div class="chart-card">
+            <h4 class="chart-title">6. Laporan Keuangan</h4>
+            <p class="chart-usecase">Menghasilkan Laporan Laba Rugi, Perubahan Ekuitas, Neraca, dan Laporan Arus Kas.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Laporan Keuangan -->
+      <section id="section-reports" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="file-text"></i> Struktur 3 Laporan Keuangan Utama</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Laporan</th><th>Rumus Perhitungan Utama</th><th>Menjawab Pertanyaan:</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Laporan Laba Rugi (Income Statement)</strong></td>
+                <td><code>Laba Bersih = Total Pendapatan - Total Beban Operasional</code></td>
+                <td>Apakah operasional bisnis untung atau rugi selama 1 periode berjalan?</td>
+              </tr>
+              <tr>
+                <td><strong>Neraca (Balance Sheet)</strong></td>
+                <td><code>Total Aset = Total Liabilitas + Total Ekuitas</code></td>
+                <td>Berapa kekayaan dan kewajiban perusahaan pada tanggal spesifik?</td>
+              </tr>
+              <tr>
+                <td><strong>Laporan Arus Kas (Cash Flow)</strong></td>
+                <td><code>Arus Kas Operasi + Arus Kas Investasi + Arus Kas Pendanaan</code></td>
+                <td>Dari mana uang kas masuk dan ke mana uang kas keluar secara riil?</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. Rasio Finansial -->
+      <section id="section-ratios" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="pie-chart"></i> Rasio Finansial Wajib Tes Kerja</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Nama Rasio</th><th>Rumus Formula</th><th>Interpretasi Nilai</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Current Ratio (Rasio Lancar)</strong></td>
+                <td><code>Aset Lancar / Liabilitas Lancar</code></td>
+                <td>Kemampuan melunasi utang jangka pendek. Standar sehat &ge; 1.5x s/d 2.0x.</td>
+              </tr>
+              <tr>
+                <td><strong>Quick Ratio (Rasio Cepat)</strong></td>
+                <td><code>(Aset Lancar - Persediaan) / Liabilitas Lancar</code></td>
+                <td>Kemampuan bayar utang cepat tanpa harus menunggu persediaan barang laku terjual.</td>
+              </tr>
+              <tr>
+                <td><strong>Debt to Equity Ratio (DER)</strong></td>
+                <td><code>Total Utang / Total Ekuitas</code></td>
+                <td>Proporsi penggunaan utang dibanding modal sendiri. Lebih rendah dari 1.0x umumnya lebih aman.</td>
+              </tr>
+              <tr>
+                <td><strong>Net Profit Margin (NPM)</strong></td>
+                <td><code>(Laba Bersih / Total Pendapatan) x 100%</code></td>
+                <td>Berapa persen dari setiap rupiah penjualan yang benar-benar tersisa menjadi laba bersih.</td>
+              </tr>
+              <tr>
+                <td><strong>Return on Assets (ROA)</strong></td>
+                <td><code>(Laba Bersih / Total Aset) x 100%</code></td>
+                <td>Efisiensi manajemen dalam memanfaatkan aset yang dimiliki untuk menghasilkan laba.</td>
+              </tr>
+              <tr>
+                <td><strong>Return on Equity (ROE)</strong></td>
+                <td><code>(Laba Bersih / Total Ekuitas) x 100%</code></td>
+                <td>Imbal hasil keuntungan bagi para pemegang saham / pemilik modal.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 15 Soal Tes Kerja Akuntansi</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 15</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#0d9488; border-color:#0d9488; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#0d9488;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="dollar-sign" style="width:16px;height:16px;"></i></div>
+        <div><strong>Akuntansi &amp; Finansial Cheatsheet</strong> &mdash; Panduan Praktis untuk Staf Keuangan.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const ACCOUNTING_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Debit Kredit',
+        question: 'Perusahaan membeli perlengkapan kantor senilai Rp 5.000.000 secara tunai. Bagaimanakah pencatatan jurnal umum yang benar?',
+        options: [
+          '(D) Perlengkapan Rp 5.000.000 & (K) Kas Rp 5.000.000',
+          '(D) Kas Rp 5.000.000 & (K) Perlengkapan Rp 5.000.000',
+          '(D) Beban Perlengkapan Rp 5.000.000 & (K) Utang Rp 5.000.000',
+          '(D) Utang Rp 5.000.000 & (K) Kas Rp 5.000.000'
+        ],
+        answer: 0,
+        explanation: 'Akun Perlengkapan (Aset) bertambah di sisi DEBIT, dan akun Kas (Aset) berkurang di sisi KREDIT senilai Rp 5.000.000.'
+      },
+      {
+        id: 2,
+        category: 'Debit Kredit',
+        question: 'Perusahaan menerima uang muka pendapatan dari pelanggan sebesar Rp 10.000.000 untuk jasa yang baru akan dikerjakan bulan depan. Akun apakah yang dicatat di sisi KREDIT?',
+        options: [
+          'Pendapatan Jasa',
+          'Pendapatan Diterima di Muka (Liabilitas)',
+          'Kas',
+          'Piutang Usaha'
+        ],
+        answer: 1,
+        explanation: 'Karena jasanya belum dikerjakan, uang tersebut belum boleh diakui sebagai pendapatan, melainkan dicatat sebagai kewajiban utang jasa: <strong>Pendapatan Diterima di Muka</strong> di sisi KREDIT.'
+      },
+      {
+        id: 3,
+        category: 'Rasio',
+        question: 'Sebuah perusahaan memiliki Aset Lancar sebesar Rp 200.000.000, Persediaan Barang senilai Rp 50.000.000, dan Liabilitas Lancar sebesar Rp 100.000.000. Berapakah nilai Quick Ratio (Rasio Cepat)-nya?',
+        options: [
+          '1.5x',
+          '2.0x',
+          '1.0x',
+          '2.5x'
+        ],
+        answer: 0,
+        explanation: 'Quick Ratio = (Aset Lancar - Persediaan) / Liabilitas Lancar = (200.000.000 - 50.000.000) / 100.000.000 = 150.000.000 / 100.000.000 = <strong>1.5x</strong>.'
+      },
+      {
+        id: 4,
+        category: 'Laporan',
+        question: 'Laporan keuangan manakah yang menunjukkan posisi saldo Aset, Kewajiban, dan Ekuitas perusahaan pada tanggal spesifik akhir periode (snapshot)?',
+        options: [
+          'Neraca (Balance Sheet)',
+          'Laporan Laba Rugi',
+          'Laporan Arus Kas',
+          'Laporan Perubahan Modal'
+        ],
+        answer: 0,
+        explanation: 'Neraca (Balance Sheet / Laporan Posisi Keuangan) menampilkan potret posisi harta, utang, dan modal pada tanggal tertentu (misal: per 31 Desember 2026).'
+      },
+      {
+        id: 5,
+        category: 'Debit Kredit',
+        question: 'Di antara akun-akun berikut, akun manakah yang memiliki saldo normal di sisi KREDIT?',
+        options: [
+          'Utang Usaha & Pendapatan',
+          'Kas & Piutang',
+          'Beban Gaji & Beban Listrik',
+          'Persediaan Barang & Peralatan'
+        ],
+        answer: 0,
+        explanation: 'Kelompok Liabilitas (Utang), Ekuitas (Modal), dan Pendapatan bertambah di sisi KREDIT.'
+      },
+      {
+        id: 6,
+        category: 'Rasio',
+        question: 'Rasio profitabilitas apakah yang mengukur seberapa efisien perusahaan menghasilkan laba bersih dari setiap rupiah modal yang disetorkan oleh pemilik/pemegang saham?',
+        options: [
+          'Return on Equity (ROE)',
+          'Current Ratio',
+          'Debt to Assets Ratio',
+          'Gross Profit Margin'
+        ],
+        answer: 0,
+        explanation: '<code>ROE = Laba Bersih / Total Ekuitas</code> secara khusus mengukur imbal hasil keuntungan bagi para pemegang saham atas modal yang mereka tanamkan.'
+      },
+      {
+        id: 7,
+        category: 'Siklus',
+        question: 'Jurnal apakah yang dibuat pada akhir tahun buku untuk meng-nol-kan saldo akun-akun nominal sementara (Pendapatan dan Beban) dan memindahkannya ke akun Modal/Laba Ditahan?',
+        options: [
+          'Jurnal Penutup (Closing Entries)',
+          'Jurnal Pembalik (Reversing Entries)',
+          'Jurnal Koreksi',
+          'Jurnal Penyesuaian'
+        ],
+        answer: 0,
+        explanation: 'Jurnal Penutup menutup seluruh akun pendapatan dan beban di akhir periode akuntansi agar saldo di awal tahun buku berikutnya kembali nol.'
+      },
+      {
+        id: 8,
+        category: 'Laporan',
+        question: 'Aktivitas pembelian mesin pabrik baru atau kendaraan operasional dicatat pada Laporan Arus Kas dalam kelompok aktivitas:',
+        options: [
+          'Arus Kas dari Aktivitas Investasi',
+          'Arus Kas dari Aktivitas Operasi',
+          'Arus Kas dari Aktivitas Pendanaan',
+          'Arus Kas Non-Kas'
+        ],
+        answer: 0,
+        explanation: 'Pembelian atau penjualan aset tetap jangka panjang (tanah, mesin, gedung) diklasifikasikan sebagai Aktivitas Investasi (Investing Activities).'
+      },
+      {
+        id: 9,
+        category: 'Debit Kredit',
+        question: 'Perusahaan membayar utang usaha ke supplier sebesar Rp 15.000.000 melalui transfer bank. Jurnalnya adalah:',
+        options: [
+          '(D) Utang Usaha Rp 15.000.000 & (K) Bank Rp 15.000.000',
+          '(D) Bank Rp 15.000.000 & (K) Utang Usaha Rp 15.000.000',
+          '(D) Beban Utang Rp 15.000.000 & (K) Kas Rp 15.000.000',
+          '(D) Kas Rp 15.000.000 & (K) Pendapatan Rp 15.000.000'
+        ],
+        answer: 0,
+        explanation: 'Utang Usaha (Liabilitas) berkurang di sisi DEBIT, dan Bank (Aset) berkurang di sisi KREDIT senilai Rp 15.000.000.'
+      },
+      {
+        id: 10,
+        category: 'Debit Kredit',
+        question: 'Penjualan barang dagang secara kredit senilai Rp 8.000.000 kepada pelanggan dicatat dengan jurnal:',
+        options: [
+          '(D) Piutang Usaha Rp 8.000.000 & (K) Penjualan Rp 8.000.000',
+          '(D) Kas Rp 8.000.000 & (K) Penjualan Rp 8.000.000',
+          '(D) Penjualan Rp 8.000.000 & (K) Utang Usaha Rp 8.000.000',
+          '(D) Piutang Usaha Rp 8.000.000 & (K) Kas Rp 8.000.000'
+        ],
+        answer: 0,
+        explanation: 'Karena penjualannya kredit (belum lunas tunai), akun hak tagih <strong>Piutang Usaha</strong> (Aset) bertambah di DEBIT, dan <strong>Penjualan</strong> (Pendapatan) bertambah di KREDIT.'
+      },
+      {
+        id: 11,
+        category: 'Rasio',
+        question: 'Debt to Equity Ratio (DER) yang bernilai 2.5x menandakan bahwa:',
+        options: [
+          'Jumlah utang perusahaan adalah 2.5 kali lebih besar dibandingkan modal bersihnya.',
+          'Perusahaan memiliki laba bersih 2.5 kali modal.',
+          'Aset lancar 2.5 kali utang lancar.',
+          'Penjualan naik 2.5 kali lipat.'
+        ],
+        answer: 0,
+        explanation: 'DER = Total Utang / Total Ekuitas. Nilai 2.5x menunjukkan bahwa struktur pendanaan perusahaan didominasi oleh pinjaman utang (tingkat leverage tinggi).'
+      },
+      {
+        id: 12,
+        category: 'Siklus',
+        question: 'Jika total sisi Debit pada Neraca Saldo berjumlah Rp 500.000.000 dan sisi Kredit Rp 500.000.000 (sudah seimbang/balance), apakah hal tersebut menjamin 100% tidak ada kesalahan pencatatan?',
+        options: [
+          'Tidak, karena kesalahan seperti transaksi yang terlewat catat sama sekali atau salah nama akun tetap bisa membuat saldo seimbang.',
+          'Ya, neraca balance pasti bebas dari segala jenis kesalahan.',
+          'Tergantung mata uang yang digunakan.',
+          'Hanya akuntan bersertifikat yang tahu.'
+        ],
+        answer: 0,
+        explanation: 'Keseimbangan saldo (balance) hanya membuktikan bahwa total debit sama dengan total kredit, tetapi tidak mendeteksi jika ada transaksi yang lupa dicatat sama sekali atau dicatat pada akun yang keliru (misal: beban salah masuk ke aset).'
+      },
+      {
+        id: 13,
+        category: 'Laporan',
+        question: 'Arus kas masuk dari penerbitan saham baru atau pinjaman kredit bank jangka panjang dicatat dalam kategori:',
+        options: [
+          'Aktivitas Pendanaan (Financing Activities)',
+          'Aktivitas Operasi (Operating Activities)',
+          'Aktivitas Investasi (Investing Activities)',
+          'Pendapatan Lain-lain'
+        ],
+        answer: 0,
+        explanation: 'Transaksi modal pemilik (saham, dividen) dan pinjaman utang jangka panjang dimasukkan ke dalam Aktivitas Pendanaan (Financing Activities).'
+      },
+      {
+        id: 14,
+        category: 'Debit Kredit',
+        question: 'Pemilik perusahaan mengambil uang tunai kas sebesar Rp 2.000.000 untuk keperluan pribadi (Prive / Drawing). Jurnal yang dicatat adalah:',
+        options: [
+          '(D) Prive Pemilik Rp 2.000.000 & (K) Kas Rp 2.000.000',
+          '(D) Kas Rp 2.000.000 & (K) Prive Pemilik Rp 2.000.000',
+          '(D) Beban Gaji Rp 2.000.000 & (K) Kas Rp 2.000.000',
+          '(D) Modal Pemilik Rp 2.000.000 & (K) Pendapatan Rp 2.000.000'
+        ],
+        answer: 0,
+        explanation: 'Prive (pengurang ekuitas) bertambah di sisi DEBIT, dan akun Kas berkurang di sisi KREDIT senilai Rp 2.000.000.'
+      },
+      {
+        id: 15,
+        category: 'Siklus',
+        question: 'Metode penyusutan aset tetap yang mengalokasikan beban depresiasi dalam jumlah yang sama rata setiap tahunnya selama masa manfaat aset disebut metode:',
+        options: [
+          'Metode Garis Lurus (Straight-Line Method)',
+          'Metode Saldo Menurun Ganda (Double Declining)',
+          'Metode Jumlah Angka Tahun',
+          'Metode Unit Produksi'
+        ],
+        answer: 0,
+        explanation: 'Metode Garis Lurus (Straight-Line) menghitung beban penyusutan tahunan: <code>(Harga Perolehan - Nilai Residu) / Masa Manfaat</code> sehingga menghasilkan beban yang bernilai sama setiap tahunnya.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: ACCOUNTING_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

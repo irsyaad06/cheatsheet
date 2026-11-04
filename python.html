@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Python Data Analysis Cheatsheet - Pandas &amp; NumPy untuk Tes Kerja</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #2563eb;
+      --excel-primary-hover: #1d4ed8;
+      --excel-primary-light: #dbeafe;
+      --excel-primary-subtle: rgba(37, 99, 235, 0.08);
+      --excel-border-accent: #2563eb;
+      --excel-dark: #1e40af;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #60a5fa;
+      --excel-primary-hover: #2563eb;
+      --excel-primary-light: rgba(96, 165, 250, 0.15);
+      --excel-primary-subtle: rgba(96, 165, 250, 0.1);
+      --excel-border-accent: #60a5fa;
+      --excel-dark: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #3776ab, #2563eb);">
+            <i data-lucide="code-2" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Python (Pandas &amp; NumPy)</h1>
+            <p>Data Wrangling &amp; Analytics Interview Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari fungsi pandas (groupby, loc, fillna, merge)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel Metode</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#2563eb; border-color:#2563eb;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">15 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Python Data</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-io" class="sidebar-link"><i data-lucide="file-up" class="nav-icon"></i><span>1. Input/Output (CSV &amp; Excel)</span></a></li>
+        <li><a href="#section-selection" class="sidebar-link"><i data-lucide="target" class="nav-icon"></i><span>2. Inspeksi, loc &amp; iloc</span></a></li>
+        <li><a href="#section-filtering" class="sidebar-link"><i data-lucide="filter" class="nav-icon"></i><span>3. Filtering &amp; Query</span></a></li>
+        <li><a href="#section-cleaning" class="sidebar-link"><i data-lucide="sparkle" class="nav-icon"></i><span>4. Pembersihan Data (Missing)</span></a></li>
+        <li><a href="#section-groupby" class="sidebar-link"><i data-lucide="layers" class="nav-icon"></i><span>5. GroupBy &amp; Pivot Table</span></a></li>
+        <li><a href="#section-merging" class="sidebar-link"><i data-lucide="git-merge" class="nav-icon"></i><span>6. Merge &amp; Concat</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #2563eb; background: linear-gradient(135deg, color-mix(in srgb, #2563eb 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#dbeafe; color:#1e40af;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Tes Data Analyst &amp; Data Scientist</span>
+          <span class="hero-pill" style="background:#dbeafe; color:#1e40af;">Pandas v2.x &amp; NumPy</span>
+        </div>
+        <h1 class="hero-title">Python for Data Analysis Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan manipulasi data berkinerja tinggi menggunakan pustaka Pandas &amp; NumPy. Meliputi pembersihan nilai NaN, indexing presisi <code>loc</code> vs <code>iloc</code>, agregasi multi-dimensi <code>groupby</code>, hingga penggabungan dataset relasional.
+        </p>
+      </section>
+
+      <!-- 1. I/O -->
+      <section id="section-io" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="file-up"></i> Membaca &amp; Menyimpan Data</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">pd.read_csv &amp; pd.read_excel</span>
+              <button class="btn-copy" data-copy="import pandas as pd&#10;df = pd.read_csv('penjualan.csv')"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>import pandas as pd<br>import numpy as np<br><br>df = pd.read_csv('transaksi.csv')<br>df_excel = pd.read_excel('laporan.xlsx', sheet_name='Sheet1')<br>df.to_csv('output.csv', index=False) &nbsp;# Simpan tanpa kolom indeks</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. loc vs iloc -->
+      <section id="section-selection" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="target"></i> Seleksi Presisi: loc vs iloc</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">df.loc[] (Label) vs df.iloc[] (Posisi Integer)</span>
+              <button class="btn-copy" data-copy="df.loc[df['gaji'] > 10000000, ['nama', 'divisi']]"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc"><code>loc</code> memilih berdasarkan <strong>Nama Label</strong> kolom/indeks. <code>iloc</code> memilih murni berdasarkan <strong>Nomor Urut Posisi Angka (0-indexed)</strong>.</p>
+            <div class="code-box">
+              <code># Ambil baris ke-0 s/d 4, dan kolom bernama 'nama' dan 'gaji':<br>df.loc[0:4, ['nama', 'gaji']]<br><br># Ambil 5 baris pertama, dan 3 kolom pertama berdasarkan posisi angka:<br>df.iloc[0:5, 0:3]</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. Filtering -->
+      <section id="section-filtering" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="filter"></i> Filtering &amp; Querying Data</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Boolean Indexing &amp; .query()</span>
+              <button class="btn-copy" data-copy="df[(df['divisi'] == 'IT') &amp; (df['gaji'] >= 8000000)]"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menggunakan operator logika bitwise: <code>&amp;</code> (AND), <code>|</code> (OR), <code>~</code> (NOT). Wajib membungkus setiap kondisi dengan tanda kurung!</p>
+            <div class="code-box">
+              <code># Cara 1: Boolean Indexing<br>df[(df['kota'].isin(['Jakarta', 'Surabaya'])) &amp; (df['omzet'] &gt; 5000000)]<br><br># Cara 2: .query() yang lebih ringkas dan mudah dibaca<br>df.query('divisi == "Finance" and gaji &gt;= 7000000')</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Cleaning -->
+      <section id="section-cleaning" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="sparkle"></i> Pembersihan Data (Missing Values)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">isna, fillna &amp; dropna</span>
+              <button class="btn-copy" data-copy="df['gaji'] = df['gaji'].fillna(df['gaji'].median())"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>df.isna().sum() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Cek total nilai kosong per kolom<br>df.dropna(subset=['id_karyawan']) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Hapus baris yang ID-nya kosong<br>df['bonus'] = df['bonus'].fillna(0) &nbsp;&nbsp;&nbsp;&nbsp;# Ganti NaN menjadi 0<br>df.drop_duplicates(subset=['email']) &nbsp;&nbsp;# Hapus data duplikat</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. GroupBy & Pivot -->
+      <section id="section-groupby" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="layers"></i> GroupBy &amp; Pivot Table</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">.groupby() &amp; .pivot_table()</span>
+              <button class="btn-copy" data-copy="df.groupby('divisi')['gaji'].agg(['mean', 'median', 'count']).reset_index()"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code># Agregasi beberapa fungsi statistik sekaligus:<br>df.groupby('divisi')['gaji'].agg(['mean', 'sum', 'count']).reset_index()<br><br># Pivot Table persis seperti di Excel:<br>df.pivot_table(index='kategori', columns='wilayah', values='omzet', aggfunc='sum', fill_value=0)</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 6. Merging -->
+      <section id="section-merging" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 06</span>
+          <h2 class="section-title"><i data-lucide="git-merge"></i> Penggabungan (Merge &amp; Concat)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">pd.merge() &amp; pd.concat()</span>
+              <button class="btn-copy" data-copy="pd.merge(df_order, df_cust, on='cust_id', how='left')"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc"><code>pd.merge()</code> setara dengan SQL JOIN (opsi <code>how='left'</code>, <code>'inner'</code>, <code>'outer'</code>). <code>pd.concat()</code> menumpuk baris secara vertikal atau berdampingan horizontal.</p>
+            <div class="code-box">
+              <code># Menggabungkan dua DataFrame berdasarkan kunci relasi:<br>df_gabung = pd.merge(transaksi, pelanggan, on='pelanggan_id', how='left')</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Metode Pandas</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari fungsi pandas (groupby, loc, dropna)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="IO">Input/Output</option>
+            <option value="Select">Seleksi &amp; Filter</option>
+            <option value="Clean">Cleaning</option>
+            <option value="Aggr">Agregasi &amp; Pivot</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Metode</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 15 Soal Tes Kerja Python &amp; Pandas</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 15</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div class="quiz-filter-bar">
+            <button class="quiz-filter-btn active" data-cat="ALL">Semua Soal (15)</button>
+            <button class="quiz-filter-btn" data-cat="Select">Indexing &amp; Filter</button>
+            <button class="quiz-filter-btn" data-cat="Clean">Cleaning</button>
+            <button class="quiz-filter-btn" data-cat="Aggr">GroupBy &amp; Merge</button>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#2563eb; border-color:#2563eb; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#2563eb;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="code-2" style="width:16px;height:16px;"></i></div>
+        <div><strong>Python Data Analysis Cheatsheet</strong> &mdash; Panduan Pandas &amp; NumPy untuk Data Analyst.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const PYTHON_CATALOG = [
+      { name: 'pd.read_csv', cat: 'IO', desc: 'Membaca file data CSV menjadi DataFrame.', syntax: 'pd.read_csv(filepath)', example: 'df = pd.read_csv("data.csv")', section: 'section-io' },
+      { name: 'df.head()', cat: 'IO', desc: 'Melihat 5 baris data teratas.', syntax: 'df.head(n=5)', example: 'df.head(10)', section: 'section-io' },
+      { name: 'df.loc[]', cat: 'Select', desc: 'Memilih baris dan kolom berdasarkan nama label indeks.', syntax: 'df.loc[row_label, col_label]', example: 'df.loc[df["age"] > 25, "name"]', section: 'section-selection' },
+      { name: 'df.iloc[]', cat: 'Select', desc: 'Memilih data murni berdasarkan nomor indeks baris/kolom (0-indexed).', syntax: 'df.iloc[row_idx, col_idx]', example: 'df.iloc[0:5, 0:2]', section: 'section-selection' },
+      { name: 'df.query()', cat: 'Select', desc: 'Memfilter DataFrame menggunakan ekspresi string yang bersih.', syntax: 'df.query(expr)', example: 'df.query("gaji > 10000000 and status == \'Aktif\'")', section: 'section-filtering' },
+      { name: 'df.fillna()', cat: 'Clean', desc: 'Mengisi nilai kosong (NaN/missing) dengan nilai pengganti.', syntax: 'df[col].fillna(val)', example: 'df["gaji"].fillna(df["gaji"].mean())', section: 'section-cleaning' },
+      { name: 'df.dropna()', cat: 'Clean', desc: 'Menghapus baris yang mengandung nilai kosong.', syntax: 'df.dropna(subset=[col])', example: 'df.dropna(how="any")', section: 'section-cleaning' },
+      { name: 'df.groupby()', cat: 'Aggr', desc: 'Mengelompokkan data berdasarkan kategori untuk agregasi statistik.', syntax: 'df.groupby(col).agg(...)', example: 'df.groupby("divisi")["gaji"].mean()', section: 'section-groupby' },
+      { name: 'df.pivot_table()', cat: 'Aggr', desc: 'Membuat tabel pivot dua dimensi persis seperti di Excel.', syntax: 'df.pivot_table(...)', example: 'df.pivot_table(index="dept", columns="year", values="sales")', section: 'section-groupby' },
+      { name: 'pd.merge()', cat: 'Aggr', desc: 'Menggabungkan dua DataFrame berdasarkan kunci relasi (SQL JOIN).', syntax: 'pd.merge(df1, df2, on=..., how=...)', example: 'pd.merge(orders, cust, on="id", how="left")', section: 'section-merging' }
+    ];
+
+    const PYTHON_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Select',
+        question: 'Apakah perbedaan mendasar antara <code>df.loc</code> dan <code>df.iloc</code> di pustaka Pandas?',
+        options: [
+          'df.loc menggunakan nama label, sedangkan df.iloc menggunakan posisi nomor indeks numerik murni (0-indexed).',
+          'df.loc hanya untuk angka, df.iloc hanya untuk teks.',
+          'df.iloc lebih lambat daripada df.loc.',
+          'df.loc membuat salinan baru, df.iloc tidak.'
+        ],
+        answer: 0,
+        explanation: '<code>loc</code> (label-based location) memilih data menggunakan nama kolom/indeks (misal <code>df.loc[:, 'nama']</code>). Sedangkan <code>iloc</code> (integer-based location) memilih data menggunakan koordinat posisi angka seperti slicing list Python biasa (misal <code>df.iloc[0:5, 1:3]</code>).'
+      },
+      {
+        id: 2,
+        category: 'Select',
+        question: 'Manakah penulisan sintaks Boolean Indexing yang benar untuk memfilter karyawan divisi "Sales" DENGAN gaji di atas 10.000.000?',
+        options: [
+          'df[(df["divisi"] == "Sales") & (df["gaji"] > 10000000)]',
+          'df[df["divisi"] == "Sales" and df["gaji"] > 10000000]',
+          'df.filter(divisi == "Sales" && gaji > 10000000)',
+          'df[divisi = "Sales" & gaji > 10000000]'
+        ],
+        answer: 0,
+        explanation: 'Di Pandas, Anda wajib menggunakan operator bitwise <code>&</code> (bukan kata kunci <code>and</code>) dan setiap kondisi individual harus dibungkus dengan tanda kurung <code>(kondisi1) & (kondisi2)</code> karena prioritas operator di Python.'
+      },
+      {
+        id: 3,
+        category: 'Clean',
+        question: 'Untuk mengisi nilai yang hilang (NaN) pada kolom <code>gaji</code> dengan nilai median dari kolom tersebut, metode apakah yang digunakan?',
+        options: [
+          'df["gaji"].fillna(df["gaji"].median())',
+          'df["gaji"].replace_nan(df["gaji"].median())',
+          'df["gaji"].impute("median")',
+          'df["gaji"].set_empty(df["gaji"].median())'
+        ],
+        answer: 0,
+        explanation: 'Metode <code>.fillna(nilai)</code> adalah cara resmi Pandas untuk mengisi missing values dengan nilai tertentu (seperti mean, median, atau 0).'
+      },
+      {
+        id: 4,
+        category: 'Aggr',
+        question: 'Metode apakah yang setara dengan konsep <code>VLOOKUP</code> atau <code>LEFT JOIN</code> SQL untuk menggabungkan dua DataFrame berdasarkan kolom kunci?',
+        options: [
+          'pd.merge(df1, df2, on="kunci", how="left")',
+          'df1.append(df2)',
+          'pd.concat([df1, df2])',
+          'df1.combine(df2)'
+        ],
+        answer: 0,
+        explanation: '<code>pd.merge(df1, df2, on="kunci", how="left")</code> melakukan penggabungan data relasional dua arah persis seperti klausa LEFT JOIN di SQL atau VLOOKUP di Excel.'
+      },
+      {
+        id: 5,
+        category: 'Select',
+        question: 'Bagaimana cara menerapkan sebuah fungsi kustom pada setiap baris atau nilai di suatu kolom DataFrame?',
+        options: [
+          'df["kolom"].apply(lambda x: x * 2)',
+          'df["kolom"].loop(lambda x: x * 2)',
+          'df["kolom"].for_each(lambda x: x * 2)',
+          'df["kolom"].run(lambda x: x * 2)'
+        ],
+        answer: 0,
+        explanation: 'Metode <code>.apply()</code> menerima fungsi Python atau fungsi anonim (<code>lambda</code>) dan mengeksekusinya di sepanjang sumbu Series atau DataFrame.'
+      },
+      {
+        id: 6,
+        category: 'Clean',
+        question: 'Perintah apakah yang digunakan untuk menghapus baris duplikat berdasarkan keunikan kolom <code>email</code>?',
+        options: [
+          'df.drop_duplicates(subset=["email"])',
+          'df.unique(subset=["email"])',
+          'df.delete_duplicates("email")',
+          'df.clean("email")'
+        ],
+        answer: 0,
+        explanation: '<code>df.drop_duplicates(subset=["email"])</code> menghapus baris yang memiliki nilai email yang sama, mempertahankan kemunculan pertama secara default.'
+      },
+      {
+        id: 7,
+        category: 'Aggr',
+        question: 'Untuk menghitung rata-rata (mean) dan jumlah total (sum) dari kolom <code>omzet</code> untuk setiap <code>kategori</code> sekaligus, sintaks GroupBy yang benar adalah:',
+        options: [
+          'df.groupby("kategori")["omzet"].agg(["mean", "sum"])',
+          'df.group("kategori").sum_mean("omzet")',
+          'df.groupby("kategori").calc("mean", "sum")',
+          'df.pivot("kategori", ["mean", "sum"])'
+        ],
+        answer: 0,
+        explanation: 'Metode <code>.agg(["mean", "sum"])</code> memungkinkan Anda menerapkan beberapa fungsi agregasi sekaligus dalam satu operasi <code>groupby</code>.'
+      },
+      {
+        id: 8,
+        category: 'Select',
+        question: 'Properti DataFrame apakah yang menghasilkan tuple berisi jumlah baris dan jumlah kolom (contoh: <code>(1000, 15)</code>)?',
+        options: [
+          'df.shape',
+          'df.size',
+          'df.dimension',
+          'df.len()'
+        ],
+        answer: 0,
+        explanation: '<code>df.shape</code> mengembalikan tuple <code>(jumlah_baris, jumlah_kolom)</code>. Sedangkan <code>df.size</code> mengembalikan total jumlah sel (baris dikali kolom).'
+      },
+      {
+        id: 9,
+        category: 'Clean',
+        question: 'Jika kolom tanggal lahir terbaca sebagai tipe objek/string <code>"2026-11-04"</code>, metode Pandas manakah yang mengonversinya menjadi tipe data DateTime resmi?',
+        options: [
+          'pd.to_datetime(df["tanggal"])',
+          'df["tanggal"].as_date()',
+          'pd.convert_date(df["tanggal"])',
+          'df["tanggal"].to_time()'
+        ],
+        answer: 0,
+        explanation: '<code>pd.to_datetime(df["tanggal"])</code> mengonversi format teks menjadi tipe <code>datetime64[ns]</code> sehingga Anda bisa mengekstrak atribut <code>.dt.year</code>, <code>.dt.month</code>, atau <code>.dt.day_name()</code>.'
+      },
+      {
+        id: 10,
+        category: 'Aggr',
+        question: 'Bagaimana cara mereset indeks DataFrame setelah dilakukan operasi <code>groupby()</code> agar kolom pengelompokan kembali menjadi kolom tabel biasa?',
+        options: [
+          '.reset_index()',
+          '.clean_index()',
+          '.flatten()',
+          '.drop_index()'
+        ],
+        answer: 0,
+        explanation: 'Setelah groupby, kolom kategori biasanya menjadi index baris. Memanggil <code>.reset_index()</code> mengubahnya kembali menjadi kolom data standar dengan indeks numerik default 0, 1, 2, dst.'
+      },
+      {
+        id: 11,
+        category: 'Select',
+        question: 'Metode apakah yang menampilkan ringkasan statistik deskriptif cepat (count, mean, std, min, 25%, 50%, 75%, max) untuk semua kolom numerik?',
+        options: [
+          'df.describe()',
+          'df.summary()',
+          'df.info()',
+          'df.stats()'
+        ],
+        answer: 0,
+        explanation: '<code>df.describe()</code> menghasilkan tabel ringkasan 8 parameter statistik dasar dari seluruh kolom numerik.'
+      },
+      {
+        id: 12,
+        category: 'Clean',
+        question: 'Perintah apakah yang digunakan untuk mengganti nama kolom dari <code>"old_name"</code> menjadi <code>"new_name"</code>?',
+        options: [
+          'df.rename(columns={"old_name": "new_name"})',
+          'df.set_column_name("old_name", "new_name")',
+          'df.replace_column("old_name", "new_name")',
+          'df.change_name("old_name", "new_name")'
+        ],
+        answer: 0,
+        explanation: '<code>df.rename(columns={"nama_lama": "nama_baru"})</code> menerima dictionary pemetaan nama kolom yang ingin diubah.'
+      },
+      {
+        id: 13,
+        category: 'Select',
+        question: 'Untuk menyaring data baris di mana kolom <code>kota</code> bernilai salah satu dari "Jakarta", "Bandung", atau "Surabaya", metode manakah yang paling bersih dan ringkas?',
+        options: [
+          'df[df["kota"].isin(["Jakarta", "Bandung", "Surabaya"])]',
+          'df[df["kota"] == ["Jakarta", "Bandung", "Surabaya"]]',
+          'df.filter_in("kota", ["Jakarta", "Bandung", "Surabaya"])',
+          'df.where("kota" in ["Jakarta", "Bandung", "Surabaya"])'
+        ],
+        answer: 0,
+        explanation: 'Metode <code>.isin(daftar_list)</code> memeriksa apakah nilai pada kolom cocok dengan salah satu anggota dalam list (serupa operator SQL IN).'
+      },
+      {
+        id: 14,
+        category: 'Aggr',
+        question: 'Apa perbedaan antara <code>pd.concat([df1, df2], axis=0)</code> dan <code>axis=1</code>?',
+        options: [
+          'axis=0 menumpuk baris ke bawah (vertikal), sedangkan axis=1 menggabungkan kolom ke samping (horizontal).',
+          'axis=0 untuk file CSV, axis=1 untuk Excel.',
+          'Keduanya sama saja.',
+          'axis=1 otomatis menghapus duplikat.'
+        ],
+        answer: 0,
+        explanation: 'Parameter <code>axis=0</code> (default) menumpuk data secara baris (menambah baris ke bawah), sedangkan <code>axis=1</code> menggabungkan secara kolom (menambah kolom ke kanan).'
+      },
+      {
+        id: 15,
+        category: 'Clean',
+        question: 'Bagaimana cara mengubah tipe data suatu kolom dari integer menjadi string di Pandas?',
+        options: [
+          'df["id"] = df["id"].astype(str)',
+          'df["id"] = df["id"].to_string()',
+          'df["id"] = str(df["id"])',
+          'df["id"] = df["id"].cast("string")'
+        ],
+        answer: 0,
+        explanation: 'Metode <code>.astype(tipe_data)</code> digunakan untuk melakukan type casting eksplisit pada Series di Pandas (seperti <code>str</code>, <code>int64</code>, <code>float64</code>).'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: PYTHON_CATALOG,
+      questions: PYTHON_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

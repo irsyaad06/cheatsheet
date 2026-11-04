@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Digital Marketing &amp; SEO Cheatsheet - Rumus Iklan &amp; On-Page SEO</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #16a34a;
+      --excel-primary-hover: #15803d;
+      --excel-primary-light: #dcfce7;
+      --excel-primary-subtle: rgba(22, 163, 74, 0.08);
+      --excel-border-accent: #16a34a;
+      --excel-dark: #14532d;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #4ade80;
+      --excel-primary-hover: #16a34a;
+      --excel-primary-light: rgba(74, 222, 128, 0.15);
+      --excel-primary-subtle: rgba(74, 222, 128, 0.1);
+      --excel-border-accent: #4ade80;
+      --excel-dark: #15803d;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #16a34a, #15803d);">
+            <i data-lucide="trending-up" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Marketing &amp; SEO Cheatsheet</h1>
+            <p>Campaign Metrics, CAC, ROAS &amp; Search Optimization</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari rumus (ROAS, CAC, CTR, Canonical, OG tags)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-ads" class="btn-pill"><i data-lucide="table"></i><span>Rumus Iklan</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#16a34a; border-color:#16a34a;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-ads" class="sidebar-link"><i data-lucide="dollar-sign" class="nav-icon"></i><span>1. Metrik Iklan Berbayar</span></a></li>
+        <li><a href="#section-unit-economics" class="sidebar-link"><i data-lucide="pie-chart" class="nav-icon"></i><span>2. Unit Economics (CAC &amp; LTV)</span></a></li>
+        <li><a href="#section-seo" class="sidebar-link"><i data-lucide="search" class="nav-icon"></i><span>3. On-Page SEO Checklist</span></a></li>
+        <li><a href="#section-og" class="sidebar-link"><i data-lucide="share-2" class="nav-icon"></i><span>4. Open Graph (Social Preview)</span></a></li>
+        <li><a href="#section-cwv" class="sidebar-link"><i data-lucide="gauge" class="nav-icon"></i><span>5. Core Web Vitals &amp; Robots</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #16a34a; background: linear-gradient(135deg, color-mix(in srgb, #16a34a 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#dcfce7; color:#14532d;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Digital Marketer, Media Buyer &amp; SEO Specialist</span>
+          <span class="hero-pill" style="background:#dcfce7; color:#14532d;">Google Ads, Meta Ads, TikTok &amp; Organic SEO</span>
+        </div>
+        <h1 class="hero-title">Digital Marketing &amp; SEO Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis formula kampanye iklan berbayar dan optimasi mesin pencari. Mulai dari perhitungan efisiensi anggaran iklan (ROAS, CPA, CTR, CPM), analisis kesehatan unit economics (CAC vs LTV), hingga checklist optimasi On-Page SEO teknis dan integrasi Open Graph metadata.
+        </p>
+      </section>
+
+      <!-- 1. Paid Ads Metrics -->
+      <section id="section-ads" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="dollar-sign"></i> Rumus Metrik Kampanye Iklan Berbayar</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Metrik</th><th>Rumus Formula</th><th>Tujuan Evaluasi</th><th>Standar Patokan</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CTR (Click-Through Rate)</strong></td><td><code>(Total Klik / Total Impresi) x 100%</code></td><td>Menilai seberapa menarik materi visual dan teks headline iklan.</td><td>Rata-rata industri: 1.5% s/d 3%+.</td></tr>
+              <tr><td><strong>CPC (Cost Per Click)</strong></td><td><code>Total Biaya Iklan / Total Klik</code></td><td>Biaya rata-rata yang dibayar untuk mendatangkan 1 pengunjung.</td><td>Semakin rendah semakin hemat biaya.</td></tr>
+              <tr><td><strong>CPM (Cost Per Mille)</strong></td><td><code>(Total Biaya Iklan / Total Impresi) x 1.000</code></td><td>Biaya untuk menampilkan iklan sebanyak 1.000 kali tayang.</td><td>Metrik utama awareness/jangkauan.</td></tr>
+              <tr><td><strong>CPA (Cost Per Acquisition / Lead)</strong></td><td><code>Total Biaya Iklan / Jumlah Konversi / Pembelian</code></td><td>Berapa biaya marketing untuk menghasilkan 1 pembeli/prospek.</td><td>Wajib di bawah margin laba kotor produk.</td></tr>
+              <tr><td><strong>ROAS (Return on Ad Spend)</strong></td><td><code>Total Pendapatan dari Iklan / Total Biaya Iklan</code></td><td>Efektivitas omzet yang dihasilkan dari setiap rupiah biaya iklan.</td><td>Contoh: 4.0x berarti keluar 1 juta omzet 4 juta.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. Unit Economics -->
+      <section id="section-unit-economics" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="pie-chart"></i> Unit Economics: Pertumbuhan Bisnis yang Sehat</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Metrik Finansial Bisnis</th><th>Rumus Formula</th><th>Interpretasi Bisnis</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CAC (Customer Acquisition Cost)</strong></td><td><code>Total Biaya Marketing &amp; Sales / Jumlah Pelanggan Baru</code></td><td>Berapa biaya riil untuk mengakuisisi 1 pelanggan baru.</td></tr>
+              <tr><td><strong>LTV (Customer Lifetime Value)</strong></td><td><code>Rata-rata Nilai Belanja x Frekuensi Belanja Tahunan x Masa Berlangganan (Tahun)</code></td><td>Total keuntungan yang diberikan oleh 1 pelanggan sepanjang relasi bisnisnya.</td></tr>
+              <tr><td><strong>Rasio LTV : CAC</strong></td><td><code>LTV / CAC</code></td><td><strong>Golden Ratio: 3 : 1</strong> (&ge; 3x sangat sehat. Jika &lt; 1x bisnis merugi bakar uang).</td></tr>
+              <tr><td><strong>Churn Rate</strong></td><td><code>(Pelanggan yang Berhenti / Total Pelanggan Awal Periode) x 100%</code></td><td>Persentase pelanggan yang berhenti berlangganan setiap bulan/tahun.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. On-Page SEO Checklist -->
+      <section id="section-seo" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="search"></i> Checklist On-Page SEO Teknis</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Meta Title, Description &amp; Canonical</span>
+              <button class="btn-copy" data-copy="<title>Kursus Excel Lengkap - Panduan Tes Kerja | NamaBrand</title>&#10;<meta name=&quot;description&quot; content=&quot;Pelajari rumus Excel terlengkap untuk tes rekrutmen kerja. Dari VLOOKUP hingga Pivot Table dengan latihan soal.&quot;>&#10;<link rel=&quot;canonical&quot; href=&quot;https://domain.com/halaman-resmi&quot;>"><i data-lucide="copy"></i><span>Salin Meta</span></button>
+            </div>
+            <div class="code-box">
+              <code>&lt;!-- Batas panjang ideal Google SERP: 50-60 Karakter --&gt;<br>&lt;title&gt;Kata Kunci Utama - Deskripsi Singkat | Nama Brand&lt;/title&gt;<br><br>&lt;!-- Batas ideal: 150-160 Karakter dengan ajakan Call To Action (CTA) --&gt;<br>&lt;meta name="description" content="Ringkasan informatif yang menarik perhatian pencari..."&gt;<br><br>&lt;!-- Mencegah penalti konten duplikat pada halaman filter / sorting --&gt;<br>&lt;link rel="canonical" href="https://example.com/url-asli"&gt;</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Open Graph Social Preview -->
+      <section id="section-og" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="share-2"></i> Open Graph (Preview Link Media Sosial &amp; WhatsApp)</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Tag wajib agar link situs Anda menampilkan kartu visual rapi saat dibagikan ke WhatsApp, Telegram, LinkedIn, dan Twitter/X:</p>
+          <div class="code-box">
+            <code>&lt;meta property="og:title" content="Judul Menarik Saat Dibagikan"&gt;<br>&lt;meta property="og:description" content="Deskripsi singkat pratinjau media sosial..."&gt;<br>&lt;meta property="og:image" content="https://domain.com/images/banner-og-1200x630.jpg"&gt;<br>&lt;meta property="og:url" content="https://domain.com/halaman"&gt;<br>&lt;meta property="og:type" content="website"&gt;<br><br>&lt;!-- Twitter / X Card --&gt;<br>&lt;meta name="twitter:card" content="summary_large_image"&gt;</code>
+          </div>
+          <div class="card-tips">
+            <i data-lucide="info" class="card-tips-icon"></i>
+            <span><strong>Ukuran Gambar OG Ideal:</strong> Resolusi terbaik adalah <strong>1200 x 630 pixel</strong> (rasio aspek 1.91:1) dengan ukuran file di bawah 300 KB agar thumbnail cepat muncul di preview WhatsApp.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Core Web Vitals & Robots -->
+      <section id="section-cwv" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="gauge"></i> Core Web Vitals (Faktor Ranking Google)</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Metrik CWV</th><th>Arti &amp; Singkatan</th><th>Target Skor Baik Google</th></tr></thead>
+            <tbody>
+              <tr><td><strong>LCP</strong></td><td>Largest Contentful Paint (Waktu hingga gambar hero / elemen terbesar muncul)</td><td><code>&le; 2.5 Detik</code></td></tr>
+              <tr><td><strong>INP</strong></td><td>Interaction to Next Paint (Responsivitas saat tombol / menu diklik)</td><td><code>&le; 200 Milidetik</code></td></tr>
+              <tr><td><strong>CLS</strong></td><td>Cumulative Layout Shift (Pergeseran letak konten visual yang bikin salah klik)</td><td><code>&le; 0.1</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Digital Marketing &amp; SEO</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#16a34a; border-color:#16a34a; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#16a34a;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="trending-up" style="width:16px;height:16px;"></i></div>
+        <div><strong>Marketing &amp; SEO Cheatsheet</strong> &mdash; Panduan Metrik Iklan &amp; Optimasi Pencarian.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const MARKETING_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Ads',
+        question: 'Sebuah kampanye Meta Ads menghabiskan biaya total Rp 5.000.000 dan berhasil mencatatkan omzet penjualan langsung sebesar Rp 25.000.000. Berapakah nilai Return on Ad Spend (ROAS)-nya?',
+        options: ['5.0x', '4.0x', '20%', '500%'],
+        answer: 0,
+        explanation: 'ROAS = Total Pendapatan Iklan / Total Biaya Iklan = Rp 25.000.000 / Rp 5.000.000 = <strong>5.0x</strong>. Artinya setiap Rp 1 biaya iklan menghasilkan Rp 5 omzet.'
+      },
+      {
+        id: 2,
+        category: 'Unit Economics',
+        question: 'Dalam analisis pertumbuhan bisnis digital, rasio ideal perbandingan antara Customer Lifetime Value (LTV) dan Customer Acquisition Cost (CAC) yang dianggap sehat dan berkelanjutan adalah:',
+        options: ['3 : 1', '1 : 1', '0.5 : 1', '10 : 1'],
+        answer: 0,
+        explanation: 'Rasio LTV:CAC 3:1 adalah patokan emas industri: nilai keuntungan seumur hidup pelanggan bernilai 3 kali lebih besar dibandingkan biaya akuisisinya.'
+      },
+      {
+        id: 3,
+        category: 'SEO',
+        question: 'Apa fungsi utama dari tag <code>&lt;link rel="canonical" href="..."&gt;</code> pada optimasi halaman web (SEO)?',
+        options: [
+          'Memberi tahu Google URL versi utama resmi guna mencegah masalah penalti konten duplikat (duplicate content) akibat parameter URL sorting/filter.',
+          'Mempercepat kecepatan internet server.',
+          'Menghubungkan website dengan akun Google Ads.',
+          'Mengganti favicon browser.'
+        ],
+        answer: 0,
+        explanation: 'Tag kanonikal (canonical tag) memberi sinyal kepada robot perayap Google tentang versi halaman mana yang menjadi sumber asli jika terdapat banyak URL dengan isi yang serupa.'
+      },
+      {
+        id: 4,
+        category: 'Ads',
+        question: 'Sebuah iklan mendapatkan 2.000 klik dari total 100.000 impresi tayangan. Berapakah nilai Click-Through Rate (CTR)-nya?',
+        options: ['2.0%', '0.2%', '5.0%', '20%'],
+        answer: 0,
+        explanation: 'CTR = (Total Klik / Total Impresi) x 100% = (2.000 / 100.000) x 100% = <strong>2.0%</strong>.'
+      },
+      {
+        id: 5,
+        category: 'Social',
+        question: 'Kumpulan meta tag apakah yang wajib dipasang di dalam tag &lt;head&gt; agar tautan website menampilkan thumbnail gambar, judul, dan deskripsi yang rapi saat dibagikan ke WhatsApp dan LinkedIn?',
+        options: ['Open Graph Protocol (og:image, og:title, og:description)', 'Robots Meta Tag', 'Schema.org JSON-LD saja', 'Viewport meta tag'],
+        answer: 0,
+        explanation: 'Protokol Open Graph (awalan <code>og:</code>) dikembangkan oleh Facebook dan kini menjadi standar universal pratinjau media sosial dan aplikasi perpesanan instan.'
+      },
+      {
+        id: 6,
+        category: 'SEO',
+        question: 'Berapakah batas panjang ideal karakter Meta Description agar tidak terpotong (truncated) elipsis (...) pada hasil pencarian desktop dan mobile Google SERP?',
+        options: ['150 - 160 Karakter', '50 - 60 Karakter', '300 Karakter', 'Tanpa batas'],
+        answer: 0,
+        explanation: 'Google menampilkan cuplikan meta description sekitar 155-160 karakter sebelum memotongnya dengan tanda titik-titik (...).'
+      },
+      {
+        id: 7,
+        category: 'Ads',
+        question: 'Metrik kalkulasi biaya iklan apakah yang menghitung biaya per seribu kali tayangan (impresi)?',
+        options: ['CPM (Cost Per Mille)', 'CPC', 'CPA', 'CPV'],
+        answer: 0,
+        explanation: 'Mille berasal dari bahasa Latin yang berarti seribu. <code>CPM</code> mengukur biaya penayangan iklan per 1.000 impresi.'
+      },
+      {
+        id: 8,
+        category: 'CWV',
+        question: 'Metrik Core Web Vitals Google apakah yang mengukur pergeseran layout visual elemen halaman yang tidak terduga saat loading (yang kerap menyebabkan pengguna salah mengeklik tombol)?',
+        options: ['CLS (Cumulative Layout Shift)', 'LCP (Largest Contentful Paint)', 'INP (Interaction to Next Paint)', 'TTFB (Time to First Byte)'],
+        answer: 0,
+        explanation: '<code>CLS</code> mengukur stabilitas visual halaman. Skor CLS di bawah 0.1 dianggap baik dan ramah pengalaman pengguna.'
+      },
+      {
+        id: 9,
+        category: 'Unit Economics',
+        question: 'Sebuah aplikasi SaaS memiliki 1.000 pelanggan aktif di awal bulan Mei. Sepanjang bulan Mei, ada 50 pelanggan yang berhenti berlangganan (cancel subscription). Berapakah Monthly Churn Rate-nya?',
+        options: ['5.0%', '0.5%', '50%', '10%'],
+        answer: 0,
+        explanation: 'Churn Rate = (Pelanggan Berhenti / Pelanggan Awal) x 100% = (50 / 1.000) x 100% = <strong>5.0%</strong>.'
+      },
+      {
+        id: 10,
+        category: 'SEO',
+        question: 'File teks sederhana apakah yang ditempatkan di root direktori domain (misal: <code>domain.com/robots.txt</code>) untuk memberi instruksi kepada bot perayap mesin pencari tentang halaman mana yang boleh atau tidak boleh diindeks?',
+        options: ['robots.txt', 'sitemap.xml', 'index.txt', 'crawler.json'],
+        answer: 0,
+        explanation: 'File <code>robots.txt</code> menggunakan standar REP (Robots Exclusion Protocol) dengan direktif seperti <code>User-agent</code> dan <code>Disallow</code> untuk mengatur akses bot crawler.'
+      },
+      {
+        id: 11,
+        category: 'Ads',
+        question: 'Jika total pengeluaran iklan adalah Rp 10.000.000 dan berhasil menghasilkan 200 prospek formulir pendaftaran (leads), berapakah nilai Cost Per Lead (CPL)-nya?',
+        options: ['Rp 50.000', 'Rp 20.000', 'Rp 100.000', 'Rp 5.000'],
+        answer: 0,
+        explanation: 'CPL = Total Biaya Iklan / Jumlah Leads = Rp 10.000.000 / 200 = <strong>Rp 50.000 per lead</strong>.'
+      },
+      {
+        id: 12,
+        category: 'SEO',
+        question: 'Atribut HTML apakah pada tag <code>&lt;img&gt;</code> yang berfungsi mendeskripsikan isi gambar kepada mesin pencari Google Images sekaligus dibacakan oleh screen reader bagi tunanetra?',
+        options: ['alt (Alternative Text)', 'title', 'src', 'caption'],
+        answer: 0,
+        explanation: 'Atribut <code>alt="..."</code> adalah faktor SEO on-page penting untuk pemahaman konteks gambar oleh search engine serta standar wajib aksesibilitas web (A11y).'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: MARKETING_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

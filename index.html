@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Cheatsheet Hub - Pusat Referensi Lengkap &amp; Panduan Tes Kerja</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="header-brand">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #0284c7, #107c41);">
+          <i data-lucide="layers" style="width:20px;height:20px;"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Cheatsheet Hub</h1>
+          <p>Professional Developer &amp; Career Test Reference</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <span id="hubVisibleCount" class="btn-pill" style="pointer-events:none; font-size:0.8rem; background:var(--bg-surface-muted);">
+          16 Cheatsheet Tersedia
+        </span>
+        <button id="hubThemeToggleBtn" class="btn-icon" aria-label="Toggle Theme" title="Ganti Mode Gelap/Terang">
+          <i data-lucide="moon"></i>
+        </button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak" title="Cetak Halaman">
+          <i data-lucide="printer"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="hub-container">
+    <section class="hub-hero">
+      <div class="hub-badge-pill">
+        <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
+        <span>Panduan Belajar Cepat &amp; Referensi Tes Rekrutmen Kerja</span>
+      </div>
+      <h1 class="hub-hero-title">
+        Pusat Referensi <span>16 Cheatsheet Profesional</span>
+      </h1>
+      <p class="hub-hero-subtitle">
+        Dokumentasi ringkas, praktis, dan interaktif dalam Bahasa Indonesia untuk berbagai profesi kerja (Data, IT, Bisnis, Desain &amp; Marketing). Dilengkapi contoh nyata dunia kerja dan modul simulasi soal tes rekrutmen.
+      </p>
+
+      <!-- Live Search Box -->
+      <div class="hub-search-box">
+        <i data-lucide="search" class="hub-search-icon" style="width:20px;height:20px;"></i>
+        <input type="text" id="hubSearchInput" class="hub-search-input" placeholder="Cari topik atau rumus (misal: VLOOKUP, Docker, SQL, Flexbox, Prompting)..." autocomplete="off" />
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="hub-filter-bar">
+        <button class="hub-filter-btn active" data-filter="ALL">Semua Topik (16)</button>
+        <button class="hub-filter-btn" data-filter="data">Data &amp; Bisnis</button>
+        <button class="hub-filter-btn" data-filter="developer">Developer &amp; IT</button>
+        <button class="hub-filter-btn" data-filter="productivity">Produktivitas &amp; AI</button>
+        <button class="hub-filter-btn" data-filter="marketing">Marketing &amp; Desain</button>
+      </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <section class="hub-grid" id="hubCardsGrid">
+
+      <!-- 1. EXCEL CHEATSHEET -->
+      <a href="excel.html" class="hub-card theme-excel" data-category="data productivity">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon">X</div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Data &amp; Bisnis</span>
+                <span class="hub-quiz-badge">22 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Microsoft Excel</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Panduan terlengkap rumus &amp; fungsi Excel: VLOOKUP, XLOOKUP, INDEX+MATCH, SUMIFS, logika IF bertingkat, Pivot Table, Data Tools, dan tips regional koma vs titik koma.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">VLOOKUP</span>
+            <span class="hub-tag">XLOOKUP</span>
+            <span class="hub-tag">SUMIFS</span>
+            <span class="hub-tag">Pivot Table</span>
+            <span class="hub-tag">Flash Fill</span>
+            <span class="hub-tag">$A$1 Absolut</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 70+ Rumus &amp; Alat</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 2. SQL CHEATSHEET -->
+      <a href="sql.html" class="hub-card theme-sql" data-category="data developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#0284c7;"><i data-lucide="database"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Data &amp; IT</span>
+                <span class="hub-quiz-badge">15 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">SQL &amp; Database</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Sintaks query database relasional: SELECT, WHERE, GROUP BY, HAVING, diagram relasi INNER/LEFT JOIN, CTE (WITH), Window Functions, dan manipulasi DDL/DML.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">SELECT</span>
+            <span class="hub-tag">INNER JOIN</span>
+            <span class="hub-tag">GROUP BY</span>
+            <span class="hub-tag">ROW_NUMBER()</span>
+            <span class="hub-tag">HAVING</span>
+            <span class="hub-tag">Subquery</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 45+ Query &amp; Klausa</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 3. JAVASCRIPT ES6+ -->
+      <a href="javascript.html" class="hub-card theme-js" data-category="developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#f7df1e; color:#000;"><strong>JS</strong></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Developer &amp; Web</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">JavaScript ES6+</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Metode array modern (map, filter, reduce), destrukturisasi object, spread operator, pemrograman async/await, Promise.all, manipulasi DOM, hingga closure.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">.map()</span>
+            <span class="hub-tag">.reduce()</span>
+            <span class="hub-tag">async / await</span>
+            <span class="hub-tag">Destructuring</span>
+            <span class="hub-tag">Closure</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 40+ Fitur ES6+</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 4. GIT & GITHUB CHEATSHEET -->
+      <a href="git.html" class="hub-card theme-git" data-category="developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#ea580c;"><i data-lucide="git-branch"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Developer &amp; IT</span>
+                <span class="hub-quiz-badge">15 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Git &amp; GitHub</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Alur version control harian, branching, staging, komparasi Merge vs Rebase, penyelamat darurat (stash, reset, revert), resolve conflicts, dan Conventional Commits.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">git commit</span>
+            <span class="hub-tag">git rebase</span>
+            <span class="hub-tag">git stash</span>
+            <span class="hub-tag">git reset</span>
+            <span class="hub-tag">Merge Conflict</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 40+ Perintah Git</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 5. DOCKER & CONTAINER -->
+      <a href="docker.html" class="hub-card theme-docker" data-category="developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#0ea5e9;"><i data-lucide="box"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">DevOps &amp; Backend</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Docker &amp; Container</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Perintah container CLI (run, exec, logs), penyusunan Dockerfile multi-stage build, orkestrasi docker-compose.yml multi-service, dan persistent volumes.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">docker run</span>
+            <span class="hub-tag">Dockerfile</span>
+            <span class="hub-tag">docker compose</span>
+            <span class="hub-tag">Volumes</span>
+            <span class="hub-tag">Multi-stage</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 35+ Perintah Docker</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 6. HTTP & REST API -->
+      <a href="http-api.html" class="hub-card theme-http" data-category="developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#e11d48;"><i data-lucide="globe"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Web Services &amp; QA</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">HTTP &amp; REST API</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Matriks status codes lengkap (perbedaan 401 vs 403, 502 Bad Gateway), perbandingan PUT vs PATCH, header autentikasi JWT Bearer, dan CORS policy.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">401 vs 403</span>
+            <span class="hub-tag">PUT vs PATCH</span>
+            <span class="hub-tag">502 Bad Gateway</span>
+            <span class="hub-tag">Bearer Token</span>
+            <span class="hub-tag">CORS</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Status Codes &amp; Verbs</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 7. HTML5 & MODERN CSS -->
+      <a href="html-css.html" class="hub-card theme-htmlcss" data-category="developer marketing">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#f97316;"><i data-lucide="layout"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Frontend &amp; UI/UX</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">HTML5 &amp; Modern CSS</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Tag semantik ramah SEO, rahasia centering Flexbox, layout 2D responsif otomatis CSS Grid tanpa media query, box-sizing: border-box, dan tipografi clamp().
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">Flexbox</span>
+            <span class="hub-tag">CSS Grid</span>
+            <span class="hub-tag">border-box</span>
+            <span class="hub-tag">clamp()</span>
+            <span class="hub-tag">HTML5 Semantik</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Flexbox &amp; Grid Visual</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 8. PROMPT ENGINEERING & AI -->
+      <a href="prompting.html" class="hub-card theme-prompting" data-category="productivity">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#d946ef;"><i data-lucide="sparkles"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Produktivitas &amp; AI</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Prompt Engineering</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Formulasi prompt kerja profesional RTCE (Role, Task, Context, Expectation), teknik Few-Shot, penalaran Chain-of-Thought, format JSON ketat, dan pencegah halusinasi AI.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">Framework RTCE</span>
+            <span class="hub-tag">Few-Shot Prompt</span>
+            <span class="hub-tag">Chain-of-Thought</span>
+            <span class="hub-tag">JSON Output</span>
+            <span class="hub-tag">Anti-Halusinasi</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Template Kerja Siap Pakai</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 9. DIGITAL MARKETING & SEO -->
+      <a href="digital-marketing.html" class="hub-card theme-marketing" data-category="data marketing">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#16a34a;"><i data-lucide="trending-up"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Marketing &amp; Bisnis</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Marketing &amp; SEO</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Kalkulasi efisiensi iklan (ROAS, CPA, CPC, CPM, CTR), analisis unit economics (CAC vs LTV rasio 3:1), checklist On-Page SEO teknis, dan Open Graph preview.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">ROAS</span>
+            <span class="hub-tag">CAC &amp; LTV</span>
+            <span class="hub-tag">CTR &amp; CPC</span>
+            <span class="hub-tag">Canonical Tag</span>
+            <span class="hub-tag">Open Graph (OG)</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Rumus Iklan &amp; SEO</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 10. LINUX & BASH CHEATSHEET -->
+      <a href="linux.html" class="hub-card theme-linux" data-category="developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#d97706;"><i data-lucide="terminal"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Developer &amp; IT</span>
+                <span class="hub-quiz-badge">15 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Linux &amp; Bash Terminal</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Perintah baris terminal esensial: navigasi direktori, izin akses (chmod/chown), pencarian teks (grep, awk, sed), monitoring proses (top, ps, kill), dan cron jobs.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">grep</span>
+            <span class="hub-tag">chmod 755</span>
+            <span class="hub-tag">awk / sed</span>
+            <span class="hub-tag">systemctl</span>
+            <span class="hub-tag">crontab</span>
+            <span class="hub-tag">curl</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 50+ Perintah CLI</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 11. PYTHON FOR DATA ANALYSIS -->
+      <a href="python.html" class="hub-card theme-python" data-category="data developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#2563eb;"><i data-lucide="code-2"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Data Science</span>
+                <span class="hub-quiz-badge">15 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Python (Pandas &amp; NumPy)</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Manipulasi DataFrame, pembersihan missing values, query filtering, groupby, aggregating, pivot table, merging, lambda function, dan analisis data modern.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">pd.DataFrame</span>
+            <span class="hub-tag">.groupby()</span>
+            <span class="hub-tag">.fillna()</span>
+            <span class="hub-tag">.merge()</span>
+            <span class="hub-tag">.apply(lambda)</span>
+            <span class="hub-tag">numpy</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 45+ Metode Pandas</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 12. GOOGLE SHEETS & APPS SCRIPT -->
+      <a href="googlesheets.html" class="hub-card theme-googlesheets" data-category="data productivity">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#059669;"><i data-lucide="file-spreadsheet"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Data &amp; Bisnis</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Google Sheets &amp; Script</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Rumus eksklusif Google Sheets: =QUERY() bergaya SQL di spreadsheet, =IMPORTRANGE(), =ARRAYFORMULA(), =FILTER(), =SPARKLINE(), serta automasi Google Apps Script.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">=QUERY()</span>
+            <span class="hub-tag">=IMPORTRANGE()</span>
+            <span class="hub-tag">=ARRAYFORMULA()</span>
+            <span class="hub-tag">=SPARKLINE()</span>
+            <span class="hub-tag">Apps Script</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 35+ Rumus Khusus</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 13. REGEX CHEATSHEET -->
+      <a href="regex.html" class="hub-card theme-regex" data-category="developer">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#9333ea;"><i data-lucide="regex"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Developer &amp; QA</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Regex (Regular Expression)</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Panduan memecahkan regex: metakarakter, quantifiers, lookahead/lookbehind assertions, flags, plus resep pola validasi siap pakai untuk format Indonesia.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">Pola Email</span>
+            <span class="hub-tag">No HP Indo (+62)</span>
+            <span class="hub-tag">NIK 16 Digit</span>
+            <span class="hub-tag">(?=Lookahead)</span>
+            <span class="hub-tag">Quantifiers</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 30+ Pola &amp; Resep</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 14. POWER BI & DAX -->
+      <a href="powerbi.html" class="hub-card theme-powerbi" data-category="data">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#ca8a04;"><i data-lucide="pie-chart"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Business Intelligence</span>
+                <span class="hub-quiz-badge">12 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Power BI &amp; DAX</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Ekspresi kalkulasi DAX: CALCULATE, Time Intelligence (YTD, MTD, YoY), iterators SUMX, RELATED, pemodelan Star Schema, dan sintaks M Code di Power Query.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">CALCULATE</span>
+            <span class="hub-tag">DATESYTD</span>
+            <span class="hub-tag">RELATED</span>
+            <span class="hub-tag">SUMX</span>
+            <span class="hub-tag">Star Schema</span>
+            <span class="hub-tag">Power Query</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> 35+ Fungsi DAX</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 15. AKUNTANSI & LAPORAN KEUANGAN -->
+      <a href="accounting.html" class="hub-card theme-accounting" data-category="data">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#0d9488;"><i data-lucide="dollar-sign"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Keuangan &amp; Akuntansi</span>
+                <span class="hub-quiz-badge">15 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Akuntansi &amp; Finansial</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Aturan posisi Debit/Kredit, persamaan akuntansi dasar, jurnal umum, buku besar, neraca saldo, laporan laba rugi, arus kas, dan rasio finansial wajib tes.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">Debit &amp; Kredit</span>
+            <span class="hub-tag">Jurnal Umum</span>
+            <span class="hub-tag">Laba Rugi</span>
+            <span class="hub-tag">Current Ratio</span>
+            <span class="hub-tag">ROA / ROE</span>
+            <span class="hub-tag">Arus Kas</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Siklus &amp; Rasio Lengkap</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+      <!-- 16. MARKDOWN & GFM -->
+      <a href="markdown.html" class="hub-card theme-markdown" data-category="productivity">
+        <div>
+          <div class="hub-card-header">
+            <div class="hub-card-icon" style="background:#4f46e5;"><i data-lucide="file-text"></i></div>
+            <div class="hub-card-title-group">
+              <div class="hub-card-badge-row">
+                <span class="hub-category-badge">Produktivitas</span>
+                <span class="hub-quiz-badge">10 Soal Tes</span>
+              </div>
+              <h2 class="hub-card-title">Markdown &amp; GFM</h2>
+            </div>
+          </div>
+          <p class="hub-card-desc">
+            Sintaks dokumentasi modern: format teks, tabel rapi, checklist task, GitHub alerts ([!NOTE], [!WARNING]), diagram Mermaid, dan persamaan matematika KaTeX.
+          </p>
+          <div class="hub-card-tags">
+            <span class="hub-tag">GitHub Alerts</span>
+            <span class="hub-tag">Mermaid Diagram</span>
+            <span class="hub-tag">Tabel Alignment</span>
+            <span class="hub-tag">Task List [x]</span>
+            <span class="hub-tag">KaTeX Math</span>
+          </div>
+        </div>
+        <div class="hub-card-footer">
+          <span class="hub-card-stats"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Standar Dokumentasi</span>
+          <span class="hub-card-btn">Buka Cheatsheet <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </div>
+      </a>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="width:28px;height:28px;font-size:1rem;background:#0284c7;">
+          <i data-lucide="layers" style="width:16px;height:16px;"></i>
+        </div>
+        <div>
+          <strong>Cheatsheet Hub</strong> &mdash; Portal 16 Dokumentasi Developer &amp; Panduan Tes Kerja Lengkap.
+        </div>
+      </div>
+      <div>
+        Vanilla HTML5, CSS3, &amp; JavaScript. Responsif, Cepat, Tanpa Framework.
+      </div>
+    </div>
+  </footer>
+
+  <script src="hub.js"></script>
+</body>
+</html>

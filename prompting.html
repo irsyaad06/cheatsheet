@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Prompt Engineering Cheatsheet - Panduan AI &amp; Template Kerja Profesional</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #d946ef;
+      --excel-primary-hover: #c026d3;
+      --excel-primary-light: #fae8ff;
+      --excel-primary-subtle: rgba(217, 70, 239, 0.08);
+      --excel-border-accent: #d946ef;
+      --excel-dark: #86198f;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #f0abfc;
+      --excel-primary-hover: #d946ef;
+      --excel-primary-light: rgba(240, 171, 252, 0.15);
+      --excel-primary-subtle: rgba(240, 171, 252, 0.1);
+      --excel-border-accent: #f0abfc;
+      --excel-dark: #c026d3;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #d946ef, #86198f);">
+            <i data-lucide="sparkles" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Prompt Engineering</h1>
+            <p>Generative AI &amp; Professional Workplace Prompt Guide</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari teknik (Few-shot, CoT, RTCE, JSON output)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-templates" class="btn-pill"><i data-lucide="bookmark"></i><span>Template Siap Pakai</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#d946ef; border-color:#d946ef;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-framework" class="sidebar-link"><i data-lucide="compass" class="nav-icon"></i><span>1. Framework RTCE</span></a></li>
+        <li><a href="#section-techniques" class="sidebar-link"><i data-lucide="layers" class="nav-icon"></i><span>2. Few-Shot &amp; CoT</span></a></li>
+        <li><a href="#section-structured" class="sidebar-link"><i data-lucide="file-json" class="nav-icon"></i><span>3. Format JSON &amp; Tabel</span></a></li>
+        <li><a href="#section-templates" class="sidebar-link"><i data-lucide="briefcase" class="nav-icon"></i><span>4. Template Kerja Nyata</span></a></li>
+        <li><a href="#section-anti-hallucination" class="sidebar-link"><i data-lucide="shield-alert" class="nav-icon"></i><span>5. Mengatasi Halusinasi</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #d946ef; background: linear-gradient(135deg, color-mix(in srgb, #d946ef 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#fae8ff; color:#86198f;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Produktivitas Kerja Semua Profesi</span>
+          <span class="hero-pill" style="background:#fae8ff; color:#86198f;">ChatGPT, Claude, Gemini &amp; DeepSeek</span>
+        </div>
+        <h1 class="hero-title">Prompt Engineering Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan terstruktur menginstruksikan model kecerdasan buatan (Large Language Models). Dari kerangka formulasi prompt profesional RTCE, teknik penalaran berantai (Chain-of-Thought), ekstraksi data berformat JSON ketat, hingga pencegahan halusinasi fakta.
+        </p>
+      </section>
+
+      <!-- 1. RTCE Framework -->
+      <section id="section-framework" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="compass"></i> Kerangka Prompt Profesional: Model R-T-C-E</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Komponen</th><th>Arti</th><th>Pertanyaan Kunci</th><th>Contoh Penerapan Nyata</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Role (Peran)</strong></td><td>Keahlian / persona spesifik AI</td><td>"Siapa Anda dalam tugas ini?"</td><td><em>"Bertindaklah sebagai Senior HR Specialist dengan pengalaman 10 tahun..."</em></td></tr>
+              <tr><td><strong>Task (Tugas)</strong></td><td>Instruksi tindakan inti</td><td>"Apa yang harus Anda hasilkan?"</td><td><em>"Buatkan 10 pertanyaan wawancara teknis berbasis perilaku (STAR method)..."</em></td></tr>
+              <tr><td><strong>Context (Konteks)</strong></td><td>Latar belakang &amp; batasan situasi</td><td>"Untuk siapa dan kondisi seperti apa?"</td><td><em>"Untuk posisi Sales Supervisor di perusahaan retail fesyen yang sedang ekspansi..."</em></td></tr>
+              <tr><td><strong>Expectation (Ekspektasi)</strong></td><td>Format output &amp; batasan gaya</td><td>"Bagaimana bentuk hasil akhirnya?"</td><td><em>"Sajikan dalam bentuk tabel dengan kolom: Pertanyaan, Tujuan Pengujian, dan Kriteria Jawaban Baik."</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. Techniques -->
+      <section id="section-techniques" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="layers"></i> Teknik Lanjutan: Few-Shot &amp; Chain-of-Thought</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Few-Shot Prompting (Beri Contoh Format)</span>
+              <button class="btn-copy" data-copy="Klasifikasikan sentimen ulasan berikut ke dalam: [Positif, Netral, Negatif].&#10;&#10;Contoh 1:&#10;Teks: Barangnya cepat sampai dan kemasan rapi!&#10;Sentimen: Positif&#10;&#10;Contoh 2:&#10;Teks: Ukurannya kekecilan tidak sesuai deskripsi.&#10;Sentimen: Negatif&#10;&#10;Sekarang klasifikasikan:&#10;Teks: [INPUT PENGGUNA]&#10;Sentimen:"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Memberikan 1 hingga 3 contoh pasangan *Input &rarr; Output* membuat AI 100% mengikuti format dan gaya bahasa yang Anda harapkan tanpa meleset.</p>
+            <div class="code-box">
+              <code>Contoh 1: [Input] -&gt; [Output Ideal]<br>Contoh 2: [Input] -&gt; [Output Ideal]<br>Tugas Anda: [Input Baru] -&gt;</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Chain-of-Thought (Penalaran Berantai)</span>
+              <button class="btn-copy" data-copy="Pikirkan langkah demi langkah (Step-by-step) sebelum memberikan jawaban akhir. Tuliskan proses penalaran logika Anda secara berurutan."><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menyisipkan instruksi <em>"Pikirkan langkah demi langkah sebelum menjawab"</em> secara dramatis meningkatkan akurasi perhitungan matematika, analisis logika, dan pemecahan masalah kompleks.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. Structured Output -->
+      <section id="section-structured" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="file-json"></i> Menghasilkan Format Terstruktur (JSON &amp; Tabel)</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Instruksi ketat agar AI tidak mengeluarkan basa-basi (seperti "Tentu, ini jawabannya...") dan hanya menghasilkan JSON valid:</p>
+          <div class="code-box">
+            <code>Hasilkan output HANYA dalam format JSON valid tanpa teks pembuka atau penutup.<br>Skema JSON wajib mengikuti struktur berikut:<br>{<br>&nbsp;&nbsp;"nama_kandidat": string,<br>&nbsp;&nbsp;"skor_kelayakan": number,<br>&nbsp;&nbsp;"kelebihan": [string],<br>&nbsp;&nbsp;"rekomendasi": "Diterima" | "Dipertimbangkan" | "Ditolak"<br>}</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Templates -->
+      <section id="section-templates" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="briefcase"></i> Template Prompt Kerja Siap Pakai</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Eksekutif: Ringkasan Dokumen / Notula Rapat</span>
+              <button class="btn-copy" data-copy="Bertindaklah sebagai Executive Assistant. Ringkas notula rapat di bawah ini menjadi 3 bagian:&#10;1. Keputusan Utama yang Telah Disepakati (Maksimal 3 poin).&#10;2. Action Items (Tabel: Tugas, PIC Penanggung Jawab, Deadline).&#10;3. Isu yang Memerlukan Tindak Lanjut Rapat Berikutnya.&#10;&#10;Notula:&#10;[TEMPELKAN TEKS RAPAT DI SINI]"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box"><code>Format 3 bagian: Keputusan Utama, Action Items (PIC &amp; Deadline), dan Isu Lanjutan.</code></div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Komunikasi: Email Negosiasi / Klarifikasi Formal</span>
+              <button class="btn-copy" data-copy="Tuliskan draf email balasan formal dalam Bahasa Indonesia yang profesional.&#10;Tujuan: Menolak penawaran harga vendor saat ini secara sopan, namun meminta diskon tambahan 15% dengan komitmen kontrak jangka panjang 1 tahun.&#10;Gaya bahasa: Tegas, diplomatis, dan menjaga hubungan kemitraan baik."><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box"><code>Tolak penawaran harga sopan + minta diskon 15% dengan komitmen volume.</code></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. Anti Hallucination -->
+      <section id="section-anti-hallucination" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="shield-alert"></i> Mitigasi Halusinasi (Grounding)</h2>
+        </div>
+        <div class="formula-card">
+          <p class="formula-desc">Gunakan instruksi pembatas agar AI tidak mengarang bebas saat menganalisis data internal perusahaan:</p>
+          <div class="code-box">
+            <code>Jawab pertanyaan berikut HANYA berdasarkan informasi yang tertulis di dalam dokumen referensi di bawah.<br>DILARANG membuat asumsi atau menggunakan pengetahuan di luar dokumen ini.<br>Jika jawabannya tidak terdapat di dalam dokumen, nyatakan dengan tegas: 'Informasi tidak ditemukan di dalam dokumen.'</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Prompt Engineering</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#d946ef; border-color:#d946ef; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#d946ef;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="sparkles" style="width:16px;height:16px;"></i></div>
+        <div><strong>Prompt Engineering Cheatsheet</strong> &mdash; Panduan AI untuk Produktivitas Kerja.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const PROMPTING_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Framework',
+        question: 'Pada kerangka perumusan prompt RTCE (Role, Task, Context, Expectation), apa manfaat terbesar dari menetapkan "Role" (Peran) spesifik pada awal prompt?',
+        options: [
+          'Membuat AI memprioritaskan kosakata, tone of voice, dan pola pikir keahlian di bidang tersebut sehingga jawabannya jauh lebih mendalam dan relevan.',
+          'Menghemat biaya pemakaian token AI.',
+          'Mempercepat koneksi server.',
+          'Hanya sebagai formalitas.'
+        ],
+        answer: 0,
+        explanation: 'Menetapkan Persona/Role membatasi ruang probabilitas model bahasa untuk mengadopsi gaya bahasa, metodologi kerja, dan standar kualitas pakar di profesi tersebut.'
+      },
+      {
+        id: 2,
+        category: 'Technique',
+        question: 'Teknik prompt di mana pengguna memberikan 1 sampai 3 contoh pasangan input dan output yang diinginkan sebelum meminta AI menyelesaikan tugas utama disebut:',
+        options: [
+          'Few-Shot Prompting',
+          'Zero-Shot Prompting',
+          'Meta Prompting',
+          'Recursive Prompting'
+        ],
+        answer: 0,
+        explanation: 'Few-Shot Prompting adalah teknik mengarahkan model dengan memberikan beberapa (few) contoh nyata sebagai referensi format dan nada jawaban.'
+      },
+      {
+        id: 3,
+        category: 'Technique',
+        question: 'Mengapa menyertakan frasa <em>"Pikirkan langkah demi langkah sebelum menjawab"</em> (Chain-of-Thought) terbukti secara ilmiah meningkatkan akurasi perhitungan matematika dan logika AI?',
+        options: [
+          'Memaksa model menguraikan proses penalaran perantara (intermediate reasoning steps) ke token keluaran sebelum melompat ke kesimpulan akhir.',
+          'Menghilangkan batasan token.',
+          'Membuat AI mengakses internet secara otomatis.',
+          'Mematikan filter keamanan AI.'
+        ],
+        answer: 0,
+        explanation: 'LLM memprediksi kata per kata. Dengan menalar langkah demi langkah, model menggunakan token perantara sebagai memori komputasi untuk memverifikasi kebenaran sebelum menyimpulkan jawaban akhir.'
+      },
+      {
+        id: 4,
+        category: 'Mitigasi',
+        question: 'Fenomena di mana model AI memberikan jawaban yang terdengar sangat meyakinkan dan fasih namun sebenarnya merupakan informasi palsu atau data karangan disebut:',
+        options: ['Halusinasi (Hallucination)', 'Overfitting', 'Underfitting', 'Token Drift'],
+        answer: 0,
+        explanation: 'Halusinasi adalah kondisi ketika AI menghasilkan informasi yang keliru atau fiktif secara meyakinkan karena sifat dasarnya sebagai model probabilitas kata.'
+      },
+      {
+        id: 5,
+        category: 'Mitigasi',
+        question: 'Metode terbaik dalam prompt untuk mencegah AI mengarang data palsu saat merangkum dokumen laporan keuangan internal perusahaan adalah:',
+        options: [
+          'Memberikan instruksi tegas (Grounding): "Jawab HANYA berdasarkan teks terlampir, dan jika tidak ada, nyatakan secara eksplisit bahwa informasi tidak ditemukan."',
+          'Meminta AI bersumpah jujur.',
+          'Menggunakan huruf kapital semua.',
+          'Mengulang prompt 3 kali.'
+        ],
+        answer: 0,
+        explanation: 'Instruksi Grounding membatasi sumber kebenaran AI hanya pada dokumen yang dilampirkan dan memberi izin kepada AI untuk menyatakan "tidak tahu" alih-alih mengarang.'
+      },
+      {
+        id: 6,
+        category: 'Delimiter',
+        question: 'Apa fungsi penggunaan tanda pemisah (delimiters) seperti tanda pagar tiga <code>###</code> atau kutip tiga <code>"""</code> di dalam prompt?',
+        options: [
+          'Secara tegas memisahkan instruksi perintah dari teks dokumen masukan pengguna, serta mencegah ancaman Prompt Injection.',
+          'Memperindah tampilan font.',
+          'Mempercepat proses rendering.',
+          'Wajib menurut lisensi OpenAI.'
+        ],
+        answer: 0,
+        explanation: 'Delimiters membatasi batas antara instruksi logika sistem dengan data teks mentah masukan, mencegah teks input menimpa instruksi sistem.'
+      },
+      {
+        id: 7,
+        category: 'Format',
+        question: 'Jika aplikasi backend Anda memerlukan respons AI yang dapat langsung di-parse oleh kode pemrograman tanpa error sintaks, format apakah yang wajib diinstruksikan pada prompt?',
+        options: [
+          'JSON valid murni (Structured Output)',
+          'Teks paragraf naratif',
+          'Puisi bebas',
+          'File Word'
+        ],
+        answer: 0,
+        explanation: 'Format JSON terstruktur (Structured Output) adalah standar universal yang dapat langsung diolah secara otomatis oleh bahasa pemrograman (Python, JavaScript, dsb).'
+      },
+      {
+        id: 8,
+        category: 'Framework',
+        question: 'Apa perbedaan antara "System Prompt" dan "User Prompt" dalam arsitektur AI modern?',
+        options: [
+          'System Prompt menetapkan aturan dasar perilaku, batasan keamanan, dan identitas jangka panjang; sedangkan User Prompt adalah pertanyaan atau tugas spesifik yang diajukan pengguna saat itu.',
+          'System Prompt hanya untuk developer hardware.',
+          'User prompt tidak bisa membaca teks.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: 'System Prompt berada di level paling atas pengendali instruksi AI yang memandu bagaimana model harus bersikap terhadap setiap User Prompt yang masuk.'
+      },
+      {
+        id: 9,
+        category: 'Technique',
+        question: 'Teknik prompt di mana model diminta membedah teks dari berbagai sudut pandang persona berbeda (misal: Perspektif Finansial, Perspektif Legal, dan Perspektif Pengguna) sebelum membuat keputusan disebut:',
+        options: [
+          'Multi-Persona / Committee Prompting',
+          'Recursive Prompting',
+          'Linear Prompting',
+          'Solo Prompting'
+        ],
+        answer: 0,
+        explanation: 'Multi-Persona Prompting mengeksplorasi sudut pandang beragam dari peran-peran spesifik untuk menghasilkan keputusan komprehensif tanpa bias.'
+      },
+      {
+        id: 10,
+        category: 'Format',
+        question: 'Ketika meminta AI membuat tabel perbandingan, perintah tambahan apakah yang memastikan tabel mudah disalin ke Microsoft Excel atau Google Sheets?',
+        options: [
+          'Sajikan dalam format Markdown Table atau CSV (Comma-Separated Values).',
+          'Sajikan dalam format PDF gambar.',
+          'Ketik dalam format teks miring.',
+          'Gunakan huruf tebal.'
+        ],
+        answer: 0,
+        explanation: 'Format Markdown Table dan CSV dapat langsung di-copy dan di-paste dengan rapi ke sel spreadsheet Microsoft Excel atau Google Sheets secara instan.'
+      },
+      {
+        id: 11,
+        category: 'Technique',
+        question: 'Apa risiko terbesar dari memberikan instruksi negatif yang berlebihan (contoh: "Jangan lakukan A, jangan lakukan B, jangan sebut C, jangan pakai D")?',
+        options: [
+          'AI sering kali justru berfokus pada kata-kata terlarang tersebut. Lebih efektif menyatakan secara positif apa yang HARUS dilakukan.',
+          'Server AI langsung offline.',
+          'AI akan mogok menjawab.',
+          'Teks akan terbalik.'
+        ],
+        answer: 0,
+        explanation: 'Model bahasa bekerja dengan asosiasi kata. Menyebut kata larangan justru mengaktifkan bobot kata tersebut di memori. Cara terbaik adalah menyatakan secara positif perilaku yang diharapkan.'
+      },
+      {
+        id: 12,
+        category: 'Framework',
+        question: 'Berapakah batas kapasitas konteks (Context Window) yang dimiliki model AI pada umumnya?',
+        options: [
+          'Diukur dalam satuan Token (kata/potongan suku kata), menentukan berapa banyak riwayat percakapan dan dokumen yang bisa dibaca sekaligus.',
+          'Diukur dalam MegaByte harddisk.',
+          'Selalu tanpa batas.',
+          'Tepat 100 kata.'
+        ],
+        answer: 0,
+        explanation: 'Context Window diukur dalam satuan Token (misal 128k token atau 1 juta token) yang membatasi total volume memori baca dokumen dalam satu sesi percakapan.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: PROMPTING_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>JavaScript ES6+ Cheatsheet - Panduan Modern JS &amp; Tes Kerja Developer</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #ca8a04;
+      --excel-primary-hover: #a16207;
+      --excel-primary-light: #fef9c3;
+      --excel-primary-subtle: rgba(202, 138, 4, 0.08);
+      --excel-border-accent: #ca8a04;
+      --excel-dark: #713f12;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #facc15;
+      --excel-primary-hover: #ca8a04;
+      --excel-primary-light: rgba(250, 204, 21, 0.15);
+      --excel-primary-subtle: rgba(250, 204, 21, 0.1);
+      --excel-border-accent: #facc15;
+      --excel-dark: #a16207;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #f7df1e, #ca8a04); color: #000;">
+            <strong>JS</strong>
+          </div>
+          <div class="brand-text">
+            <h1>JavaScript ES6+ Cheatsheet</h1>
+            <p>Modern JS Methods &amp; Frontend Interview Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari metode JS (map, reduce, async, closure)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel Metode</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#ca8a04; border-color:#ca8a04;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori JavaScript</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-arrays" class="sidebar-link"><i data-lucide="list" class="nav-icon"></i><span>1. Array Methods (map, reduce)</span></a></li>
+        <li><a href="#section-destructuring" class="sidebar-link"><i data-lucide="copy" class="nav-icon"></i><span>2. Destructuring &amp; Spread</span></a></li>
+        <li><a href="#section-async" class="sidebar-link"><i data-lucide="clock" class="nav-icon"></i><span>3. Async / Await &amp; Promises</span></a></li>
+        <li><a href="#section-dom" class="sidebar-link"><i data-lucide="layout" class="nav-icon"></i><span>4. DOM &amp; Event Handling</span></a></li>
+        <li><a href="#section-storage" class="sidebar-link"><i data-lucide="database" class="nav-icon"></i><span>5. LocalStorage &amp; Session</span></a></li>
+        <li><a href="#section-closures" class="sidebar-link"><i data-lucide="lock" class="nav-icon"></i><span>6. Scope, Closure &amp; 'this'</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #ca8a04; background: linear-gradient(135deg, color-mix(in srgb, #ca8a04 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#fef9c3; color:#713f12;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Tes Frontend, Fullstack &amp; Node.js</span>
+          <span class="hero-pill" style="background:#fef9c3; color:#713f12;">ES6, ES2020 s/d ESNext</span>
+        </div>
+        <h1 class="hero-title">JavaScript ES6+ Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis sintaks modern JavaScript. Menguasai metode array fungsional mutakhir (<code>map</code>, <code>filter</code>, <code>reduce</code>), pemrograman asynchronous (<code>async/await</code>, <code>Promise.all</code>), trik destrukturisasi, manipulasi DOM, hingga konsep closure yang sering diujikan pada wawancara teknis.
+        </p>
+      </section>
+
+      <!-- 1. Array Methods -->
+      <section id="section-arrays" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="list"></i> Array Methods Modern (Immutability)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">.map(), .filter() &amp; .reduce()</span>
+              <button class="btn-copy" data-copy="const totalGaji = karyawan.filter(k => k.divisi === 'IT').map(k => k.gaji).reduce((acc, curr) => acc + curr, 0);"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Trio metode fungsional paling penting. Mengembalikan array baru tanpa memodifikasi data array asli (non-mutating).</p>
+            <div class="code-box">
+              <code>// .map() : Transformasi setiap elemen menjadi nilai baru<br>const hargaPajak = harga.map(h => h * 1.11);<br><br>// .filter() : Saring elemen yang memenuhi kondisi TRUE<br>const produkAktif = produk.filter(p => p.stok > 0);<br><br>// .reduce() : Akumulasi array menjadi satu nilai tunggal<br>const totalOmzet = transaksi.reduce((total, t) => total + t.nominal, 0);</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">.find(), .some() &amp; .every()</span>
+              <button class="btn-copy" data-copy="const user = users.find(u => u.id === 10);"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>// .find() : Mengembalikan 1 elemen pertama yang cocok (atau undefined)<br>const user = users.find(u => u.email === 'budi@mail.com');<br><br>// .some() : Mengembalikan true jika minimal SALAH SATU elemen cocok<br>const adaYangGagal = tes.some(t => t.skor &lt; 60);<br><br>// .every() : Mengembalikan true jika SEMUA elemen cocok<br>const semuaLulus = tes.every(t => t.skor &gt;= 75);</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. Destructuring -->
+      <section id="section-destructuring" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="copy"></i> Destructuring &amp; Rest/Spread (...)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Object &amp; Array Destructuring</span>
+              <button class="btn-copy" data-copy="const { nama, gaji = 5000000, ...sisaInfo } = karyawan;"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>// Ekstrak properti object dengan nilai default:<br>const { nama, email, role = 'Member' } = user;<br><br>// Spread operator untuk clone object tanpa mutasi:<br>const userBaru = { ...user, status: 'Aktif' };<br><br>// Gabung dua array secara instan:<br>const semuaItem = [...makanan, ...minuman];</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. Async / Await -->
+      <section id="section-async" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="clock"></i> Asynchronous: Promises &amp; async/await</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">async / await dengan try...catch</span>
+              <button class="btn-copy" data-copy="async function ambilData() {&#10;  try {&#10;    const res = await fetch('https://api.example.com/users');&#10;    if (!res.ok) throw new Error('Gagal memuat');&#10;    const data = await res.json();&#10;    return data;&#10;  } catch (err) {&#10;    console.error(err);&#10;  }&#10;}"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>async function ambilData() {<br>&nbsp;&nbsp;try {<br>&nbsp;&nbsp;&nbsp;&nbsp;const res = await fetch('https://api.example.com/data');<br>&nbsp;&nbsp;&nbsp;&nbsp;const data = await res.json();<br>&nbsp;&nbsp;&nbsp;&nbsp;return data;<br>&nbsp;&nbsp;} catch (error) {<br>&nbsp;&nbsp;&nbsp;&nbsp;console.error('Terjadi error:', error);<br>&nbsp;&nbsp;}<br>}</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Promise.all() untuk Fetch Paralel</span>
+              <button class="btn-copy" data-copy="const [users, produk] = await Promise.all([fetch('/users').then(r => r.json()), fetch('/produk').then(r => r.json())]);"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menjalankan beberapa request HTTP sekaligus secara paralel dan menunggu semuanya selesai bersamaan.</p>
+            <div class="code-box">
+              <code>const [user, post] = await Promise.all([<br>&nbsp;&nbsp;fetchUser(userId),<br>&nbsp;&nbsp;fetchPosts(userId)<br>]);</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. DOM & Events -->
+      <section id="section-dom" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="layout"></i> DOM Manipulation &amp; Event Delegation</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">querySelector &amp; addEventListener</span>
+              <button class="btn-copy" data-copy="document.getElementById('list').addEventListener('click', e => { if (e.target.matches('.btn-hapus')) { e.target.closest('li').remove(); } });"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>// Seleksi elemen dan ubah teks/class:<br>const tombol = document.querySelector('.btn-submit');<br>tombol.classList.toggle('active');<br><br>// Event Delegation: Cukup pasang 1 listener di parent!<br>document.querySelector('#daftar').addEventListener('click', (e) => {<br>&nbsp;&nbsp;if (e.target.matches('.item-hapus')) {<br>&nbsp;&nbsp;&nbsp;&nbsp;e.target.closest('tr').remove();<br>&nbsp;&nbsp;}<br>});</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. Web Storage -->
+      <section id="section-storage" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="database"></i> LocalStorage &amp; SessionStorage</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">localStorage dengan JSON</span>
+              <button class="btn-copy" data-copy="localStorage.setItem('user', JSON.stringify({ nama: 'Budi' }));&#10;const user = JSON.parse(localStorage.getItem('user'));"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>// Simpan object (wajib JSON.stringify):<br>localStorage.setItem('profile', JSON.stringify({ nama: 'Budi', level: 5 }));<br><br>// Baca object (wajib JSON.parse):<br>const profile = JSON.parse(localStorage.getItem('profile')) || {};<br><br>// Hapus item:<br>localStorage.removeItem('profile');</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Metode JavaScript</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari fungsi (map, filter, reduce, promise)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="Array">Array Methods</option>
+            <option value="Async">Async</option>
+            <option value="DOM">DOM &amp; Storage</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Metode / Sintaks</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Kerja JavaScript</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#ca8a04; border-color:#ca8a04; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#f7df1e;color:#000;width:28px;height:28px;font-size:0.85rem;"><strong>JS</strong></div>
+        <div><strong>JavaScript ES6+ Cheatsheet</strong> &mdash; Panduan Frontend &amp; Fullstack Developer.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const JS_CATALOG = [
+      { name: 'Array.map()', cat: 'Array', desc: 'Menghasilkan array baru dari hasil transformasi setiap elemen.', syntax: 'arr.map(item => newValue)', example: '[1, 2, 3].map(x => x * 2)', section: 'section-arrays' },
+      { name: 'Array.filter()', cat: 'Array', desc: 'Menyaring elemen yang memenuhi kondisi menjadi array baru.', syntax: 'arr.filter(item => condition)', example: '[10, 25, 5].filter(x => x >= 10)', section: 'section-arrays' },
+      { name: 'Array.reduce()', cat: 'Array', desc: 'Mengakumulasi seluruh elemen array menjadi satu nilai tunggal.', syntax: 'arr.reduce((acc, curr) => ..., init)', example: '[1, 2, 3].reduce((a, b) => a + b, 0)', section: 'section-arrays' },
+      { name: 'Array.find()', cat: 'Array', desc: 'Mencari dan mengembalikan elemen pertama yang cocok.', syntax: 'arr.find(item => condition)', example: 'users.find(u => u.id === 5)', section: 'section-arrays' },
+      { name: 'async / await', cat: 'Async', desc: 'Menuliskan kode asynchronous dengan gaya synchronous yang bersih.', syntax: 'async function() { await promise }', example: 'const res = await fetch(url);', section: 'section-async' },
+      { name: 'Promise.all()', cat: 'Async', desc: 'Menunggu beberapa promise selesai secara paralel.', syntax: 'Promise.all([p1, p2, ...])', example: 'await Promise.all([fetch1, fetch2])', section: 'section-async' },
+      { name: 'localStorage', cat: 'DOM', desc: 'Penyimpanan data lokal di browser permanen lintas sesi.', syntax: 'localStorage.setItem(key, val)', example: 'localStorage.setItem("theme", "dark")', section: 'section-storage' }
+    ];
+
+    const JS_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Array',
+        question: 'Metode array manakah yang digunakan untuk mengubah setiap elemen menjadi bentuk baru dan menghasilkan array baru dengan panjang yang sama persis?',
+        options: ['.map()', '.filter()', '.forEach()', '.reduce()'],
+        answer: 0,
+        explanation: '<code>.map()</code> mentransformasi setiap elemen array menjadi nilai baru dan mengembalikan array baru dengan panjang elemen yang sama persis tanpa mengubah array aslinya.'
+      },
+      {
+        id: 2,
+        category: 'Async',
+        question: 'Apa perbedaan antara <code>==</code> (loose equality) dan <code>===</code> (strict equality) di JavaScript?',
+        options: [
+          '=== memeriksa nilai dan tipe data sekaligus tanpa type coercion, sedangkan == melakukan konversi tipe data otomatis.',
+          '== lebih cepat daripada ===.',
+          '=== hanya bisa digunakan untuk string.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: 'Operator <code>===</code> (strict) membandingkan nilai dan tipe data sekaligus (contoh: <code>5 === "5"</code> bernilai FALSE, sedangkan <code>5 == "5"</code> bernilai TRUE karena konversi otomatis).'
+      },
+      {
+        id: 3,
+        category: 'Array',
+        question: 'Apa yang dihasilkan oleh kode: <code>[1, 2, 3, 4].reduce((acc, curr) => acc + curr, 10)</code>?',
+        options: ['20', '10', '24', '14'],
+        answer: 0,
+        explanation: 'Nilai awal (initial value) adalah 10. Kemudian ditambah 1 + 2 + 3 + 4 = 10 + 10 = <strong>20</strong>.'
+      },
+      {
+        id: 4,
+        category: 'Async',
+        question: 'Jika salah satu promise di dalam <code>Promise.all([p1, p2, p3])</code> menghasilkan error (reject), apa yang terjadi?',
+        options: [
+          'Seluruh Promise.all langsung reject seketika (Fast Fail).',
+          'Promise yang error diabaikan dan mengembalikan sisanya.',
+          'Program browser langsung freeze.',
+          'Menghasilkan nilai null.'
+        ],
+        answer: 0,
+        explanation: '<code>Promise.all</code> memiliki sifat "all or nothing" (fail-fast): jika ada satu saja promise yang reject, seluruh operasi langsung masuk ke blok catch error.'
+      },
+      {
+        id: 5,
+        category: 'Scope',
+        question: 'Konsep di JavaScript di mana sebuah fungsi dalam (inner function) tetap memiliki akses ke variabel dari fungsi luarnya (outer scope) meskipun fungsi luar telah selesai dieksekusi disebut:',
+        options: ['Closure', 'Hoisting', 'Currying', 'Recursion'],
+        answer: 0,
+        explanation: '<strong>Closure</strong> adalah kombinasi fungsi yang dibungkus bersama referensi leksikal ke lingkungan sekitarnya, memungkinkan fungsi mengingat data variabel luarnya.'
+      },
+      {
+        id: 6,
+        category: 'Array',
+        question: 'Apa perbedaan antara <code>.slice()</code> dan <code>.splice()</code> pada Array JavaScript?',
+        options: [
+          '.slice() tidak mengubah array asli (non-mutating), sedangkan .splice() mengubah isi array asli secara permanen (mutating).',
+          '.slice() hanya untuk string, .splice() untuk array.',
+          '.splice() lebih cepat.',
+          'Keduanya sama saja.'
+        ],
+        answer: 0,
+        explanation: '<code>.slice(start, end)</code> mengambil potongan array tanpa mengubah array aslinya. Sebaliknya, <code>.splice(start, count)</code> memotong atau menyisipkan elemen langsung pada array aslinya.'
+      },
+      {
+        id: 7,
+        category: 'DOM',
+        question: 'Mengapa teknik <em>Event Delegation</em> (memasang satu listener pada elemen parent) jauh lebih efisien daripada memasang event listener pada setiap tombol di dalam tabel?',
+        options: [
+          'Menghemat memori RAM dan secara otomatis menangani baris baru yang ditambahkan secara dinamis tanpa perlu re-attach listener.',
+          'Hanya event delegation yang didukung Google Chrome.',
+          'Mencegah tombol diklik dua kali.',
+          'Membuat animasi CSS berjalan lebih halus.'
+        ],
+        answer: 0,
+        explanation: 'Event Delegation memanfaatkan konsep <em>Event Bubbling</em>: event dari anak naik ke parent sehingga cukup 1 listener untuk ribuan baris elemen, termasuk elemen yang baru dibuat via AJAX/Fetch.'
+      },
+      {
+        id: 8,
+        category: 'Storage',
+        question: 'Data yang tersimpan di dalam <code>sessionStorage</code> akan terhapus secara otomatis ketika:',
+        options: [
+          'Tab atau jendela peramban (browser) ditutup.',
+          'Pengguna mematikan koneksi internet.',
+          'Setiap 1 jam sekali.',
+          'Setelah 30 hari.'
+        ],
+        answer: 0,
+        explanation: '<code>sessionStorage</code> hanya bertahan selama tab browser aktif. Begitu tab ditutup, seluruh datanya terhapus. Sebaliknya, <code>localStorage</code> tersimpan permanen sampai dihapus kode atau pengguna.'
+      },
+      {
+        id: 9,
+        category: 'Destructuring',
+        question: 'Bagaimana cara menukar (swap) nilai dua variabel <code>a</code> dan <code>b</code> tanpa memerlukan variabel pembantu ketiga di JavaScript ES6?',
+        options: [
+          '[a, b] = [b, a];',
+          'swap(a, b);',
+          'a = b & b = a;',
+          'a.swapWith(b);'
+        ],
+        answer: 0,
+        explanation: 'Fitur Array Destructuring memungkinkan penukaran nilai instan dalam satu baris: <code>[a, b] = [b, a];</code>.'
+      },
+      {
+        id: 10,
+        category: 'Async',
+        question: 'Metode promise manakah yang menunggu SELURUH promise selesai dieksekusi (baik yang sukses maupun yang gagal) tanpa langsung melempar error penolakan?',
+        options: [
+          'Promise.allSettled()',
+          'Promise.all()',
+          'Promise.race()',
+          'Promise.any()'
+        ],
+        answer: 0,
+        explanation: '<code>Promise.allSettled()</code> menunggu seluruh asynchronous request selesai dan mengembalikan status masing-masing: apakah <code>"fulfilled"</code> atau <code>"rejected"</code>.'
+      },
+      {
+        id: 11,
+        category: 'Scope',
+        question: 'Apa perbedaan antara deklarasi variabel <code>const</code> dan <code>let</code>?',
+        options: [
+          'Variabel const tidak dapat di-reassign (diberi nilai baru), sedangkan let dapat diubah nilainya.',
+          'const hanya berlaku di function, let di global.',
+          'const bisa diakses sebelum dideklarasikan.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: '<code>const</code> mengunci penugasan ulang (reassignment) identifier variabel. Namun untuk object/array yang dideklarasikan dengan const, properti di dalamnya tetap bisa dimutasi.'
+      },
+      {
+        id: 12,
+        category: 'DOM',
+        question: 'Apa fungsi dari <code>event.preventDefault()</code> saat menangani event submit pada formulir HTML?',
+        options: [
+          'Mencegah peramban me-refresh atau reload seluruh halaman secara default saat formulir dikirim.',
+          'Menghapus isi form secara otomatis.',
+          'Mematikan validasi form.',
+          'Menutup tab browser.'
+        ],
+        answer: 0,
+        explanation: 'Secara default, form submit akan melakukan HTTP reload. <code>e.preventDefault()</code> membatalkan perilaku bawaan tersebut agar data bisa dikirim mulus via Fetch/AJAX.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: JS_CATALOG,
+      questions: JS_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>HTML5 &amp; Modern CSS Cheatsheet - Flexbox, Grid &amp; Layout Responsif</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #f97316;
+      --excel-primary-hover: #ea580c;
+      --excel-primary-light: #ffedd5;
+      --excel-primary-subtle: rgba(249, 115, 22, 0.08);
+      --excel-border-accent: #f97316;
+      --excel-dark: #9a3412;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #fb923c;
+      --excel-primary-hover: #f97316;
+      --excel-primary-light: rgba(251, 146, 60, 0.15);
+      --excel-primary-subtle: rgba(251, 146, 60, 0.1);
+      --excel-border-accent: #fb923c;
+      --excel-dark: #ea580c;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #f97316, #2563eb);">
+            <i data-lucide="layout" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>HTML5 &amp; Modern CSS</h1>
+            <p>Flexbox, Grid &amp; Responsive Web Design Guide</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari properti (flexbox, grid, box-sizing, clamp)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-flexbox" class="btn-pill"><i data-lucide="layout"></i><span>Flexbox</span></a>
+        <a href="#section-grid" class="btn-pill"><i data-lucide="grid"></i><span>CSS Grid</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#f97316; border-color:#f97316;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-semantic" class="sidebar-link"><i data-lucide="code" class="nav-icon"></i><span>1. HTML5 Semantik</span></a></li>
+        <li><a href="#section-boxmodel" class="sidebar-link"><i data-lucide="box" class="nav-icon"></i><span>2. Box Model &amp; box-sizing</span></a></li>
+        <li><a href="#section-flexbox" class="sidebar-link"><i data-lucide="layout" class="nav-icon"></i><span>3. Flexbox Cheat Sheet</span></a></li>
+        <li><a href="#section-grid" class="sidebar-link"><i data-lucide="grid" class="nav-icon"></i><span>4. CSS Grid Layout</span></a></li>
+        <li><a href="#section-modern" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>5. CSS Variables &amp; clamp()</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #f97316; background: linear-gradient(135deg, color-mix(in srgb, #f97316 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#ffedd5; color:#9a3412;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar W3C, Web Developer &amp; UI Engineer</span>
+          <span class="hero-pill" style="background:#ffedd5; color:#9a3412;">HTML5 Semantik &amp; CSS3 Modern</span>
+        </div>
+        <h1 class="hero-title">HTML5 &amp; Modern CSS Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis perancangan layout web modern. Menguasai struktur semantik HTML5 yang ramah SEO dan aksesibilitas, rahasia penataan elemen 1 dimensi (Flexbox) vs 2 dimensi (CSS Grid), pemahaman tuntas <code>box-sizing: border-box</code>, dan tipografi cairan responsif dengan <code>clamp()</code>.
+        </p>
+      </section>
+
+      <!-- 1. Semantic HTML -->
+      <section id="section-semantic" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="code"></i> Tag Semantik HTML5 (SEO &amp; A11y)</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Tag HTML5</th><th>Fungsi Semantik</th><th>Mengapa Penting?</th></tr></thead>
+            <tbody>
+              <tr><td><code>&lt;header&gt;</code></td><td>Pengantar halaman atau seksi, memuat logo dan navigasi utama.</td><td>Membantu screen reader mengenali tajuk situs.</td></tr>
+              <tr><td><code>&lt;nav&gt;</code></td><td>Blok yang berisi tautan navigasi utama.</td><td>Memungkinkan mesin pencari memahami struktur situs.</td></tr>
+              <tr><td><code>&lt;main&gt;</code></td><td>Konten inti dominan (hanya boleh ada 1 per halaman).</td><td>Pintasan "Skip to Content" untuk aksesibilitas.</td></tr>
+              <tr><td><code>&lt;article&gt;</code></td><td>Konten mandiri yang dapat didistribusikan terpisah (post blog, produk).</td><td>Standar sindikasi RSS feed dan Google News.</td></tr>
+              <tr><td><code>&lt;section&gt;</code></td><td>Pengelompokan tematik konten yang memiliki judul spesifik.</td><td>Membagi bab konten secara terstruktur.</td></tr>
+              <tr><td><code>&lt;aside&gt;</code></td><td>Konten pelengkap sampingan (sidebar, iklan, artikel terkait).</td><td>Memisahkan konteks pelengkap dari alur utama.</td></tr>
+              <tr><td><code>&lt;footer&gt;</code></td><td>Catatan kaki situs (hak cipta, legalitas, kontak).</td><td>Penanda akhir dokumen web.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. Box Model -->
+      <section id="section-boxmodel" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="box"></i> CSS Box Model: box-sizing: border-box</h2>
+        </div>
+        <div class="formula-card">
+          <div class="formula-card-header">
+            <span class="formula-name">Reset Box-Sizing Universal Wajib</span>
+            <button class="btn-copy" data-copy="*, *::before, *::after { box-sizing: border-box; }"><i data-lucide="copy"></i><span>Salin</span></button>
+          </div>
+          <p class="formula-desc">Secara default, CSS menggunakan <code>content-box</code> di mana padding dan border akan menambah lebar fisik elemen sehingga tata letak sering jebol/rusak. Menggunakan <code>border-box</code> membuat padding dan border dihitung ke dalam lebar yang sudah ditentukan.</p>
+          <div class="code-box">
+            <code>*, *::before, *::after {<br>&nbsp;&nbsp;box-sizing: border-box;<br>&nbsp;&nbsp;margin: 0;<br>&nbsp;&nbsp;padding: 0;<br>}</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Flexbox -->
+      <section id="section-flexbox" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="layout"></i> Flexbox (Layout 1 Dimensi)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Trik Menaruh Elemen Persis di Tengah Layar (Centering)</span>
+              <button class="btn-copy" data-copy="display: flex; justify-content: center; align-items: center; min-height: 100vh;"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>.container {<br>&nbsp;&nbsp;display: flex;<br>&nbsp;&nbsp;justify-content: center; /* Sumbu Utama Horizontal */<br>&nbsp;&nbsp;align-items: center; &nbsp;&nbsp;&nbsp;&nbsp;/* Sumbu Silang Vertikal */<br>&nbsp;&nbsp;min-height: 100vh;<br>}</code>
+            </div>
+          </article>
+        </div>
+
+        <div class="table-responsive" style="margin-top:1rem;">
+          <table class="excel-grid-table">
+            <thead><tr><th>Properti Flexbox</th><th>Pilihan Nilai</th><th>Pengaruh Visual</th></tr></thead>
+            <tbody>
+              <tr><td><code>justify-content</code></td><td>flex-start, center, flex-end, <strong>space-between</strong>, space-around</td><td>Mengatur distribusi ruang di sepanjang Sumbu Utama (Main Axis).</td></tr>
+              <tr><td><code>align-items</code></td><td>stretch, center, flex-start, flex-end, baseline</td><td>Mengatur posisi elemen di sepanjang Sumbu Silang (Cross Axis).</td></tr>
+              <tr><td><code>flex-direction</code></td><td>row, row-reverse, column, column-reverse</td><td>Menentukan arah aliran item (mendatar atau menurun).</td></tr>
+              <tr><td><code>gap</code></td><td>1rem, 20px, 2vw</td><td>Memberikan jarak renggang otomatis antar elemen tanpa margin kotor.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. CSS Grid -->
+      <section id="section-grid" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="grid"></i> CSS Grid (Layout 2 Dimensi Modern)</h2>
+        </div>
+        <div class="formula-card">
+          <div class="formula-card-header">
+            <span class="formula-name">Grid Responsif Otomatis Tanpa Media Queries!</span>
+            <button class="btn-copy" data-copy="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;"><i data-lucide="copy"></i><span>Salin</span></button>
+          </div>
+          <p class="formula-desc">Rumus sakti CSS Grid modern yang otomatis menyesuaikan jumlah kolom di desktop (3-4 kolom), tablet (2 kolom), dan mobile (1 kolom) tanpa menulis satupun <code>@media</code> breakpoint!</p>
+          <div class="code-box">
+            <code>.cards-grid {<br>&nbsp;&nbsp;display: grid;<br>&nbsp;&nbsp;grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));<br>&nbsp;&nbsp;gap: 1.5rem;<br>}</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Modern Features -->
+      <section id="section-modern" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="sparkles"></i> Tipografi Cairan &amp; CSS Variables</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">clamp(min, preferred, max)</span>
+              <button class="btn-copy" data-copy="font-size: clamp(1.5rem, 4vw + 1rem, 3rem);"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Mengubah ukuran teks atau padding secara halus dan proporsional sesuai lebar layar perangkat.</p>
+            <div class="code-box">
+              <code>/* Font judul: minimal 1.5rem di HP, membesar dinamis, maksimal 3rem di Desktop */<br>h1 { font-size: clamp(1.5rem, 4vw + 1rem, 3rem); }</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes HTML &amp; CSS</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#f97316; border-color:#f97316; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#f97316;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="layout" style="width:16px;height:16px;"></i></div>
+        <div><strong>HTML5 &amp; Modern CSS Cheatsheet</strong> &mdash; Panduan Frontend &amp; Web Design.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const HTMLCSS_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Box Model',
+        question: 'Sebuah elemen div memiliki <code>width: 300px; padding: 20px; border: 5px solid black;</code>. Jika menggunakan nilai default <code>box-sizing: content-box</code>, berapakah lebar total fisik elemen tersebut di layar?',
+        options: ['350px (300 + 20*2 + 5*2)', '300px', '325px', '340px'],
+        answer: 0,
+        explanation: 'Pada <code>content-box</code>, padding dan border ditambahkan di luar width: 300 (konten) + 40 (padding kiri-kanan) + 10 (border kiri-kanan) = <strong>350px</strong>. Sedangkan jika menggunakan <code>border-box</code>, lebarnya akan terkunci pas di 300px.'
+      },
+      {
+        id: 2,
+        category: 'Flexbox',
+        question: 'Pada container dengan <code>display: flex</code> dan <code>flex-direction: row</code>, properti apakah yang mengatur posisi perataan item pada sumbu utama horizontal (Main Axis)?',
+        options: ['justify-content', 'align-items', 'align-content', 'flex-align'],
+        answer: 0,
+        explanation: '<code>justify-content</code> mengatur distribusi elemen di sepanjang Main Axis (sumbu utama). Sedangkan <code>align-items</code> mengatur perataan di sepanjang Cross Axis (sumbu silang).'
+      },
+      {
+        id: 3,
+        category: 'Semantic',
+        question: 'Tag semantik HTML5 manakah yang hanya boleh muncul tepat SATU KALI di dalam sebuah dokumen web dan merepresentasikan konten utama halaman?',
+        options: ['<main>', '<section>', '<article>', '<header>'],
+        answer: 0,
+        explanation: 'Sesuai spesifikasi W3C, tag <code>&lt;main&gt;</code> adalah elemen unik yang menampung konten utama halaman dan tidak boleh diduplikasi di halaman yang sama.'
+      },
+      {
+        id: 4,
+        category: 'Grid',
+        question: 'Pada CSS Grid, satuan apakah yang merepresentasikan satu bagian pecahan (fractional unit) dari ruang sisa yang tersedia di dalam grid container?',
+        options: ['fr', 'rem', 'vw', '%'],
+        answer: 0,
+        explanation: 'Unit <code>fr</code> (fraction) membagi ruang sisa grid secara proporsional (contoh: <code>1fr 2fr</code> membagi ruang menjadi 1/3 dan 2/3).'
+      },
+      {
+        id: 5,
+        category: 'Modern',
+        question: 'Fungsi CSS modern apakah yang menerima tiga parameter (nilai minimum, nilai preferensi ideal, dan nilai maksimum) untuk membuat ukuran teks responsif tanpa media query?',
+        options: ['clamp(min, val, max)', 'calc()', 'minmax()', 'responsive()'],
+        answer: 0,
+        explanation: '<code>clamp(MIN, VAL, MAX)</code> mengunci nilai agar berada di antara batas minimum dan maksimum secara dinamis.'
+      },
+      {
+        id: 6,
+        category: 'Flexbox',
+        question: 'Properti Flexbox apakah yang memungkinkan item flex pindah ke baris berikutnya ke bawah ketika ruang mendatar horizontal sudah habis?',
+        options: ['flex-wrap: wrap', 'flex-flow: next', 'flex-break: true', 'flex-direction: wrap'],
+        answer: 0,
+        explanation: 'Secara default, flexbox memiliki <code>flex-wrap: nowrap</code> (memaksa item menyusut dalam 1 baris). Menyetel <code>flex-wrap: wrap</code> mengizinkan item mengalir ke baris baru.'
+      },
+      {
+        id: 7,
+        category: 'Units',
+        question: 'Apakah perbedaan antara satuan ukuran <code>rem</code> dan <code>em</code> di CSS?',
+        options: [
+          'rem selalu relatif terhadap ukuran font root (&lt;html&gt;), sedangkan em relatif terhadap ukuran font elemen parent langsungnya.',
+          'rem hanya untuk gambar, em untuk teks.',
+          'em lebih besar dari rem.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: '<code>rem</code> (Root EM) selalu konsisten mengacu pada font-size elemen root <code>&lt;html&gt;</code> (biasanya 16px). Sedangkan <code>em</code> mewarisi ukuran font dari elemen pembungkus di atasnya sehingga bisa berisiko terjadi pengalian bertingkat (compounding).'
+      },
+      {
+        id: 8,
+        category: 'Grid',
+        question: 'Dalam rumus grid <code>grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))</code>, apa fungsi dari <code>auto-fit</code>?',
+        options: [
+          'Secara otomatis menyesuaikan jumlah kolom sebanyak mungkin yang muat di layar, dan merenggangkan kolom untuk mengisi ruang kosong jika ada.',
+          'Memaksa gambar mengecil otomatis.',
+          'Mengaktifkan animasi geser.',
+          'Mengubah grid menjadi tabel HTML.'
+        ],
+        answer: 0,
+        explanation: '<code>auto-fit</code> memadatkan kolom yang muat dan merentangkan lebar kolomnya (1fr) untuk mengisi seluruh sisa ruang horizontal tanpa meninggalkan celah kosong.'
+      },
+      {
+        id: 9,
+        category: 'Modern',
+        question: 'Bagaimana cara mendeklarasikan dan memanggil CSS Custom Property (Variabel CSS) secara valid?',
+        options: [
+          ':root { --brand-color: #107c41; } h1 { color: var(--brand-color); }',
+          ':root { $brand-color: #107c41; } h1 { color: $brand-color; }',
+          ':root { @brand-color: #107c41; } h1 { color: @brand-color; }',
+          ':root { brand-color: #107c41; } h1 { color: get(brand-color); }'
+        ],
+        answer: 0,
+        explanation: 'Variabel CSS asli (native) dideklarasikan dengan awalan dua tanda hubung <code>--nama-variabel</code> dan dipanggil menggunakan fungsi <code>var(--nama-variabel)</code>.'
+      },
+      {
+        id: 10,
+        category: 'Modern',
+        question: 'Properti CSS modern apakah yang digunakan untuk mengunci rasio aspek elemen (misal video atau thumbnail kartu agar selalu 16:9 atau 1:1 persegi)?',
+        options: ['aspect-ratio: 16 / 9', 'ratio: 16-9', 'scale: 16:9', 'box-ratio: 16/9'],
+        answer: 0,
+        explanation: 'Properti <code>aspect-ratio: 16 / 9</code> atau <code>aspect-ratio: 1 / 1</code> secara otomatis menghitung tinggi elemen proporsional terhadap lebarnya tanpa trik padding-top lawas.'
+      },
+      {
+        id: 11,
+        category: 'Semantic',
+        question: 'Tag manakah yang paling semantik untuk mengelompokkan gambar beserta teks takarirnya (caption penjelas)?',
+        options: [
+          '<figure> dan <figcaption>',
+          '<picture> dan <alt>',
+          '<div> dan <span>',
+          '<image> dan <label>'
+        ],
+        answer: 0,
+        explanation: 'Kombinasi <code>&lt;figure&gt;</code> membungkus media gambar dan <code>&lt;figcaption&gt;</code> menyematkan teks takarir penjelasan gambar secara semantik.'
+      },
+      {
+        id: 12,
+        category: 'Flexbox',
+        question: 'Untuk memberikan jarak renggang 16px di antara item-item Flexbox atau CSS Grid secara rapi tanpa harus memberi margin pada setiap item, properti apakah yang digunakan?',
+        options: ['gap: 16px', 'spacing: 16px', 'space-between: 16px', 'margin-between: 16px'],
+        answer: 0,
+        explanation: 'Properti <code>gap</code> (sebelumnya grid-gap) kini didukung penuh pada Flexbox dan Grid untuk mengatur jarak antar elemen tanpa margin luar yang meluber.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: [],
+      questions: HTMLCSS_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Git &amp; GitHub Cheatsheet - Panduan Lengkap Version Control &amp; Tes Kerja</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #ea580c;
+      --excel-primary-hover: #c2410c;
+      --excel-primary-light: #ffedd5;
+      --excel-primary-subtle: rgba(234, 88, 12, 0.08);
+      --excel-border-accent: #ea580c;
+      --excel-dark: #9a3412;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #fb923c;
+      --excel-primary-hover: #ea580c;
+      --excel-primary-light: rgba(251, 146, 60, 0.15);
+      --excel-primary-subtle: rgba(251, 146, 60, 0.1);
+      --excel-border-accent: #fb923c;
+      --excel-dark: #c2410c;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #f05032, #ea580c);">
+            <i data-lucide="git-branch" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Git &amp; GitHub Cheatsheet</h1>
+            <p>Version Control Workflow &amp; Developer Interview Guide</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari perintah git (rebase, stash, reset, cherry-pick)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel Perintah</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#ea580c; border-color:#ea580c;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">15 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Git</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-setup" class="sidebar-link"><i data-lucide="settings" class="nav-icon"></i><span>1. Konfigurasi Awal</span></a></li>
+        <li><a href="#section-daily" class="sidebar-link"><i data-lucide="play" class="nav-icon"></i><span>2. Alur Kerja Harian</span></a></li>
+        <li><a href="#section-branch" class="sidebar-link"><i data-lucide="git-branch" class="nav-icon"></i><span>3. Branching &amp; Switching</span></a></li>
+        <li><a href="#section-merge-rebase" class="sidebar-link"><i data-lucide="git-merge" class="nav-icon"></i><span>4. Merge vs Rebase</span></a></li>
+        <li><a href="#section-stash" class="sidebar-link"><i data-lucide="archive" class="nav-icon"></i><span>5. Stashing (Simpan Sementara)</span></a></li>
+        <li><a href="#section-undo" class="sidebar-link"><i data-lucide="rotate-ccw" class="nav-icon"></i><span>6. Membatalkan Perubahan (Reset/Revert)</span></a></li>
+        <li><a href="#section-commits" class="sidebar-link"><i data-lucide="check-circle-2" class="nav-icon"></i><span>7. Conventional Commits</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #ea580c; background: linear-gradient(135deg, color-mix(in srgb, #ea580c 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#ffedd5; color:#9a3412;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Industri Rekayasa Perangkat Lunak</span>
+          <span class="hero-pill" style="background:#ffedd5; color:#9a3412;">Git CLI &amp; GitHub Collab</span>
+        </div>
+        <h1 class="hero-title">Git &amp; GitHub Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan praktis sistem kontrol versi (Version Control System). Menguasai alur staging, percabangan cabang fitur, penyelamatan saat salah commit, resolusi merge conflict, hingga standar penulisan pesan commit profesional.
+        </p>
+      </section>
+
+      <!-- 1. Konfigurasi Awal -->
+      <section id="section-setup" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="settings"></i> Setup &amp; Konfigurasi Awal</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Identitas Pengguna (Name &amp; Email)</span>
+              <button class="btn-copy" data-copy="git config --global user.name &quot;Nama Anda&quot; &amp;&amp; git config --global user.email &quot;email@anda.com&quot;"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Mengatur identitas kontributor yang akan melekat pada setiap riwayat commit.</p>
+            <div class="code-box">
+              <code>git config --global user.name "Nama Lengkap"<br>git config --global user.email "email@domain.com"</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. Alur Harian -->
+      <section id="section-daily" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="play"></i> Alur Kerja Harian (Daily Routine)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">git status, add &amp; commit</span>
+              <button class="btn-copy" data-copy="git add . &amp;&amp; git commit -m &quot;feat: implement login authentication&quot;"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Siklus kerja paling sering digunakan: memeriksa berkas yang berubah, memasukkan ke area penampungan (staging), dan merekam snapshot permanen.</p>
+            <div class="code-box">
+              <code>git status &nbsp;# Cek berkas berubah<br>git add . &nbsp;# Stage semua berkas<br>git commit -m "feat: pesan commit yang jelas"</code>
+            </div>
+          </article>
+
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">git diff &amp; git log</span>
+              <button class="btn-copy" data-copy="git log --oneline --graph --all"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Melihat perbedaan baris kode sebelum di-commit (<code>git diff</code>) dan melihat riwayat commit ringkas berbentuk diagram pohon cabang (<code>git log --oneline --graph</code>).</p>
+            <div class="code-box">
+              <code>git log --oneline --graph --decorate -n 10</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. Branching -->
+      <section id="section-branch" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="git-branch"></i> Percabangan (Branching)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Membuat &amp; Berpindah Branch</span>
+              <button class="btn-copy" data-copy="git switch -c feature/payment-gateway"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Perintah modern untuk membuat cabang baru sekaligus langsung berpindah ke cabang tersebut.</p>
+            <div class="code-box">
+              <code>git switch -c feature/nama-fitur &nbsp;# Cara modern Git 2.23+<br>git checkout -b feature/nama-fitur &nbsp;# Cara lama universal</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Merge vs Rebase -->
+      <section id="section-merge-rebase" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="git-merge"></i> Merge vs Rebase: Perbedaan Vital</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>Karakteristik</th><th>Git Merge</th><th>Git Rebase</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Riwayat Commit</strong></td><td>Non-destruktif: membuat commit baru bertipe "Merge commit", riwayat cabang tetap bercabang.</td><td>Linear &amp; Rapi: memindahkan titik pangkal cabang ke ujung target, riwayat lurus seperti satu garis.</td></tr>
+              <tr><td><strong>Kapan Digunakan?</strong></td><td>Menggabungkan fitur yang sudah tuntas ke cabang utama (<code>main</code> / <code>develop</code>) untuk mempertahankan histori.</td><td>Menyelaraskan cabang fitur pribadi dengan cabang utama terbaru sebelum membuat Pull Request.</td></tr>
+              <tr><td><strong>Perintah</strong></td><td><code>git merge feature/nama</code></td><td><code>git rebase main</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-tips">
+          <i data-lucide="alert-triangle" class="card-tips-icon"></i>
+          <span><strong>Golden Rule of Rebase:</strong> Jangan pernah melakukan rebase pada cabang publik (seperti <code>main</code> yang digunakan bersama tim) karena akan menulis ulang riwayat commit!</span>
+        </div>
+      </section>
+
+      <!-- 5. Stashing -->
+      <section id="section-stash" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="archive"></i> Git Stash (Simpan Sementara Tanpa Commit)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">git stash, pop &amp; list</span>
+              <button class="btn-copy" data-copy="git stash -u &amp;&amp; git stash pop"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menyimpan pekerjaan koding yang belum selesai ke tempat penyimpanan sementara (laci tersembunyi) saat harus mendadak berpindah cabang untuk memperbaiki bug lain.</p>
+            <div class="code-box">
+              <code>git stash -u &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Simpan termasuk untracked files<br>git stash pop &nbsp;&nbsp;&nbsp;&nbsp;# Kembalikan pekerjaan dan hapus dari laci<br>git stash list &nbsp;&nbsp;&nbsp;# Lihat daftar pekerjaan tersimpan</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 6. Undo -->
+      <section id="section-undo" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 06</span>
+          <h2 class="section-title"><i data-lucide="rotate-ccw"></i> Membatalkan Perubahan (Reset vs Revert)</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">Perbedaan Reset (--soft, --mixed, --hard) vs Revert</span>
+              <button class="btn-copy" data-copy="git revert HEAD"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="params-table-wrapper">
+              <table class="params-table">
+                <thead><tr><th>Perintah</th><th>Apa yang Terjadi pada Berkas Anda?</th><th>Aman di Remote?</th></tr></thead>
+                <tbody>
+                  <tr><td><code>git reset --soft HEAD~1</code></td><td>Membatalkan commit terakhir, berkas tetap tersimpan di area Staging.</td><td>Lokal saja</td></tr>
+                  <tr><td><code>git reset --mixed HEAD~1</code></td><td>Membatalkan commit dan staging, berkas tetap ada di folder kerja (Unstaged).</td><td>Lokal saja</td></tr>
+                  <tr><td><code>git reset --hard HEAD~1</code></td><td><strong>BAHAYA:</strong> Menghapus commit dan seluruh perubahan kode secara permanen!</td><td>Lokal saja</td></tr>
+                  <tr><td><code>git revert HEAD</code></td><td><strong>AMAN:</strong> Membuat commit baru yang membalikkan efek dari commit sebelumnya.</td><td>Sangat Aman untuk Remote</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 7. Conventional Commits -->
+      <section id="section-commits" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 07</span>
+          <h2 class="section-title"><i data-lucide="check-circle-2"></i> Conventional Commits (Standar Industri)</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead><tr><th>Awalan (Prefix)</th><th>Kapan Digunakan</th><th>Contoh Pesan</th></tr></thead>
+            <tbody>
+              <tr><td><code>feat:</code></td><td>Menambahkan fitur baru untuk pengguna</td><td><code>feat: add export to PDF button</code></td></tr>
+              <tr><td><code>fix:</code></td><td>Memperbaiki bug atau kesalahan sistem</td><td><code>fix: resolve null pointer on user profile</code></td></tr>
+              <tr><td><code>docs:</code></td><td>Perubahan dokumentasi saja (README, panduan)</td><td><code>docs: update installation instructions</code></td></tr>
+              <tr><td><code>refactor:</code></td><td>Restrukturisasi kode tanpa mengubah fungsionalitas</td><td><code>refactor: simplify database query logic</code></td></tr>
+              <tr><td><code>test:</code></td><td>Menambah atau memperbaiki unit test</td><td><code>test: add test suite for auth controller</code></td></tr>
+              <tr><td><code>chore:</code></td><td>Tugas pemeliharaan, build tools, update dependencies</td><td><code>chore: upgrade lucide-icons to v0.4</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Perintah Git</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari perintah git (add, commit, rebase, stash)..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="Setup">Setup</option>
+            <option value="Workflow">Workflow</option>
+            <option value="Branch">Branching</option>
+            <option value="Undo">Undo &amp; Reset</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Perintah Git</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 15 Soal Tes Kerja Git</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 15</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div class="quiz-filter-bar">
+            <button class="quiz-filter-btn active" data-cat="ALL">Semua Soal (15)</button>
+            <button class="quiz-filter-btn" data-cat="Workflow">Workflow Dasar</button>
+            <button class="quiz-filter-btn" data-cat="Branch">Branch &amp; Rebase</button>
+            <button class="quiz-filter-btn" data-cat="Undo">Undo &amp; Recovery</button>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#ea580c; border-color:#ea580c; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#ea580c;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="git-branch" style="width:16px;height:16px;"></i></div>
+        <div><strong>Git &amp; GitHub Cheatsheet</strong> &mdash; Panduan Version Control untuk Developer.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const GIT_CATALOG = [
+      { name: 'git init', cat: 'Setup', desc: 'Menginisialisasi repositori Git baru di folder lokal.', syntax: 'git init', example: 'git init', section: 'section-setup' },
+      { name: 'git clone', cat: 'Setup', desc: 'Mengunduh repositori remote beserta seluruh riwayatnya.', syntax: 'git clone <url>', example: 'git clone https://github.com/user/repo.git', section: 'section-setup' },
+      { name: 'git add', cat: 'Workflow', desc: 'Menambahkan perubahan berkas ke area penampungan Staging.', syntax: 'git add <file> | git add .', example: 'git add .', section: 'section-daily' },
+      { name: 'git commit', cat: 'Workflow', desc: 'Merekam snapshot berkas staged secara permanen dengan pesan.', syntax: 'git commit -m "<pesan>"', example: 'git commit -m "feat: user auth"', section: 'section-daily' },
+      { name: 'git status', cat: 'Workflow', desc: 'Memeriksa status berkas (staged, modified, untracked).', syntax: 'git status', example: 'git status', section: 'section-daily' },
+      { name: 'git switch / checkout', cat: 'Branch', desc: 'Berpindah ke cabang lain atau membuat cabang baru.', syntax: 'git switch -c <branch>', example: 'git switch -c feature/login', section: 'section-branch' },
+      { name: 'git merge', cat: 'Branch', desc: 'Menggabungkan cabang lain ke cabang aktif saat ini.', syntax: 'git merge <branch>', example: 'git merge feature/login', section: 'section-merge-rebase' },
+      { name: 'git rebase', cat: 'Branch', desc: 'Memindahkan basis cabang agar riwayat commit linear rapi.', syntax: 'git rebase <base-branch>', example: 'git rebase main', section: 'section-merge-rebase' },
+      { name: 'git stash', cat: 'Workflow', desc: 'Menyimpan pekerjaan koding yang belum selesai ke laci sementara.', syntax: 'git stash [-u] | git stash pop', example: 'git stash -u', section: 'section-stash' },
+      { name: 'git revert', cat: 'Undo', desc: 'Membatalkan efek commit sebelumnya dengan membuat commit baru yang aman.', syntax: 'git revert <commit-hash>', example: 'git revert HEAD', section: 'section-undo' },
+      { name: 'git reset', cat: 'Undo', desc: 'Mengembalikan pointer HEAD ke commit tertentu (--soft, --mixed, --hard).', syntax: 'git reset [--soft|--hard] HEAD~1', example: 'git reset --soft HEAD~1', section: 'section-undo' }
+    ];
+
+    const GIT_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Undo',
+        question: 'Anda sudah mengunggah (push) sebuah commit yang salah ke remote repository cabang tim bersama. Cara paling aman dan dianjurkan untuk membatalkan perubahan tersebut tanpa merusak riwayat tim adalah:',
+        options: [
+          'git reset --hard HEAD~1 dilanjutkan git push --force',
+          'git revert HEAD dilanjutkan git push',
+          'Menghapus folder .git lalu init ulang',
+          'git checkout HEAD~1'
+        ],
+        answer: 1,
+        explanation: '<code>git revert</code> adalah metode paling aman pada cabang publik karena ia membuat commit baru yang secara spesifik membalikkan kode dari commit sebelumnya tanpa menulis ulang riwayat commit yang sudah di-clone anggota tim lain.'
+      },
+      {
+        id: 2,
+        category: 'Branch',
+        question: 'Apakah perbedaan mendasar antara <code>git merge</code> dan <code>git rebase</code> saat menggabungkan cabang fitur ke cabang utama?',
+        options: [
+          'git merge menghapus cabang lama, sedangkan git rebase menyimpannya.',
+          'git merge membuat commit gabungan (merge commit) non-destruktif, sedangkan git rebase memindahkan pangkal commit sehingga riwayat histori menjadi satu garis lurus (linear).',
+          'git rebase hanya bisa dijalankan jika tidak ada file gambar.',
+          'git merge hanya bekerja di GitHub, bukan di lokal.'
+        ],
+        answer: 1,
+        explanation: '<code>git merge</code> mempertahankan struktur cabang asli dengan membuat merge commit. Sebaliknya, <code>git rebase</code> memindahkan commit fitur ke ujung paling mutakhir dari cabang target sehingga menghasilkan riwayat log yang bersih dan lurus tanpa percabangan kusut.'
+      },
+      {
+        id: 3,
+        category: 'Workflow',
+        question: 'Anda sedang mengedit berkas penting namun belum siap di-commit. Tiba-tiba atasan meminta Anda segera memperbaiki bug darurat di cabang lain. Perintah apakah yang paling tepat untuk menyimpan pekerjaan Anda sementara tanpa harus commit setengah jalan?',
+        options: [
+          'git stash',
+          'git commit --force',
+          'git branch -D temp',
+          'git restore .'
+        ],
+        answer: 0,
+        explanation: '<code>git stash</code> (khususnya <code>git stash -u</code>) menyimpan seluruh berkas modifikasi dan untracked ke area sementara sehingga direktori kerja kembali bersih. Setelah selesai menangani bug di cabang lain, Anda bisa kembali dan mengetik <code>git stash pop</code>.'
+      },
+      {
+        id: 4,
+        category: 'Undo',
+        question: 'Perintah <code>git reset --soft HEAD~1</code> akan melakukan apa pada repositori lokal Anda?',
+        options: [
+          'Menghapus seluruh kodingan Anda selamanya.',
+          'Membatalkan commit terakhir, namun seluruh perubahan baris kode tetap tersimpan rapi di area Staging siap untuk di-commit ulang.',
+          'Mengembalikan komputer ke setelan pabrik.',
+          'Membuat cabang baru bernama HEAD~1.'
+        ],
+        answer: 1,
+        explanation: 'Mode <code>--soft</code> hanya memundurkan pointer commit terakhir, membiarkan semua perubahan kode tetap berada di Staging Area (hijau). Sangat berguna jika Anda ingin memperbaiki pesan commit atau menambahkan berkas yang kelupaan.'
+      },
+      {
+        id: 5,
+        category: 'Workflow',
+        question: 'Sesuai standar Conventional Commits, awalan (prefix) apakah yang digunakan untuk commit yang menambahkan fungsionalitas baru bagi pengguna aplikasi?',
+        options: [
+          'fix:',
+          'feat:',
+          'chore:',
+          'refactor:'
+        ],
+        answer: 1,
+        explanation: '<code>feat:</code> (feature) adalah prefix resmi untuk penambahan fitur baru. Sedangkan <code>fix:</code> untuk perbaikan bug, <code>refactor:</code> untuk perbaikan struktur kode, dan <code>chore:</code> untuk pekerjaan maintenance/alat.'
+      },
+      {
+        id: 6,
+        category: 'Branch',
+        question: 'Perintah apakah yang digunakan untuk membuat cabang baru bernama <code>fitur-login</code> sekaligus langsung berpindah ke cabang tersebut dalam satu langkah (cara modern Git 2.23+)?',
+        options: [
+          'git switch -c fitur-login',
+          'git branch --new fitur-login',
+          'git move fitur-login',
+          'git create fitur-login'
+        ],
+        answer: 0,
+        explanation: 'Semenjak Git versi 2.23, perintah <code>git switch -c nama_branch</code> diperkenalkan khusus untuk menggantikan peran ganda dari <code>git checkout -b nama_branch</code> yang lebih ambigu.'
+      },
+      {
+        id: 7,
+        category: 'Workflow',
+        question: 'Apa fungsi dari berkas khusus bernama <code>.gitignore</code> pada proyek software?',
+        options: [
+          'Menyimpan password akun GitHub.',
+          'Mencatat daftar berkas atau direktori (seperti node_modules, .env, berkas log) yang sengaja diabaikan agar tidak terlacak oleh Git.',
+          'Mempercepat kecepatan internet saat push.',
+          'Menghapus repositori otomatis.'
+        ],
+        answer: 1,
+        explanation: 'File <code>.gitignore</code> memberi tahu Git untuk mengabaikan file build hasil kompilasi, dependensi berat (node_modules, venv), dan kredensial rahasia (.env) agar tidak ikut terunggah ke repositori.'
+      },
+      {
+        id: 8,
+        category: 'Workflow',
+        question: 'Apa arti penanda konflik <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> dan <code>=======</code> pada saat terjadi Merge Conflict?',
+        options: [
+          'Kode error fatal yang mengharuskan format harddisk.',
+          'Bagian di antara HEAD dan pembatas ======= adalah kode di cabang aktif Anda, sedangkan di bawahnya hingga &gt;&gt;&gt;&gt;&gt;&gt;&gt; adalah kode dari cabang yang sedang digabungkan.',
+          'Tanda bahwa file tersebut sudah dihapus dari server.',
+          'Pesan promosi dari layanan GitHub.'
+        ],
+        answer: 1,
+        explanation: 'Git menyisipkan marker konflik tersebut untuk membedakan perubahan di cabang Anda (HEAD) dengan perubahan di cabang yang sedang digabungkan, sehingga Anda dapat memilih kode mana yang ingin dipertahankan sebelum menyimpan dan meng-commit.'
+      },
+      {
+        id: 9,
+        category: 'Branch',
+        question: 'Perintah apakah yang digunakan untuk mengambil satu commit spesifik dari cabang lain dan menerapkannya ke cabang yang sedang aktif?',
+        options: [
+          'git cherry-pick <commit-hash>',
+          'git clone <commit-hash>',
+          'git copy-commit <commit-hash>',
+          'git select <commit-hash>'
+        ],
+        answer: 0,
+        explanation: '<code>git cherry-pick &lt;commit-hash&gt;</code> memungkinkan Anda memilih satu commit tertentu dari cabang mana pun dan langsung mengaplikasikannya ke cabang yang sedang aktif saat ini.'
+      },
+      {
+        id: 10,
+        category: 'Workflow',
+        question: 'Apa perbedaan antara <code>git fetch</code> dan <code>git pull</code>?',
+        options: [
+          'git fetch mengunduh metadata dan commit terbaru dari remote tanpa menggabungkannya ke folder kerja lokal, sedangkan git pull mengunduh sekaligus langsung melakukan merge.',
+          'git fetch hanya untuk branch master, git pull untuk branch lain.',
+          'git pull tidak membutuhkan koneksi internet.',
+          'Keduanya sama persis.'
+        ],
+        answer: 0,
+        explanation: 'Secara prinsip, <code>git pull</code> adalah gabungan dari <code>git fetch</code> (mengunduh perubahan dari server) + <code>git merge</code> (menggabungkan perubahan tersebut ke cabang lokal aktif Anda).'
+      },
+      {
+        id: 11,
+        category: 'Undo',
+        question: 'Jika Anda tidak sengaja mengedit sebuah berkas di working directory dan ingin membatalkan seluruh perubahan agar kembali persis seperti commit terakhir, perintah apakah yang digunakan?',
+        options: [
+          'git restore <nama_file>',
+          'git delete <nama_file>',
+          'git clean --all',
+          'git cancel <nama_file>'
+        ],
+        answer: 0,
+        explanation: 'Perintah modern <code>git restore &lt;nama_file&gt;</code> (atau cara lama <code>git checkout -- &lt;nama_file&gt;</code>) membuang seluruh perubahan yang belum di-stage pada file tersebut.'
+      },
+      {
+        id: 12,
+        category: 'Workflow',
+        question: 'Untuk mengubah pesan commit terakhir yang baru saja dibuat sebelum di-push ke server, opsi manakah yang digunakan?',
+        options: [
+          'git commit --amend -m "Pesan Baru"',
+          'git commit --update "Pesan Baru"',
+          'git rename-commit "Pesan Baru"',
+          'git commit --fix "Pesan Baru"'
+        ],
+        answer: 0,
+        explanation: '<code>git commit --amend</code> memungkinkan Anda mengganti pesan commit terakhir atau memasukkan berkas staged baru ke dalam commit terakhir tersebut.'
+      },
+      {
+        id: 13,
+        category: 'Branch',
+        question: 'Bagaimana cara menghapus cabang lokal bernama <code>fitur-lama</code> yang sudah selesai digabungkan?',
+        options: [
+          'git branch -d fitur-lama',
+          'git remove branch fitur-lama',
+          'git delete fitur-lama',
+          'git kill fitur-lama'
+        ],
+        answer: 0,
+        explanation: '<code>git branch -d &lt;nama_branch&gt;</code> digunakan untuk menghapus cabang yang sudah di-merge. Jika cabang belum di-merge dan Anda ingin memaksanya terhapus, gunakan huruf kapital <code>-D</code>.'
+      },
+      {
+        id: 14,
+        category: 'Workflow',
+        question: 'Perintah apakah yang digunakan untuk melacak riwayat commit baris per baris dalam suatu berkas (mengetahui siapa penulis baris tersebut dan kapan ditulis)?',
+        options: [
+          'git blame <nama_file>',
+          'git author <nama_file>',
+          'git track <nama_file>',
+          'git history <nama_file>'
+        ],
+        answer: 0,
+        explanation: '<code>git blame &lt;nama_file&gt;</code> menampilkan setiap baris kode di dalam berkas beserta nama pembuat (author), timestamp, dan hash commit-nya. Sangat berguna saat debugging!'
+      },
+      {
+        id: 15,
+        category: 'Undo',
+        question: 'Jika Anda tidak sengaja melakukan <code>git reset --hard</code> dan kehilangan commit penting, fitur Git manakah yang menjadi "jaring pengaman terakhir" untuk menemukan kembali hash commit yang hilang tersebut?',
+        options: [
+          'git reflog',
+          'git backup',
+          'git history-search',
+          'git undo-all'
+        ],
+        answer: 0,
+        explanation: '<code>git reflog</code> (Reference Log) mencatat setiap kali pointer HEAD berpindah posisi di komputer lokal Anda, termasuk saat branch di-checkout, di-commit, atau di-reset, sehingga Anda bisa mengembalikan commit yang terhapus.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: GIT_CATALOG,
+      questions: GIT_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Google Sheets &amp; Apps Script Cheatsheet - Panduan Rumus Eksklusif</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --excel-primary: #059669;
+      --excel-primary-hover: #047857;
+      --excel-primary-light: #d1fae5;
+      --excel-primary-subtle: rgba(5, 150, 105, 0.08);
+      --excel-border-accent: #059669;
+      --excel-dark: #065f46;
+    }
+    [data-theme="dark"] {
+      --excel-primary: #34d399;
+      --excel-primary-hover: #059669;
+      --excel-primary-light: rgba(52, 211, 153, 0.15);
+      --excel-primary-subtle: rgba(52, 211, 153, 0.1);
+      --excel-border-accent: #34d399;
+      --excel-dark: #047857;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" aria-label="Buka Navigasi">
+          <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="btn-pill" title="Kembali ke Beranda Cheatsheet Hub" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Hub</span>
+        </a>
+        <a href="#" class="header-brand">
+          <div class="brand-icon" style="background: linear-gradient(135deg, #059669, #10b981);">
+            <i data-lucide="file-spreadsheet" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="brand-text">
+            <h1>Google Sheets &amp; Script</h1>
+            <p>Cloud Spreadsheet &amp; Apps Script Reference</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-search">
+        <div class="search-input-wrapper">
+          <span class="search-icon"><i data-lucide="search" style="width:17px;height:17px;"></i></span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari rumus (QUERY, IMPORTRANGE, ARRAYFORMULA)..." autocomplete="off" />
+          <span class="search-shortcut-badge">Ctrl+K</span>
+        </div>
+        <div id="searchResultsOverlay" class="search-results-overlay"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="#section-quickref" class="btn-pill"><i data-lucide="table"></i><span>Tabel Rumus</span></a>
+        <a href="#section-quiz" class="btn-pill primary" style="background:#059669; border-color:#059669;"><i data-lucide="award"></i><span>Latihan Tes</span></a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle Theme"><i data-lucide="moon"></i></button>
+        <button onclick="window.print()" class="btn-icon" aria-label="Cetak"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-heading">Akses Cepat</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-quickref" class="sidebar-link"><i data-lucide="sparkles" class="nav-icon"></i><span>Quick Reference</span></a></li>
+        <li><a href="#section-quiz" class="sidebar-link"><i data-lucide="award" class="nav-icon"></i><span>Practice Questions</span><span class="sidebar-badge" style="background-color:var(--excel-primary-light); color:var(--excel-primary);">12 Soal</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Kategori Google Sheets</div>
+      <ul class="sidebar-nav-list">
+        <li><a href="#section-query" class="sidebar-link"><i data-lucide="database" class="nav-icon"></i><span>1. =QUERY() (SQL di Sheet)</span></a></li>
+        <li><a href="#section-import" class="sidebar-link"><i data-lucide="cloud-download" class="nav-icon"></i><span>2. =IMPORTRANGE() Lintas File</span></a></li>
+        <li><a href="#section-array" class="sidebar-link"><i data-lucide="columns" class="nav-icon"></i><span>3. =ARRAYFORMULA() Dinamis</span></a></li>
+        <li><a href="#section-filter-unique" class="sidebar-link"><i data-lucide="filter" class="nav-icon"></i><span>4. FILTER, UNIQUE &amp; SORT</span></a></li>
+        <li><a href="#section-sparkline" class="sidebar-link"><i data-lucide="trending-up" class="nav-icon"></i><span>5. SPARKLINE Grafik Mini</span></a></li>
+        <li><a href="#section-appsscript" class="sidebar-link"><i data-lucide="code" class="nav-icon"></i><span>6. Otomasi Apps Script</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero-banner" style="border-left-color: #059669; background: linear-gradient(135deg, color-mix(in srgb, #059669 10%, var(--bg-surface)), var(--bg-surface));">
+        <div class="hero-badge-row">
+          <span class="hero-pill" style="background:#d1fae5; color:#065f46;"><i data-lucide="check" style="width:13px;height:13px;"></i> Standar Startup &amp; Perusahaan Modern</span>
+          <span class="hero-pill" style="background:#d1fae5; color:#065f46;">Google Workspace Cloud Native</span>
+        </div>
+        <h1 class="hero-title">Google Sheets &amp; Apps Script Cheatsheet</h1>
+        <p class="hero-desc">
+          Panduan rumus mutakhir yang menjadi keunggulan utama Google Sheets dibandingkan Excel tradisional. Menguasai sintaks SQL di spreadsheet lewat <code>QUERY()</code>, penarikan data lintas dokumen <code>IMPORTRANGE()</code>, rumus sebar <code>ARRAYFORMULA()</code>, hingga dasar otomasi Apps Script.
+        </p>
+      </section>
+
+      <!-- 1. QUERY() -->
+      <section id="section-query" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 01</span>
+          <h2 class="section-title"><i data-lucide="database"></i> =QUERY(): Menulis Sintaks SQL di Spreadsheet</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">=QUERY(data, "query_string", [headers])</span>
+              <button class="btn-copy" data-copy="=QUERY(A2:E100, &quot;SELECT B, SUM(E) WHERE C = 'Sales' GROUP BY B LABEL SUM(E) 'Total Omzet'&quot;, 1)"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Fungsi paling dahsyat di Google Sheets. Menggabungkan fungsi Filter, Sort, SUMIF, dan Pivot Table hanya dalam satu baris teks SQL menggunakan nama huruf kolom (A, B, C) atau <code>Col1, Col2</code>.</p>
+            <div class="code-box">
+              <code>=QUERY(A2:E50, "SELECT A, B, D WHERE D &gt; 5000000 ORDER BY D DESC LIMIT 10", 0)</code>
+            </div>
+            <div class="card-tips">
+              <i data-lucide="star" class="card-tips-icon"></i>
+              <span><strong>Catatan Penting:</strong> Di dalam query string Google Sheets, teks string wajib dibungkus kutip tunggal: <code>WHERE B = 'Jakarta'</code>. Jika data berasal dari kurung kurawal array atau IMPORTRANGE, gunakan penamaan <code>Col1, Col2, Col3</code> bukan huruf kolom.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. IMPORTRANGE() -->
+      <section id="section-import" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 02</span>
+          <h2 class="section-title"><i data-lucide="cloud-download"></i> =IMPORTRANGE(): Tarik Data Lintas File Spreadsheet</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">=IMPORTRANGE("spreadsheet_url", "Sheet!Range")</span>
+              <button class="btn-copy" data-copy="=IMPORTRANGE(&quot;https://docs.google.com/spreadsheets/d/abc123xyz/edit&quot;, &quot;Sales!A1:D100&quot;)"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menghubungkan dan menarik rentang sel secara langsung dari file Google Spreadsheet lain di cloud secara live. Pertama kali diinput akan muncul tombol <em>"Allow Access"</em>.</p>
+            <div class="code-box">
+              <code>=IMPORTRANGE("URL_ATAU_ID_SPREADSHEET", "MasterKaryawan!A2:E50")</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. ARRAYFORMULA() -->
+      <section id="section-array" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 03</span>
+          <h2 class="section-title"><i data-lucide="columns"></i> =ARRAYFORMULA(): Satu Rumus untuk Seluruh Kolom</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">=ARRAYFORMULA(rumus_rentang)</span>
+              <button class="btn-copy" data-copy="=ARRAYFORMULA(IF(A2:A=&quot;&quot;, &quot;&quot;, B2:B * C2:C))"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <p class="formula-desc">Menerapkan perhitungan otomatis ke ribuan baris di bawahnya tanpa perlu meng-copy atau men-drag rumus ke bawah! Tekan <kbd class="shortcut-kbd">Ctrl</kbd> + <kbd class="shortcut-kbd">Shift</kbd> + <kbd class="shortcut-kbd">Enter</kbd> untuk membungkus rumus biasa menjadi ARRAYFORMULA.</p>
+            <div class="code-box">
+              <code>=ARRAYFORMULA(IF(A2:A="", "", B2:B * C2:C))</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. FILTER & UNIQUE -->
+      <section id="section-filter-unique" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 04</span>
+          <h2 class="section-title"><i data-lucide="filter"></i> FILTER, UNIQUE &amp; SORT Dinamis</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">=FILTER(), =UNIQUE() &amp; =SORT()</span>
+              <button class="btn-copy" data-copy="=SORT(UNIQUE(A2:A100))"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code>=FILTER(A2:C50, B2:B50 = "Laptop", C2:C50 &gt; 1000000) &nbsp;# Tumpahkan baris yang cocok<br>=UNIQUE(A2:A100) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Ekstrak daftar unik tanpa ganda<br>=SORT(UNIQUE(A2:A100), 1, TRUE) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Buat daftar unik terurut A-Z</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. SPARKLINE -->
+      <section id="section-sparkline" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 05</span>
+          <h2 class="section-title"><i data-lucide="trending-up"></i> =SPARKLINE(): Grafik Mini di Dalam Satu Sel</h2>
+        </div>
+        <div class="formula-grid">
+          <article class="formula-card">
+            <div class="formula-card-header">
+              <span class="formula-name">=SPARKLINE(data, [options])</span>
+              <button class="btn-copy" data-copy="=SPARKLINE(B2:M2, {&quot;charttype&quot;, &quot;line&quot;; &quot;color&quot;, &quot;#059669&quot;})"><i data-lucide="copy"></i><span>Salin</span></button>
+            </div>
+            <div class="code-box">
+              <code># Grafik garis tren bulanan:<br>=SPARKLINE(B2:M2, {"charttype", "line"; "color", "green"; "linewidth", 2})<br><br># Grafik batang mini (bar chart):<br>=SPARKLINE(B2, {"charttype", "bar"; "max", 100; "color1", "blue"})</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 6. Apps Script -->
+      <section id="section-appsscript" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Kategori 06</span>
+          <h2 class="section-title"><i data-lucide="code"></i> Otomasi Google Apps Script (JavaScript)</h2>
+        </div>
+        <article class="formula-card">
+          <p class="formula-desc">Buka menu <strong>Extensions &gt; Apps Script</strong>. Contoh script otomatisasi mengirim email saat ada baris baru:</p>
+          <div class="code-box">
+            <code>function kirimEmailOtomatis() {<br>&nbsp;&nbsp;const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();<br>&nbsp;&nbsp;const email = sheet.getRange("A2").getValue();<br>&nbsp;&nbsp;const pesan = sheet.getRange("B2").getValue();<br>&nbsp;&nbsp;GmailApp.sendEmail(email, "Notifikasi Laporan", pesan);<br>}</code>
+          </div>
+        </article>
+      </section>
+
+      <!-- Quick Reference -->
+      <section id="section-quickref" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Cepat</span>
+          <h2 class="section-title"><i data-lucide="table"></i> Quick Reference: Master Tabel Google Sheets</h2>
+        </div>
+        <div class="quick-ref-controls">
+          <input type="text" id="quickRefSearchInput" class="quick-ref-input" placeholder="Cari rumus khusus Sheets..." />
+          <select id="quickRefCatSelect" class="quick-ref-category-select">
+            <option value="ALL">Semua Kategori</option>
+            <option value="Query">QUERY SQL</option>
+            <option value="Array">Array &amp; Import</option>
+            <option value="Filter">Filter &amp; Unique</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="excel-grid-table">
+            <thead>
+              <tr><th>#</th><th>Fungsi</th><th>Kategori</th><th>Kegunaan</th><th>Sintaks</th><th>Salin Contoh</th></tr>
+            </thead>
+            <tbody id="quickRefTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Practice Questions -->
+      <section id="section-quiz" class="content-section">
+        <div class="section-header">
+          <span class="section-tag">Latihan Soal</span>
+          <h2 class="section-title"><i data-lucide="award"></i> Practice Questions: 12 Soal Tes Google Sheets</h2>
+        </div>
+        <div class="quiz-container">
+          <div class="quiz-header-bar">
+            <div class="quiz-stats">
+              <div class="quiz-stat-pill score"><i data-lucide="check"></i> <span>Benar: <strong id="quizCurrentScore">0</strong></span></div>
+              <div class="quiz-stat-pill"><i data-lucide="help-circle"></i> <span>Dijawab: <strong id="quizTotalAnswered">0</strong> / 12</span></div>
+              <div class="quiz-stat-pill"><i data-lucide="percent"></i> <span>Akurasi: <strong id="quizCurrentPercent">0%</strong></span></div>
+            </div>
+            <div class="quiz-actions">
+              <button id="btnShuffleQuiz" class="btn-pill"><i data-lucide="shuffle"></i> <span>Acak Soal</span></button>
+              <button id="btnResetQuiz" class="btn-pill"><i data-lucide="rotate-ccw"></i> <span>Ulangi</span></button>
+            </div>
+          </div>
+          <div class="quiz-filter-bar">
+            <button class="quiz-filter-btn active" data-cat="ALL">Semua Soal (12)</button>
+            <button class="quiz-filter-btn" data-cat="Query">QUERY Function</button>
+            <button class="quiz-filter-btn" data-cat="Array">ARRAYFORMULA &amp; Import</button>
+          </div>
+          <div id="quizQuestionsList"></div>
+          <div id="quizResultSummary" class="quiz-result-summary">
+            <div class="result-score-big" id="resultScoreBig">0%</div>
+            <div class="result-badge" id="resultBadge">Hasil Evaluasi</div>
+            <p class="result-desc" id="resultDesc"></p>
+            <button id="btnRestartFromSummary" class="btn-pill primary" style="background:#059669; border-color:#059669; padding:0.65rem 1.5rem;">
+              <i data-lucide="rotate-ccw"></i><span>Coba Tes Sekali Lagi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="copyToast" class="toast-notification"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="brand-icon" style="background:#059669;width:28px;height:28px;font-size:0.9rem;"><i data-lucide="file-spreadsheet" style="width:16px;height:16px;"></i></div>
+        <div><strong>Google Sheets Cheatsheet</strong> &mdash; Panduan Formula Cloud &amp; Apps Script.</div>
+      </div>
+      <div><a href="index.html" style="color:var(--excel-primary); font-weight:600;">&larr; Kembali ke Cheatsheet Hub</a></div>
+    </div>
+  </footer>
+
+  <script src="cheatsheet-engine.js"></script>
+  <script>
+    const GS_CATALOG = [
+      { name: 'QUERY', cat: 'Query', desc: 'Menjalankan query SQL lengkap untuk filter, sort, group, dan agregasi data.', syntax: '=QUERY(data, "query_string", [headers])', example: '=QUERY(A2:D50, "SELECT A, SUM(D) GROUP BY A", 0)', section: 'section-query' },
+      { name: 'IMPORTRANGE', cat: 'Array', desc: 'Menarik rentang data secara live dari file Google Sheet lain di cloud.', syntax: '=IMPORTRANGE("spreadsheet_url", "range")', example: '=IMPORTRANGE("url", "Sheet1!A1:D50")', section: 'section-import' },
+      { name: 'ARRAYFORMULA', cat: 'Array', desc: 'Menjalankan perhitungan ke seluruh kolom baris otomatis tanpa drag rumus.', syntax: '=ARRAYFORMULA(formula)', example: '=ARRAYFORMULA(B2:B * C2:C)', section: 'section-array' },
+      { name: 'FILTER', cat: 'Filter', desc: 'Menumpahkan baris data yang memenuhi satu atau banyak kriteria.', syntax: '=FILTER(range, condition1, ...)', example: '=FILTER(A2:C50, B2:B50="Aktif")', section: 'section-filter-unique' },
+      { name: 'UNIQUE', cat: 'Filter', desc: 'Mengekstrak baris unik tanpa ada data yang ganda.', syntax: '=UNIQUE(range)', example: '=UNIQUE(A2:A100)', section: 'section-filter-unique' },
+      { name: 'SPARKLINE', cat: 'Filter', desc: 'Menggambar grafik mini (line, bar, column) langsung di dalam satu sel.', syntax: '=SPARKLINE(data, [options])', example: '=SPARKLINE(B2:M2, {"charttype", "line"})', section: 'section-sparkline' }
+    ];
+
+    const GS_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Query',
+        question: 'Dalam fungsi <code>=QUERY(A2:E50, "SELECT B, C WHERE ...")</code>, bagaimana cara yang benar untuk memfilter baris di mana kolom B berisi teks "Jakarta"?',
+        options: [
+          'WHERE B = "Jakarta"',
+          'WHERE B = \'Jakarta\' (menggunakan kutip tunggal)',
+          'WHERE B IS "Jakarta"',
+          'WHERE B == \'Jakarta\''
+        ],
+        answer: 1,
+        explanation: 'Di dalam query string Google Sheets, nilai teks/string wajib diapit dengan tanda petik tunggal (single quote) <code>\'Jakarta\'</code> karena petik ganda sudah dipakai untuk membungkus seluruh query string.'
+      },
+      {
+        id: 2,
+        category: 'Array',
+        question: 'Ketika pertama kali memasukkan rumus <code>=IMPORTRANGE(...)</code> dari lembar kerja lain, apa yang wajib dilakukan pengguna agar data dapat muncul?',
+        options: [
+          'Membayar lisensi Google One.',
+          'Mengeklik sel rumus dan menekan tombol "Allow Access" (Izinkan Akses).',
+          'Mengunduh file ke format .xlsx terlebih dahulu.',
+          'Mengirim email ke pemilik file.'
+        ],
+        answer: 1,
+        explanation: 'Demi keamanan akses dokumen Google Drive, Google Sheets mengharuskan otorisasi satu kali dengan mengeklik tombol pop-up <em>Allow Access</em> pada sel rumus IMPORTRANGE.'
+      },
+      {
+        id: 3,
+        category: 'Array',
+        question: 'Shortcut keyboard apakah di Google Sheets untuk secara otomatis membungkus rumus yang sedang diedit dengan fungsi <code>ARRAYFORMULA(...)</code>?',
+        options: [
+          'Ctrl + Shift + Enter (Mac: Cmd + Shift + Enter)',
+          'Alt + Enter',
+          'Ctrl + A',
+          'Shift + F3'
+        ],
+        answer: 0,
+        explanation: 'Menekan <code>Ctrl + Shift + Enter</code> saat kursor berada di formula bar akan otomatis menambahkan pembungkus <code>=ARRAYFORMULA(...)</code>.'
+      },
+      {
+        id: 4,
+        category: 'Query',
+        question: 'Jika data yang diolah oleh fungsi <code>QUERY()</code> berasal dari gabungan array <code>{A2:D50}</code> atau hasil <code>IMPORTRANGE()</code>, bagaimana cara merujuk nama kolom di dalam query string-nya?',
+        options: [
+          'Menggunakan huruf kolom biasa: SELECT A, B',
+          'Menggunakan label Col: SELECT Col1, Col2, Col4',
+          'Menggunakan indeks nomor: SELECT [1], [2]',
+          'Menggunakan nama header tabel'
+        ],
+        answer: 1,
+        explanation: 'Jika rentang data adalah hasil ekspresi array kurung kurawal atau fungsi eksternal, Google Sheets mengharuskan penggunaan penomoran kolom <code>Col1, Col2, Col3</code> (peka huruf besar-kecil: huruf "C" harus kapital).'
+      },
+      {
+        id: 5,
+        category: 'Array',
+        question: 'Rumus <code>=ARRAYFORMULA(B2:B * C2:C)</code> menghasilkan perkalian 0 pada ratusan baris kosong di bawah tabel. Trik apakah yang digunakan agar baris kosong tidak ikut terhitung?',
+        options: [
+          '=ARRAYFORMULA(IF(A2:A="", "", B2:B * C2:C))',
+          '=ARRAYFORMULA(CLEAN(B2:B * C2:C))',
+          '=ARRAYFORMULA(DELETE_EMPTY(B2:B * C2:C))',
+          '=ARRAYFORMULA(HIDE(B2:B * C2:C))'
+        ],
+        answer: 0,
+        explanation: 'Pola <code>IF(A2:A="", "", ...)</code> adalah trik wajib pengguna pro Google Sheets: jika kolom acuan di sel A kosong, maka biarkan hasilnya kosong (<code>""</code>), jika ada isinya barulah hitung perkaliannya.'
+      },
+      {
+        id: 6,
+        category: 'Query',
+        question: 'Klausa apakah di dalam <code>QUERY()</code> Google Sheets yang memiliki kemampuan memutar kolom menjadi tajuk horizontal mirip fitur Pivot Table?',
+        options: [
+          'TRANSPOSE',
+          'PIVOT',
+          'ROTATE',
+          'FLIP'
+        ],
+        answer: 1,
+        explanation: 'Klausa <code>PIVOT</code> pada fungsi QUERY (contoh: <code>SELECT A, SUM(C) GROUP BY A PIVOT B</code>) secara ajaib mengubah nilai unik dari kolom B menjadi kolom-kolom baru ke samping layaknya Pivot Table.'
+      },
+      {
+        id: 7,
+        category: 'Filter',
+        question: 'Bagaimana cara membuat daftar dropdown otomatis yang hanya berisi nama kota unik tanpa duplikat dan selalu terurut dari A sampai Z secara dinamis?',
+        options: [
+          '=SORT(UNIQUE(A2:A100))',
+          '=FILTER(A2:A100, "unique")',
+          '=ORDER(A2:A100)',
+          '=CLEAN_SORT(A2:A100)'
+        ],
+        answer: 0,
+        explanation: 'Kombinasi <code>=SORT(UNIQUE(A2:A100))</code> membuang seluruh duplikasi dengan <code>UNIQUE</code> lalu mengurutkan hasilnya secara abjad menaik (Ascending) dengan <code>SORT</code>.'
+      },
+      {
+        id: 8,
+        category: 'Filter',
+        question: 'Fungsi apakah di Google Sheets yang dapat menggambar grafik tren mini batang (bar chart) atau garis (line) langsung di dalam satu sel tabel?',
+        options: [
+          '=MINICHART()',
+          '=SPARKLINE()',
+          '=CELLGRAPH()',
+          '=PLOT()'
+        ],
+        answer: 1,
+        explanation: 'Fungsi <code>SPARKLINE(data, [options])</code> menghasilkan visualisasi grafik mini yang sangat elegan langsung di dalam batas satu sel.'
+      },
+      {
+        id: 9,
+        category: 'Query',
+        question: 'Bagaimana cara mengubah nama judul kolom hasil agregasi <code>SUM(D)</code> di fungsi QUERY agar tidak bertuliskan "sum Omzet" yang kaku?',
+        options: [
+          'Menambahkan klausa: LABEL SUM(D) "Total Penjualan"',
+          'Menambahkan klausa: AS "Total Penjualan"',
+          'Menambahkan klausa: RENAME "Total Penjualan"',
+          'Tidak bisa diubah'
+        ],
+        answer: 0,
+        explanation: 'Di dalam sintaks Google Visualization API Query Language, klausa pengganti alias nama kolom adalah <code>LABEL nama_kolom \'Nama Baru\'</code>.'
+      },
+      {
+        id: 10,
+        category: 'Array',
+        question: 'Fungsi regex apakah di Google Sheets yang mengembalikan nilai TRUE jika sebuah sel teks mengandung pola tertentu (misal: memeriksa apakah format email valid)?',
+        options: [
+          '=REGEXMATCH(text, regular_expression)',
+          '=REGEXFIND(text, regular_expression)',
+          '=ISREGEX(text, regular_expression)',
+          '=TESTREGEX(text, regular_expression)'
+        ],
+        answer: 0,
+        explanation: '<code>REGEXMATCH(teks, regex)</code> menghasilkan TRUE/FALSE dan sangat populer digunakan di dalam Data Validation untuk membatasi input pengguna.'
+      },
+      {
+        id: 11,
+        category: 'Array',
+        question: 'Bagaimana cara menggabungkan data dari dua rentang vertikal yang terpisah (Sheet1!A2:C10 dan Sheet2!A2:C10) menjadi satu tumpukan data bersambung di Google Sheets?',
+        options: [
+          'Menggunakan kurung kurawal dan titik koma: ={Sheet1!A2:C10; Sheet2!A2:C10}',
+          '=JOIN(Sheet1!A2:C10, Sheet2!A2:C10)',
+          '=MERGE(Sheet1!A2:C10, Sheet2!A2:C10)',
+          '=STACK(Sheet1!A2:C10, Sheet2!A2:C10)'
+        ],
+        answer: 0,
+        explanation: 'Tanda kurung kurawal <code>{}</code> dengan pemisah titik koma <code>;</code> menumpuk array data secara vertikal ke bawah: <code>={Rentang1; Rentang2}</code>.'
+      },
+      {
+        id: 12,
+        category: 'Query',
+        question: 'Pada Google Apps Script, objek bawaan apakah yang digunakan untuk berinteraksi langsung dengan berkas spreadsheet yang sedang dibuka?',
+        options: [
+          'SpreadsheetApp',
+          'ExcelApp',
+          'GoogleSheet',
+          'DocumentApp'
+        ],
+        answer: 0,
+        explanation: '<code>SpreadsheetApp</code> adalah kelas API utama di Google Apps Script untuk membuka sheet, membaca sel (<code>getRange().getValue()</code>), dan memanipulasi format dokumen.'
+      }
+    ];
+
+    setupCheatsheetPage({
+      catalog: GS_CATALOG,
+      questions: GS_QUESTIONS
+    });
+  </script>
+</body>
+</html>
+
